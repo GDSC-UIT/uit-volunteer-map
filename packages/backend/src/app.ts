@@ -22,8 +22,8 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/health', healthRouter);
 app.use('/api/auth', authRouter);
-app.use('/api/admin',adminRouter);
-app.use('/api/leader',leaderRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api/leader', leaderRouter);
 // Error handling
 app.use(errorHandler);
 
