@@ -13,17 +13,19 @@ export default function ProtectedRoute({ requiredRoles }: ProtectedRouteProps) {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-gray-500">Loading...</div>
+        <div className="text-gray-500">Đang tải...</div>
       </div>
     );
   }
 
   if (!isAuthenticated) {
     return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
-  if (requiredRoles && user && !requiredRoles.includes(user.role)) {
-    return <Navigate to="/dashboard" replace />;
+  } else if (requiredRoles && user && !requiredRoles.includes(user.role)) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-gray-500">Bạn không có quyền truy cập trang này.</div>
+      </div>
+    );
   }
 
   return <Outlet />;

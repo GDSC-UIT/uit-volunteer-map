@@ -7,7 +7,16 @@ export default function AdminLayout() {
         <h2 className="text-xl font-bold mb-6">Admin Panel</h2>
         <nav className="space-y-2">
           <Link to="/admin" className="block px-3 py-2 rounded hover:bg-gray-800">
-            Dashboard
+            Bảng điều khiển
+          </Link>
+          <Link to="/admin/campaigns" className="block px-3 py-2 rounded hover:bg-gray-800">
+            Quản lý chiến dịch
+          </Link>
+          <Link to="/admin/teams" className="block px-3 py-2 rounded hover:bg-gray-800">
+            Quản lý đội hình
+          </Link>
+          <Link to="/admin/leaders" className="block px-3 py-2 rounded hover:bg-gray-800">
+            Quản lý chỉ huy
           </Link>
           {/* Add more admin links here */}
         </nav>
