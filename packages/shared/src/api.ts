@@ -24,6 +24,7 @@ export const AUTH_ERRORS = {
   TOKEN_INVALID: 'Invalid or expired token',
   PERMISSION_DENIED: 'Permission denied',
   JWT_SECRET_MISSING: 'JWT_SECRET is not defined',
+  TOKEN_EXPIRED: "Token has expired",
 } as const;
 
 /**
