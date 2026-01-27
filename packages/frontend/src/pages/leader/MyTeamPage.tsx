@@ -1,3 +1,3 @@
 export default function MyTeamPage() {
-    return <div>My Team Page</div>;
+    return <div className="text-black">My Team Page</div>;
 }

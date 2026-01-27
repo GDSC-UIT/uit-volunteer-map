@@ -1,12 +1,16 @@
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
 
 export default function GuestHeader() {
+  const { campaignId } = useParams<{ campaignId: string }>();
+  const onBackToHome = () => {
+    window.location.href = "/";
+  }
   return (
     <header className="w-full bg-white border-b border-black/10">
       <div className="max-w-6xl mx-auto h-14 px-6 flex items-center justify-between">
-        <div className="flex items-center gap-2 font-bold text-xs text-gray-700">
+        <div className="flex items-center gap-2 font-bold text-xs text-gray-700" onClick={onBackToHome}>
           <span>✉</span>
-          <span>Logo chiến dịch</span>
+          <span>Logo chiến dịch {campaignId}</span>
         </div>
 
         <nav className="flex gap-10 text-xs font-bold text-black">

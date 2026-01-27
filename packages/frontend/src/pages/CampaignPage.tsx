@@ -10,13 +10,13 @@ export default function CampaignPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#BDBDBD]">
-      <GuestHeader />
+      <GuestHeader/>
 
       <main className="flex-1 py-6">
         <section className="max-w-4xl mx-auto px-4">
           <div className="bg-white p-3 rounded-md">
-            <div className="border-4 border-black aspect-[16/9] flex items-center justify-center">
-              <span className="text-5xl font-black">Map</span>
+            <div className="border-4 border-black aspect-video flex items-center justify-center">
+              <span className="text-5xl text-black font-black">Map chiến dịch {campaignId}</span>
             </div>
           </div>
         </section>
@@ -39,6 +39,7 @@ export default function CampaignPage() {
             </div>
           </div>
         </section>
+
         <section
           id="teams"
           className="max-w-4xl mx-auto mt-12 px-4"
