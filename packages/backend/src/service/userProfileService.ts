@@ -23,7 +23,7 @@ export class UserProfileService {
       Class: user.class ?? '',
       Email: user.email,
       PhoneNumber: user.phoneNumber ?? '',
-      created_at: user.account?.createAt ?? null,
+      created_at: user.account?.createdAt ?? null,
     };
   }
 

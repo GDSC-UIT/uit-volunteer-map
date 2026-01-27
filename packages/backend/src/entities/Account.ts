@@ -25,7 +25,7 @@ export class Account {
   roleId!: number;
 
   @Column("text", { name: "CreateAt", nullable: true })
-  createAt?: string | null;
+  createdAt?: string | null;
 
   @Column("text", { name: "UpdatedAt", nullable: true })
   updatedAt?: string | null;
