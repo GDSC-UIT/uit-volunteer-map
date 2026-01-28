@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { CampaignService } from '../service/campaign.service.js';
+import { CampaignService } from '../service/campaignService.js';
 import { validate } from '../middleware/validate.js';
 import { createCampaignSchema, updateCampaignSchema } from '../schemas/campaign.js';
 import { authenticateToken, requireRole } from '../middleware/auth.js';
