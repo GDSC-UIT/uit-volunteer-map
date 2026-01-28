@@ -1,40 +1,64 @@
-import { createBrowserRouter } from 'react-router';
-import RootLayout from '@/layouts/RootLayout';
-import ProtectedRoute from '@/components/ProtectedRoute';
-import HomePage from '@/routes/HomePage';
-import LoginPage from '@/routes/LoginPage';
-import DashboardPage from '@/routes/DashboardPage';
-import AdminLayout from '@/layouts/AdminLayout';
-import AdminDashboard from '@/routes/admin/AdminDashboard';
-import NotFoundPage from '@/routes/NotFoundPage';
-import { RoleEnum } from '@uit-volunteer-map/shared';
+import { createBrowserRouter, Navigate } from "react-router";
+import RootLayout from "@/components/layouts/RootLayout";
+import ProtectedRoute from "@/routes/ProtectedRoute";
+import HomePage from "@/pages/HomePage";
+import LoginPage from "@/pages/LoginPage";
+import AdminLayout from "@/components/layouts/AdminLayout";
+import AdminDashboard from "@/pages/admin/AdminDashboard";
+import NotFoundPage from "@/pages/NotFoundPage";
+import { RoleEnum } from "@uit-volunteer-map/shared";
+import LeaderLayout from "@/components/layouts/LeaderLayout";
+import CampaignPage from "@/pages/CampaignPage";
+import TeamPage from "@/pages/TeamPage";
+import MyTeamPage from "@/pages/leader/MyTeamPage";
+import TeamModalWrapper from "@/components/layouts/TeamModalWrapper";
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <RootLayout />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: 'login', element: <LoginPage /> },
+      { path: "login", element: <LoginPage /> },
       {
-        element: <ProtectedRoute />,
+        path: "campaign/:campaignId",
         children: [
-          { path: 'dashboard', element: <DashboardPage /> },
-        ],
-      },
-      {
-        path: 'admin',
-        element: <ProtectedRoute requiredRoles={[RoleEnum.ADMIN]} />,
-        children: [
+          { index: true, element: <CampaignPage /> },
           {
-            element: <AdminLayout />,
+            path: "team/:teamId",
+            element: <TeamModalWrapper />,
             children: [
-              { index: true, element: <AdminDashboard /> },
+              { index: true, element: <TeamPage /> },
+              { path: "post/:postId", element: null },      
             ],
           },
         ],
       },
-      { path: '*', element: <NotFoundPage /> },
+      {
+        path: "admin",
+        element: <ProtectedRoute requiredRoles={[RoleEnum.ADMIN]} />,
+        children: [
+          {
+            index: true,
+            element:<Navigate to="/admin/dashboard" replace />,
+          },
+          {
+            element: <AdminLayout />,
+            children: [{ path: "dashboard", element: <AdminDashboard /> }],
+          },
+        ],
+      },
+      {
+        path: "leader",
+        element: <ProtectedRoute requiredRoles={[RoleEnum.LEADER]} />,
+        children: [
+          {
+            element: <LeaderLayout />,
+            children: [{ index: true, element: <MyTeamPage /> }],
+          },
+        ],
+      },
+      { path: "*", element: <NotFoundPage /> },
     ],
   },
 ]);

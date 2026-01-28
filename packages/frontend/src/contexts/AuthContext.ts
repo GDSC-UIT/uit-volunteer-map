@@ -1,5 +1,5 @@
-import { createContext } from 'react';
-import type { AuthUser } from '@uit-volunteer-map/shared';
+import { createContext } from "react";
+import type { AuthUser } from "@uit-volunteer-map/shared";
 
 export interface AuthContextType {
   user: AuthUser | null;
