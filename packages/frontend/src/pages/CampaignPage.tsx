@@ -13,10 +13,10 @@ export default function CampaignPage() {
     <div className="min-h-screen flex flex-col bg-[#BDBDBD]">
       <GuestHeader />
 
-      <main className="flex-1 py-6">
+      <main className="flex-1 py-6 mt-14 relative z-0 isolate">
         <section className="max-w-4xl mx-auto px-4">
           <div className="bg-white p-3 rounded-md">
-            <div className="border-4 border-black aspect-video flex items-center justify-center">
+            <div className="border-4 border-black aspect-video relative z-0 overflow-hidden">
               <MapView />
             </div>
           </div>

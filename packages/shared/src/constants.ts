@@ -35,6 +35,17 @@ export const USER_ERRORS = {
   EMAIL_TAKEN: 'Email is already taken',
 } as const;
 
+export const POST_MESSAGES = {
+  CREATED: 'Post created successfully',
+  UPDATED: 'Post updated successfully',
+  DELETED: 'Post deleted successfully',
+  APPROVED: 'Post approved successfully'
+} as const;
+
+export const POST_ERRORS = {
+  NOT_FOUND: 'Post not found'
+} as const;
+
 export const SUCCESS_MESSAGES = {
   LOGGED_OUT: 'Logged out successfully',
   ADMIN_ACCESS_GRANTED: 'Admin access granted',
