@@ -1,13 +1,13 @@
 import { useParams, Link, useLocation } from "react-router";
 import editIcon from "@/assets/icons/edit.svg";
 import deleteIcon from "@/assets/icons/delete.svg";
+import avatarFrame from "@/assets/background/avar_frame.svg";
 import { useState } from "react";
 import FormationEditOverall from "@/components/ui/popups/FormationEditOverall";
 import FormationEditRole from "@/components/ui/popups/FormationEditRole";
 import PostCreatePopup from "@/components/ui/popups/post/PostCreatePopup";
 import PostDetailPopup from "@/components/ui/popups/post/PostDetailPopup";
 import ConfirmDeletePopup from "@/components/ui/popups/ConfirmDeletePopup";
-
 
 export default function MyTeamPage() {
   const { teamId } = useParams<{ teamId: string }>();
@@ -24,9 +24,6 @@ export default function MyTeamPage() {
 
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [selectedPost, setSelectedPost] = useState<number | null>(null);
-
-  
-
 
   return (
     <>
@@ -60,7 +57,7 @@ export default function MyTeamPage() {
         />
       )}
 
-        {showDeletePopup && (
+      {showDeletePopup && (
         <ConfirmDeletePopup
           onConfirm={() => {
             console.log("Delete post:", selectedPost);
@@ -78,50 +75,46 @@ export default function MyTeamPage() {
         />
       )}
 
-
       {/* ===== PAGE ===== */}
       <div className="pt-8 pb-4">
-
         {/* ===== HEADER ===== */}
         <section className="max-w-4xl mx-auto px-4 mb-8">
           <div className="flex items-center justify-center gap-2">
-            <h1 className="text-3xl font-black">
-              Tên đội hình {teamId}
-            </h1>
+            <h1 className="text-3xl font-black">Tên đội hình {teamId}</h1>
           </div>
         </section>
 
-
         {/* ===== IMAGES GALLERY ===== */}
         <section className="max-w-5xl mx-auto px-4 mb-12 flex flex-col items-center">
-
           <div className="relative flex items-end justify-center">
-
             {/* MAIN IMAGE */}
             <div className="relative z-20 w-110 h-70 rounded-2xl overflow-hidden shadow-lg bg-white flex items-center justify-center">
               <span className="text-gray-400 text-sm">Ảnh chính</span>
             </div>
 
             {/* LEFT IMAGE */}
-            <div className="
+            <div
+              className="
               absolute -left-40 bottom-12.5
               z-10 w-65 h-45
               rounded-xl overflow-hidden shadow-md bg-white
               flex items-center justify-center
-            ">
+            "
+            >
               <span className="text-gray-400 text-sm">Ảnh phụ</span>
             </div>
 
             {/* RIGHT IMAGE */}
-            <div className="
+            <div
+              className="
               absolute -right-40 bottom-12.5
               z-10 w-65 h-45
               rounded-xl overflow-hidden shadow-md bg-white
               flex items-center justify-center
-            ">
+            "
+            >
               <span className="text-gray-400 text-sm">Ảnh phụ</span>
             </div>
-
           </div>
 
           {/* EDIT BUTTON */}
@@ -133,7 +126,6 @@ export default function MyTeamPage() {
               <img src={editIcon} className="w-7 h-7 opacity-70" />
             </button>
           </div>
-
         </section>
 
         {/* ===== DESCRIPTION ===== */}
@@ -147,15 +139,26 @@ export default function MyTeamPage() {
         <section className="max-w-4xl mx-auto px-4 mb-14 relative">
           <h2 className="text-center font-black mb-6">Ban chỉ huy</h2>
 
-
           <div className="grid grid-cols-3 gap-8">
             {commanders.map((_, i) => (
               <div key={i} className="text-center">
+                {/* Container avatar */}
                 <div
                   onClick={() => setShowRole(true)}
-                  className="cursor-pointer w-24 h-24 mx-auto rounded-full bg-white/70 backdrop-blur-sm flex items-center justify-center mb-4"
+                  className="cursor-pointer relative w-28 h-40 mx-auto mb-4"
                 >
-                  <div className="w-8 h-8 rounded-full bg-white/60" />
+                  <div className="absolute inset-3 rounded-[9999px] overflow-hidden bg-[#DDE1E6]">
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-white/70" />
+                    </div>
+                  </div>
+
+                  {/* Frame */}
+                  <img
+                    src={avatarFrame}
+                    alt="avatar frame"
+                    className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+                  />
                 </div>
                 <div className="text-xs font-black">Chức vụ</div>
                 <div className="text-xs font-bold text-gray-700">Họ và tên</div>
@@ -180,7 +183,6 @@ export default function MyTeamPage() {
           <div className="grid grid-cols-4 gap-6">
             {activities.map((_, i) => (
               <div key={i} className="relative group">
-
                 {/* POST THUMBNAIL */}
                 <Link
                   to={`post/${i + 1}`}
@@ -199,10 +201,8 @@ export default function MyTeamPage() {
                     flex items-center justify-center
                   "
                 >
-
                   {/* CONTAINER chứa 2 nút + dấu gạch */}
                   <div className="relative w-full h-full">
-
                     {/* DELETE BUTTON */}
                     <button
                       onClick={() => {
@@ -222,15 +222,15 @@ export default function MyTeamPage() {
                     </button>
 
                     {/* DẤU GẠCH CHÉO Ở GIỮA */}
-                <div
-                  className="
+                    <div
+                      className="
                     absolute inset-0
                     flex items-center justify-center
                     pointer-events-none
                   "
-                >
-                  <div
-                    className="
+                    >
+                      <div
+                        className="
                       w-[120px] h-[6px]
                       bg-white
                       -rotate-45
@@ -238,9 +238,8 @@ export default function MyTeamPage() {
                       opacity-100
                       shadow
                     "
-                  />
-                </div>
-
+                      />
+                    </div>
 
                     {/* EDIT BUTTON */}
                     <Link
@@ -257,16 +256,13 @@ export default function MyTeamPage() {
                     >
                       <img src={editIcon} className="w-6 h-6" />
                     </Link>
-
                   </div>
                 </div>
-
               </div>
             ))}
           </div>
         </section>
       </div>
     </>
-    
   );
 }
