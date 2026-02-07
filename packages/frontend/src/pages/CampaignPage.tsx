@@ -13,10 +13,12 @@ import { useCampaign } from "@/hooks/useCampaigns";
 import bndLogo from "@/assets/icons/bnd.png";
 import bgTop from "@/assets/background/background_top-01.svg";
 import { PostItem } from "@/components/ui/PostItem";
+import type { PostData } from "@/mocks/post.mock";
 
 export default function CampaignPage() {
   const [selectedEvent, setSelectedEvent] = useState<MarkerData | null>(null);
   const [hoverData, setHoverData] = useState<MarkerData | null>(null);
+  const [selectedPost, setSelectedPost] = useState<PostData | null>(null);
 
   // Fetch campaign data for "Xuân Tình Nguyện 2026" (campaignId = 2)
   const { data: campaign, isLoading: campaignLoading } = useCampaign(2);
@@ -42,6 +44,12 @@ export default function CampaignPage() {
       {hoverData && <EventCard visible={true} data={null} />}
       {selectedEvent && (
         <GuestPostOverPlay post={posts[0]} onClose={handleClose} />
+      )}
+      {selectedPost && (
+        <GuestPostOverPlay
+          post={selectedPost}
+          onClose={() => setSelectedPost(null)}
+        />
       )}
       <main className="flex-1">
         <section id="mapSection" className="max-w-6xl mx-auto px-4">
@@ -86,8 +94,9 @@ export default function CampaignPage() {
                 </h3>
                 <p className="text-black text-xl font-semibold">
                   {" "}
-                  {new Date(campaign.startDate).toLocaleDateString("vi-VN")} -{" "}
-                  {new Date(campaign.endDate).toLocaleDateString("vi-VN")}
+                  {new Date(campaign.startDate).toLocaleDateString(
+                    "vi-VN",
+                  )} - {new Date(campaign.endDate).toLocaleDateString("vi-VN")}
                 </p>
                 <p className="text-black text-2xl font-medium leading-relaxed indent-8 text-justify">
                   {campaign.description ||
@@ -146,7 +155,11 @@ export default function CampaignPage() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
             {posts.map((post, i) => (
-              <PostItem key={i} post={post} />
+              <PostItem
+                key={i}
+                post={post}
+                onClick={() => setSelectedPost(post)}
+              />
             ))}
           </div>
         </section>
