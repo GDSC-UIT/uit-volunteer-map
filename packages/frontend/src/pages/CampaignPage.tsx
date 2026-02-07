@@ -8,6 +8,7 @@ import TeamItem from "@/components/ui/TeamItem";
 
 import { useTeams } from "@/hooks/useTeams";
 import { usePosts } from "@/hooks/usePosts";
+import { useCampaign } from "@/hooks/useCampaigns";
 
 import bndLogo from "@/assets/icons/bnd.png";
 import bgTop from "@/assets/background/background_top-01.svg";
@@ -17,6 +18,8 @@ export default function CampaignPage() {
   const [selectedEvent, setSelectedEvent] = useState<MarkerData | null>(null);
   const [hoverData, setHoverData] = useState<MarkerData | null>(null);
 
+  // Fetch campaign data for "Xuân Tình Nguyện 2026" (campaignId = 2)
+  const { data: campaign, isLoading: campaignLoading } = useCampaign(2);
   const { data: teams = [] } = useTeams();
   const { data: posts = [] } = usePosts();
 
@@ -72,13 +75,30 @@ export default function CampaignPage() {
             THÔNG TIN CHUNG
           </h2>
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <p className="text-black text-2xl font-bold leading-relaxed">
-              Chiến dịch Xuân Tình Nguyện – Trường Đại học Công nghệ Thông tin,
-              ĐHQG-HCM là hoạt động tình nguyện ý nghĩa được tổ chức thường niên
-              với sự tham gia của hàng trăm sinh viên thuộc nhiều đội hình khác
-              nhau, với sứ mệnh mang không khí và hơi ấm ngày Tết đến với những
-              hoàn cảnh, địa phương còn khó khăn.
-            </p>
+            {campaignLoading ? (
+              <p className="text-black text-2xl font-bold leading-relaxed">
+                Đang tải thông tin chiến dịch...
+              </p>
+            ) : campaign ? (
+              <div className="space-y-4">
+                <h3 className="text-black text-3xl font-black">
+                  {campaign.campaignName}
+                </h3>
+                <p className="text-black text-xl font-semibold">
+                  {" "}
+                  {new Date(campaign.startDate).toLocaleDateString("vi-VN")} -{" "}
+                  {new Date(campaign.endDate).toLocaleDateString("vi-VN")}
+                </p>
+                <p className="text-black text-2xl font-medium leading-relaxed indent-8 text-justify">
+                  {campaign.description ||
+                    "Chiến dịch Xuân Tình Nguyện – Trường Đại học Công nghệ Thông tin, ĐHQG-HCM là hoạt động tình nguyện ý nghĩa được tổ chức thường niên với sự tham gia của hàng trăm sinh viên thuộc nhiều đội hình khác nhau, với sứ mệnh mang không khí và hơi ấm ngày Tết đến với những hoàn cảnh, địa phương còn khó khăn."}
+                </p>
+              </div>
+            ) : (
+              <p className="text-black text-2xl font-bold leading-relaxed">
+                Không tìm thấy thông tin chiến dịch.
+              </p>
+            )}
             <img
               src="https://res.cloudinary.com/duallvqjh/image/upload/v1770284139/XTN_info_nce2w5.jpg"
               className="rounded-3xl shadow-xl w-full"

@@ -1,17 +1,19 @@
-// import { API_ROUTES, ApiResponse } from "@uit-volunteer-map/shared";
-// import apiClient from "./client";
-import { CampaignData, mockCampaigns } from "@/mocks/campaign.mock";
-
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+import { Campaign, ApiResponse } from "@uit-volunteer-map/shared";
+import apiClient from "./client";
 
 export const campaignApi = {
-  getAll: async (): Promise<CampaignData[]> => {
-    await delay(2000);
-    return mockCampaigns;
+  getAll: async (): Promise<Campaign[]> => {
+    const response = await apiClient.get<ApiResponse<Campaign[]>>("/campaigns");
+    return response.data.data || [];
   },
 
-  getById: async (id: number): Promise<CampaignData> => {
-    await delay(1000);
-    return (mockCampaigns.find((campaign) => campaign.campaignId === id) as CampaignData);
+  getById: async (id: number): Promise<Campaign> => {
+    const response = await apiClient.get<ApiResponse<Campaign>>(
+      `/campaigns/${id}`,
+    );
+    if (!response.data.data) {
+      throw new Error("Campaign not found");
+    }
+    return response.data.data;
   },
 };
