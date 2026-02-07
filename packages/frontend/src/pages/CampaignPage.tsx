@@ -13,7 +13,7 @@ import { useCampaign } from "@/hooks/useCampaigns";
 import bndLogo from "@/assets/icons/bnd.png";
 import bgTop from "@/assets/background/background_top-01.svg";
 import { PostItem } from "@/components/ui/PostItem";
-import type { PostData } from "@/mocks/post.mock";
+import type { PostData } from "@/api/post";
 
 export default function CampaignPage() {
   const [selectedEvent, setSelectedEvent] = useState<MarkerData | null>(null);

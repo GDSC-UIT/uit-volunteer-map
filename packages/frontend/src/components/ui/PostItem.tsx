@@ -1,4 +1,4 @@
-import { PostData } from "@/mocks/post.mock";
+import { PostData } from "@/api/post";
 
 interface PostItemProps {
   post: PostData;

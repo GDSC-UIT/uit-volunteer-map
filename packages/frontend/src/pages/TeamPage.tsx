@@ -5,7 +5,7 @@ import { useTeam } from "@/hooks/useTeams";
 import { usePostsByTeam } from "@/hooks/usePosts";
 import { PostItem } from "@/components/ui/PostItem";
 import GuestPostOverPlay from "@/components/ui/popups/post/GuestPostOverPlay";
-import type { PostData } from "@/mocks/post.mock";
+import type { PostData } from "@/api/post";
 
 export default function TeamPage() {
   const { teamId } = useParams<{ teamId: string }>();

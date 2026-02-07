@@ -45,6 +45,29 @@ router.get("/", async (_req, res) => {
   }
 });
 
+router.get("/team/:teamId", async (req, res) => {
+  try {
+    const result = await postService.getByTeam(Number(req.params.teamId));
+    return res.status(HTTP_STATUS.OK).json({
+      success: true,
+      data: result,
+    });
+  } catch (err: unknown) {
+    if (err instanceof HttpError) {
+      const response: ApiResponse<null> = {
+        success: false,
+        error: err.message,
+      };
+      return res.status(err.statusCode).json(response);
+    }
+    const response: ApiResponse<null> = {
+      success: false,
+      error: ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
+    };
+    return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(response);
+  }
+});
+
 router.get("/:id", async (req, res) => {
   try {
     const result = await postService.getOne(Number(req.params.id));

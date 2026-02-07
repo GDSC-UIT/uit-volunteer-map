@@ -1,21 +1,28 @@
-import { PostData, mockPosts } from "@/mocks/post.mock";
+import apiClient from "./client";
 
-// Simulated API delay
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+export interface PostData {
+  postId: number;
+  title: string;
+  content: string;
+  photos?: string[];
+  teamId: number | null;
+  createdAt: string;
+  location: string | null;
+}
 
 export const postApi = {
   getAll: async (): Promise<PostData[]> => {
-    await delay(5000);
-    return mockPosts;
+    const response = await apiClient.get("/posts");
+    return response.data.data;
   },
 
   getById: async (id: number): Promise<PostData | undefined> => {
-    await delay(1000);
-    return mockPosts.find((post) => post.postId === id);
+    const response = await apiClient.get(`/posts/${id}`);
+    return response.data.data;
   },
 
   getByTeam: async (teamId: number): Promise<PostData[]> => {
-    await delay(3000);
-    return mockPosts.filter((post) => post.teamId === teamId);
+    const response = await apiClient.get(`/posts/team/${teamId}`);
+    return response.data.data;
   },
 };

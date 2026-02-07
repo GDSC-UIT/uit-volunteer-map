@@ -7,10 +7,11 @@ const photoInputSchema = z.object({
 });
 
 const postSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  content: z.string().min(1, 'Content is required'),
-  teamId: z.number().min(1, 'TeamId is required'),
-  authorId: z.number().min(1, 'AuthorId(UserId) is required'),
+  title: z.string().min(1, "Title is required"),
+  content: z.string().min(1, "Content is required"),
+  teamId: z.number().min(1, "TeamId is required"),
+  authorId: z.number().min(1, "AuthorId(UserId) is required"),
+  location: z.string().optional().nullable(),
   photos: z.array(photoInputSchema).optional(),
 });
 

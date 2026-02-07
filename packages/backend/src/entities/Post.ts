@@ -31,6 +31,9 @@ export class Post {
   @Column("text", { name: "UpdatedAt", nullable: false })
   updatedAt!: string;
 
+  @Column("text", { name: "Location", nullable: true })
+  location?: string | null;
+
   @ManyToOne("Team", "posts")
   @JoinColumn({ name: "TeamId" })
   team!: Relation<Team>;

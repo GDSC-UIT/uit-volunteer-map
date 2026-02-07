@@ -6,7 +6,7 @@ import MapPinIcon from "@heroicons/react/24/outline/MapPinIcon";
 import UserGroupIcon from "@heroicons/react/24/outline/UserGroupIcon";
 import ArrowLeft from "@heroicons/react/24/outline/ArrowLeftIcon";
 import ArrowRight from "@heroicons/react/24/outline/ArrowRightIcon";
-import type { PostData } from "@/mocks/post.mock";
+import type { PostData } from "@/api/post";
 interface GuestPostOverlayProps {
   post: PostData | null;
   onClose?: () => void;

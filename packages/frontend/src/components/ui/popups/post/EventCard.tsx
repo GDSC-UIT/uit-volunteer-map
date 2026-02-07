@@ -1,5 +1,5 @@
-import { PostData } from '@/mocks/post.mock';
-import React, { useState, useEffect, useRef } from 'react';
+import { PostData } from "@/api/post";
+import React, { useState, useEffect, useRef } from "react";
 
 interface EventCardProps {
   visible: boolean;
@@ -38,18 +38,18 @@ const EventCard: React.FC<EventCardProps> = ({ visible, data }) => {
       setMousePos({ x, y });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [visible]);
 
   if (!visible) return null;
 
   return (
-    <div 
+    <div
       ref={cardRef}
       className="fixed z-9999 w-72 overflow-hidden rounded-[30px] shadow-2xl bg-[#FFF5DE] border-2 border-[#660000]/10 pointer-events-none transition-transform duration-75 ease-out"
-      style={{ 
-        left: `${mousePos.x}px`, 
+      style={{
+        left: `${mousePos.x}px`,
         top: `${mousePos.y}px`,
       }}
     >
@@ -57,9 +57,9 @@ const EventCard: React.FC<EventCardProps> = ({ visible, data }) => {
       <div className="h-36 bg-[#DDE1E6] relative overflow-hidden">
         {displayData.photos && displayData.photos.length > 0 && (
           <>
-            <img 
-              src={displayData.photos[0]} 
-              alt={displayData.title} 
+            <img
+              src={displayData.photos[0]}
+              alt={displayData.title}
               className="w-full h-full object-cover shadow-inner"
             />
             <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent"></div>
@@ -72,7 +72,7 @@ const EventCard: React.FC<EventCardProps> = ({ visible, data }) => {
         <h2 className="text-2xl font-bold text-[#1A1A1A] mb-1 tracking-tight">
           {displayData.title}
         </h2>
-        
+
         <p className="text-[#ED7A2D] text-[12px] font-bold uppercase tracking-widest mb-2">
           {displayData.location}
         </p>
