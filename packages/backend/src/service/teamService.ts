@@ -21,94 +21,88 @@ export class TeamService {
   private userRepo = AppDataSource.getRepository(User);
   private campaignRepo = AppDataSource.getRepository(Campaign);
   private attachmentRepo = AppDataSource.getRepository(Attachment);
-  async getAll(userRole?: string) {
+  async getAll() {
     const teams = await this.teamRepo.find({
       where: { isDeleted: 0 },
-      relations: ["leader", "users", "users.account", "users.account.role"],
+      relations: [
+        "users",
+        "users.account",
+        "users.account.role",
+        "attachments",
+      ],
     });
-    if (userRole === "guest" || !userRole) {
-      return teams.map((team) => {
-        const leaders = team.users.filter(
-          (u) =>
-            u.isDeleted === 0 && u.account?.role?.roleName === RoleEnum.LEADER,
-        );
-        const viceLeaders = team.users.filter(
-          (u) =>
-            u.isDeleted === 0 &&
-            u.account?.role?.roleName === RoleEnum.VICELEADER,
-        );
 
-        const mainLeader = leaders[0] || null;
+    return teams.map((team) => this.formatTeamResponse(team));
+  }
 
-        return {
-          teamId: team.teamId,
-          teamName: team.teamName,
-          imageUrl: team.imageUrl,
-          leader: mainLeader
-            ? {
-                userId: mainLeader.userId,
-                fullName: mainLeader.fullName,
-                role: mainLeader.account?.role?.roleName,
-              }
-            : null,
-          viceLeaders: viceLeaders.map((v) => ({
-            userId: v.userId,
-            fullName: v.fullName,
-            role: v.account?.role?.roleName,
-          })),
-        };
-      });
+  // Get teams by campaign ID
+  async getTeamsByCampaign(campaignId: number) {
+    const campaign = await this.campaignRepo.findOne({
+      where: { campaignId },
+    });
+
+    if (!campaign) {
+      throw new HttpError(
+        TEAM_ERRORS.CAMPAIGN_NOT_FOUND,
+        HTTP_STATUS.NOT_FOUND,
+      );
     }
 
-    return teams.map((team) => {
-      const leaders = team.users.filter(
-        (u) =>
-          u.isDeleted === 0 && u.account?.role?.roleName === RoleEnum.LEADER,
-      );
-      const viceLeaders = team.users.filter(
-        (u) =>
-          u.isDeleted === 0 &&
-          u.account?.role?.roleName === RoleEnum.VICELEADER,
-      );
-
-      const mainLeader = leaders[0] || null;
-      const leaderIds = [
-        ...leaders.map((l) => l.userId),
-        ...viceLeaders.map((v) => v.userId),
-      ];
-      const members = team.users.filter(
-        (u) => u.isDeleted === 0 && !leaderIds.includes(u.userId),
-      );
-
-      return {
-        teamId: team.teamId,
-        teamName: team.teamName,
-        description: team.description,
-        imageUrl: team.imageUrl,
-        leader: mainLeader
-          ? {
-              userId: mainLeader.userId,
-              fullName: mainLeader.fullName,
-              role: mainLeader.account?.role?.roleName,
-            }
-          : null,
-        viceLeaders: viceLeaders.map((v) => ({
-          userId: v.userId,
-          fullName: v.fullName,
-          role: v.account?.role?.roleName,
-        })),
-        members: members.map((m) => ({
-          userId: m.userId,
-          fullName: m.fullName,
-        })),
-      };
+    const teams = await this.teamRepo.find({
+      where: { isDeleted: 0, campaign: { campaignId } },
+      relations: [
+        "users",
+        "users.account",
+        "users.account.role",
+        "attachments",
+      ],
     });
+
+    return teams.map((team) => this.formatTeamResponse(team));
+  }
+
+  // Unified response format for all GET endpoints
+  private formatTeamResponse(team: Team) {
+    const leaders = team.users.filter(
+      (u) => u.isDeleted === 0 && u.account?.role?.roleName === RoleEnum.LEADER,
+    );
+    const viceLeaders = team.users.filter(
+      (u) =>
+        u.isDeleted === 0 && u.account?.role?.roleName === RoleEnum.VICELEADER,
+    );
+
+    const mainLeader = leaders[0] || null;
+
+    return {
+      teamId: team.teamId,
+      teamName: team.teamName,
+      description: team.description,
+      leader: mainLeader
+        ? {
+            name: mainLeader.fullName,
+            avatarUrl: mainLeader.avatarUrl || null,
+          }
+        : null,
+      viceLeaders: viceLeaders.map((v) => ({
+        name: v.fullName,
+        avatarUrl: v.avatarUrl || null,
+      })),
+      images:
+        team.attachments
+          ?.sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
+          .map((att) => att.imageUrl) || [],
+    };
   }
 
   private async getTeamEntity(id: number) {
     const team = await this.teamRepo.findOne({
       where: { teamId: id, isDeleted: 0 },
-      relations: ["leader", "users", "users.account", "users.account.role"],
+      relations: [
+        "users",
+        "users.account",
+        "users.account.role",
+        "attachments",
+      ],
     });
 
     if (!team) {
@@ -120,55 +114,7 @@ export class TeamService {
 
   async getOne(id: number) {
     const team = await this.getTeamEntity(id);
-
-    const leaders = await this.userRepo.find({
-      where: {
-        team: { teamId: id },
-        isDeleted: 0,
-        account: {
-          role: {
-            roleName: RoleEnum.LEADER,
-          },
-        },
-      },
-      relations: ["account", "account.role"],
-    });
-
-    const viceLeaders = await this.userRepo.find({
-      where: {
-        team: { teamId: id },
-        isDeleted: 0,
-        account: {
-          role: {
-            roleName: RoleEnum.VICELEADER,
-          },
-        },
-      },
-      relations: ["account", "account.role"],
-    });
-
-    const mainLeader = leaders[0] || null;
-
-    return {
-      teamId: team.teamId,
-      teamName: team.teamName,
-      description: team.description,
-      imageUrl: team.imageUrl,
-      leader: mainLeader
-        ? {
-            userId: mainLeader.userId,
-            fullName: mainLeader.fullName,
-            role: mainLeader.account?.role?.roleName,
-            avatarUrl: mainLeader.avatarUrl,
-          }
-        : null,
-      viceLeaders: viceLeaders.map((vice) => ({
-        userId: vice.userId,
-        fullName: vice.fullName,
-        role: vice.account?.role?.roleName,
-        avatarUrl: vice.avatarUrl,
-      })),
-    };
+    return this.formatTeamResponse(team);
   }
 
   async create(data: CreateTeamInput) {

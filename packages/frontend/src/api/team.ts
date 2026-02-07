@@ -1,20 +1,39 @@
-import { TeamData, mockTeams } from "@/mocks/team.mock";
+import { ApiResponse } from "@uit-volunteer-map/shared";
+import apiClient from "./client";
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+export interface TeamData {
+  teamId: number;
+  teamName: string;
+  description: string | null;
+  leader: {
+    name: string;
+    avatarUrl: string | null;
+  } | null;
+  viceLeaders: {
+    name: string;
+    avatarUrl: string | null;
+  }[];
+  images: string[];
+}
 
 export const teamApi = {
   getAll: async (): Promise<TeamData[]> => {
-    await delay(2000);
-    return mockTeams;
+    const response = await apiClient.get<ApiResponse<TeamData[]>>("/teams");
+    return response.data.data || [];
   },
 
-  getById: async (id: number): Promise<TeamData | undefined> => {
-    await delay(1000);
-    return mockTeams.find((team) => team.teamId === id);
+  getById: async (id: number): Promise<TeamData> => {
+    const response = await apiClient.get<ApiResponse<TeamData>>(`/teams/${id}`);
+    if (!response.data.data) {
+      throw new Error("Team not found");
+    }
+    return response.data.data;
   },
 
   getByCampaign: async (campaignId: number): Promise<TeamData[]> => {
-    await delay(1500);
-    return mockTeams.filter((team) => team.campaignId === campaignId);
-  }
+    const response = await apiClient.get<ApiResponse<TeamData[]>>(
+      `/teams/campaign/${campaignId}`,
+    );
+    return response.data.data || [];
+  },
 };

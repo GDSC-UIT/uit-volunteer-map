@@ -19,10 +19,10 @@ import {
 const router = Router();
 const teamService = new TeamService();
 
-router.get("/", async (req, res) => {
+// GET ALL teams
+router.get("/", async (_req, res) => {
   try {
-    const userRole = req.user?.role;
-    const data = await teamService.getAll(userRole);
+    const data = await teamService.getAll();
     res.status(HTTP_STATUS.OK).json({ success: true, data });
   } catch (err: unknown) {
     if (err instanceof HttpError) {
@@ -37,6 +37,32 @@ router.get("/", async (req, res) => {
   }
 });
 
+// GET teams by campaign ID
+router.get("/campaign/:campaignId", async (req, res) => {
+  try {
+    const campaignId = Number(req.params.campaignId);
+    if (isNaN(campaignId)) {
+      return res.status(HTTP_STATUS.BAD_REQUEST).json({
+        success: false,
+        error: "Invalid campaign ID",
+      });
+    }
+    const data = await teamService.getTeamsByCampaign(campaignId);
+    res.status(HTTP_STATUS.OK).json({ success: true, data });
+  } catch (err: unknown) {
+    if (err instanceof HttpError) {
+      return res
+        .status(err.statusCode)
+        .json({ success: false, error: err.message });
+    }
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      error: ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
+    });
+  }
+});
+
+// GET team by ID
 router.get("/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);

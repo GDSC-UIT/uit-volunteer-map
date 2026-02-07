@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { useEffect, useRef, useState } from "react";
 import banhChungPin from "@/assets/icons/Formation-pin-slider.png";
-import { TeamData } from "@/mocks/team.mock";
+import { TeamData } from "@/api/team";
 
 interface TeamItemProps {
   team: TeamData;
@@ -74,12 +74,16 @@ const TeamItem = ({ team }: TeamItemProps) => {
         <div className="flex gap-10 text-2xl text-black mb-6">
           <span>
             <span className="font-bold">Đội trưởng:</span>{" "}
-            <span className="font-normal">{team.leader.name}</span>
+            <span className="font-normal">
+              {team.leader?.name ?? "Chưa có"}
+            </span>
           </span>
 
           <span>
             <span className="font-bold">Đội phó:</span>{" "}
-            <span className="font-normal">{team.vice[0].name}</span>
+            <span className="font-normal">
+              {team.viceLeaders?.[0]?.name ?? "Chưa có"}
+            </span>
           </span>
         </div>
         <div className="flex gap-10 items-center">
