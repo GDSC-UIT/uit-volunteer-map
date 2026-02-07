@@ -105,7 +105,7 @@ export default function GuestHeader() {
       "
     >
       <div className="max-w-6xl mx-auto h-16 px-6 flex items-center justify-center relative">
-        <Link to="/" className="absolute left-6 flex items-center gap-3">
+        <Link to="/campaign/xtn" className="absolute left-6 flex items-center gap-3">
           <img src={bndLogo} className="h-8" />
         </Link>
 
