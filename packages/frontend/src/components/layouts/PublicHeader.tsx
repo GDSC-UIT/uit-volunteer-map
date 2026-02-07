@@ -1,4 +1,3 @@
-import { Link } from "react-router";
 import uitLogo from "@/assets/icons/uitvolunteer.svg";
 
 export default function PublicHeader() {
@@ -24,7 +23,6 @@ export default function PublicHeader() {
           justify-between
         "
       >
-
         <div className="flex items-center gap-3">
           <img
             src={uitLogo}
@@ -32,25 +30,6 @@ export default function PublicHeader() {
             className="h-7 w-auto drop-shadow-sm"
           />
         </div>
-
-        <Link
-          to="/login"
-          className="
-            bg-white
-            text-[#023A54]
-            text-sm
-            font-bold
-            px-5
-            py-2
-            rounded-full
-            shadow
-            transition-all
-            hover:bg-blue-100
-            hover:scale-105
-          "
-        >
-          Đăng nhập
-        </Link>
       </div>
     </header>
   );

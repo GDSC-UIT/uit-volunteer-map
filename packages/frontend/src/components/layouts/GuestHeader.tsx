@@ -1,8 +1,8 @@
-import { Link } from "react-router";
 import { useEffect, useState, useRef } from "react";
+import { Link } from "react-router";
 import bndLogo from "@/assets/icons/bnd.png";
 
-const SECTIONS = ["info", "teams", "activities"] as const;
+const SECTIONS = ["map", "info", "teams", "activities"] as const;
 type SectionId = (typeof SECTIONS)[number];
 
 export default function GuestHeader() {
@@ -104,27 +104,17 @@ export default function GuestHeader() {
         border-b-2 border-black/20
       "
     >
-      <div className="max-w-6xl mx-auto h-16 px-6 flex items-center justify-between">
-        <div className="flex items-center gap-3">
+      <div className="max-w-6xl mx-auto h-16 px-6 flex items-center justify-center relative">
+        <Link to="/" className="absolute left-6 flex items-center gap-3">
           <img src={bndLogo} className="h-8" />
-        </div>
+        </Link>
 
         <nav className="flex gap-16 text-lg">
+          {navItem("map", "Bản đồ")}
           {navItem("info", "Thông tin")}
           {navItem("teams", "Đội hình")}
           {navItem("activities", "Hoạt động")}
         </nav>
-
-        <Link
-          to="/login"
-          className="
-            text-sm font-black px-4 py-1 rounded
-            border-2 border-black
-            hover:bg-black hover:text-white transition
-          "
-        >
-          Đăng nhập
-        </Link>
       </div>
     </header>
   );
