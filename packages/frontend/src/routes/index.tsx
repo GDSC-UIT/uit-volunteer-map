@@ -55,7 +55,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "leader",
-        element: <ProtectedRoute requiredRoles={[RoleEnum.LEADER]} />,
+        element: (
+          <ProtectedRoute
+            requiredRoles={[RoleEnum.LEADER, RoleEnum.VICELEADER]}
+          />
+        ),
         children: [
           {
             element: <LeaderLayout />,

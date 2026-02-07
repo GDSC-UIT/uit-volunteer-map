@@ -1,16 +1,15 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router';
-import { useAuth } from '@/hooks/useAuth';
-import { RoleEnum } from '@uit-volunteer-map/shared';
-import FloatingInput from '@/components/ui/FloatingInput';
-import EyeIcon from '@/assets/icons/eye.svg';
-
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router";
+import { useAuth } from "@/hooks/useAuth";
+import { RoleEnum } from "@uit-volunteer-map/shared";
+import FloatingInput from "@/components/ui/FloatingInput";
+import EyeIcon from "@/assets/icons/eye.svg";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { login, isAuthenticated, user } = useAuth();
@@ -19,9 +18,11 @@ export default function LoginPage() {
 
   // Validate redirect path to prevent open redirect attacks
   const isValidRedirectPath = (path: unknown): path is string => {
-    if (typeof path !== 'string') return false;
+    if (typeof path !== "string") return false;
     // Must start with / and not contain :// or start with //
-    return path.startsWith('/') && !path.includes('://') && !path.startsWith('//');
+    return (
+      path.startsWith("/") && !path.includes("://") && !path.startsWith("//")
+    );
   };
 
   // Redirect if already logged in, with admin/leader specific redirects
@@ -36,13 +37,14 @@ export default function LoginPage() {
         // Otherwise, redirect based on role
         switch (user.role) {
           case RoleEnum.ADMIN:
-            navigate('/admin/dashboard', { replace: true });
+            navigate("/admin/dashboard", { replace: true });
             break;
           case RoleEnum.LEADER:
-            navigate('/leader', { replace: true });
+          case RoleEnum.VICELEADER:
+            navigate("/leader", { replace: true });
             break;
           default:
-            navigate('/', { replace: true });
+            navigate("/", { replace: true });
         }
       }
     }
@@ -50,20 +52,20 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setIsSubmitting(true);
 
     try {
       await login(username, password);
       // Redirect handled by useEffect after auth state changes
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed');
+      setError(err instanceof Error ? err.message : "Login failed");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-return (
+  return (
     <div className="min-h-screen bg-linear-to-b from-[#0480BA] to-[#023A54] flex items-center justify-center">
       {/* Card */}
       <form
@@ -109,7 +111,7 @@ return (
         <div className="absolute top-87.25 left-1/2 -translate-x-1/2 w-140">
           <FloatingInput
             label="Mật khẩu"
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             value={password}
             onChange={setPassword}
             disabled={isSubmitting}
@@ -142,7 +144,7 @@ return (
             text-white font-bold text-[20px]
             hover:opacity-90 disabled:opacity-50"
         >
-          {isSubmitting ? 'Đang đăng nhập...' : 'ĐĂNG NHẬP'}
+          {isSubmitting ? "Đang đăng nhập..." : "ĐĂNG NHẬP"}
         </button>
 
         {/* Divider */}

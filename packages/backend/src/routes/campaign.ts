@@ -64,7 +64,7 @@ router.get("/:id", async (req, res) => {
 router.post(
   "/",
   authenticateToken,
-  requireRole([RoleEnum.ADMIN, RoleEnum.LEADER]),
+  requireRole([RoleEnum.ADMIN, RoleEnum.LEADER, RoleEnum.VICELEADER]),
   validate(createCampaignSchema),
   async (req, res) => {
     try {
@@ -87,7 +87,7 @@ router.post(
 router.put(
   "/:id",
   authenticateToken,
-  requireRole([RoleEnum.ADMIN, RoleEnum.LEADER]),
+  requireRole([RoleEnum.ADMIN, RoleEnum.LEADER, RoleEnum.VICELEADER]),
   validate(updateCampaignSchema),
   async (req, res) => {
     try {
@@ -117,7 +117,7 @@ router.put(
 router.delete(
   "/:id",
   authenticateToken,
-  requireRole([RoleEnum.ADMIN, RoleEnum.LEADER]),
+  requireRole([RoleEnum.ADMIN, RoleEnum.LEADER, RoleEnum.VICELEADER]),
   async (req, res) => {
     try {
       const id = Number(req.params.id);

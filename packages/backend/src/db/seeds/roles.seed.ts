@@ -8,6 +8,7 @@ export const seedRoles = async (dataSource: DataSource) => {
   const roles = [
     { roleId: 1, roleName: RoleEnum.ADMIN },
     { roleId: 2, roleName: RoleEnum.LEADER },
+    { roleId: 3, roleName: RoleEnum.VICELEADER },
   ];
 
   for (const r of roles) {

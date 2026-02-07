@@ -3,8 +3,9 @@
  * Used by both frontend and backend
  */
 export enum RoleEnum {
-  ADMIN = 'admin',
-  LEADER = 'leader',
+  ADMIN = "admin",
+  LEADER = "leader",
+  VICELEADER = "viceleader",
 }
 
 export type UserRole = `${RoleEnum}`;

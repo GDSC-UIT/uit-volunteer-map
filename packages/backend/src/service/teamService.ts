@@ -3,9 +3,18 @@ import { Team } from "../entities/Team.js";
 import { User } from "../entities/User.js";
 import { Campaign } from "../entities/Campaign.js";
 import { Attachment } from "../entities/Attachment.js";
-import { CreateTeamInput, UpdateTeamInput, type AttachmentInput } from "../schemas/team.js";
+import {
+  CreateTeamInput,
+  UpdateTeamInput,
+  type AttachmentInput,
+} from "../schemas/team.js";
 import { HttpError } from "../errors/HttpError.js";
-import { HTTP_STATUS, TEAM_ERRORS, RoleEnum, type JwtPayload } from "@uit-volunteer-map/shared";
+import {
+  HTTP_STATUS,
+  TEAM_ERRORS,
+  RoleEnum,
+  type JwtPayload,
+} from "@uit-volunteer-map/shared";
 
 export class TeamService {
   private teamRepo = AppDataSource.getRepository(Team);
@@ -17,21 +26,35 @@ export class TeamService {
       where: { isDeleted: 0 },
       relations: ["leader", "users", "users.account", "users.account.role"],
     });
-   if (userRole === "guest" || !userRole) {
+    if (userRole === "guest" || !userRole) {
       return teams.map((team) => {
         const leaders = team.users.filter(
           (u) =>
             u.isDeleted === 0 && u.account?.role?.roleName === RoleEnum.LEADER,
         );
+        const viceLeaders = team.users.filter(
+          (u) =>
+            u.isDeleted === 0 &&
+            u.account?.role?.roleName === RoleEnum.VICELEADER,
+        );
+
+        const mainLeader = leaders[0] || null;
 
         return {
           teamId: team.teamId,
           teamName: team.teamName,
           imageUrl: team.imageUrl,
-          leaders: leaders.map((l) => ({
-            userId: l.userId,
-            fullName: l.fullName,
-            role: l.account?.role?.roleName,
+          leader: mainLeader
+            ? {
+                userId: mainLeader.userId,
+                fullName: mainLeader.fullName,
+                role: mainLeader.account?.role?.roleName,
+              }
+            : null,
+          viceLeaders: viceLeaders.map((v) => ({
+            userId: v.userId,
+            fullName: v.fullName,
+            role: v.account?.role?.roleName,
           })),
         };
       });
@@ -42,8 +65,17 @@ export class TeamService {
         (u) =>
           u.isDeleted === 0 && u.account?.role?.roleName === RoleEnum.LEADER,
       );
+      const viceLeaders = team.users.filter(
+        (u) =>
+          u.isDeleted === 0 &&
+          u.account?.role?.roleName === RoleEnum.VICELEADER,
+      );
 
-      const leaderIds = leaders.map((l) => l.userId);
+      const mainLeader = leaders[0] || null;
+      const leaderIds = [
+        ...leaders.map((l) => l.userId),
+        ...viceLeaders.map((v) => v.userId),
+      ];
       const members = team.users.filter(
         (u) => u.isDeleted === 0 && !leaderIds.includes(u.userId),
       );
@@ -53,10 +85,17 @@ export class TeamService {
         teamName: team.teamName,
         description: team.description,
         imageUrl: team.imageUrl,
-        leaders: leaders.map((l) => ({
-          userId: l.userId,
-          fullName: l.fullName,
-          role: l.account?.role?.roleName,
+        leader: mainLeader
+          ? {
+              userId: mainLeader.userId,
+              fullName: mainLeader.fullName,
+              role: mainLeader.account?.role?.roleName,
+            }
+          : null,
+        viceLeaders: viceLeaders.map((v) => ({
+          userId: v.userId,
+          fullName: v.fullName,
+          role: v.account?.role?.roleName,
         })),
         members: members.map((m) => ({
           userId: m.userId,
@@ -95,20 +134,43 @@ export class TeamService {
       relations: ["account", "account.role"],
     });
 
+    const viceLeaders = await this.userRepo.find({
+      where: {
+        team: { teamId: id },
+        isDeleted: 0,
+        account: {
+          role: {
+            roleName: RoleEnum.VICELEADER,
+          },
+        },
+      },
+      relations: ["account", "account.role"],
+    });
+
+    const mainLeader = leaders[0] || null;
+
     return {
       teamId: team.teamId,
       teamName: team.teamName,
       description: team.description,
       imageUrl: team.imageUrl,
-      leaders: leaders.map((leader) => ({
-        userId: leader.userId,
-        fullName: leader.fullName,
-        role: leader.account?.role?.roleName,
-        avatarUrl: leader.avatarUrl,
+      leader: mainLeader
+        ? {
+            userId: mainLeader.userId,
+            fullName: mainLeader.fullName,
+            role: mainLeader.account?.role?.roleName,
+            avatarUrl: mainLeader.avatarUrl,
+          }
+        : null,
+      viceLeaders: viceLeaders.map((vice) => ({
+        userId: vice.userId,
+        fullName: vice.fullName,
+        role: vice.account?.role?.roleName,
+        avatarUrl: vice.avatarUrl,
       })),
     };
   }
-  
+
   async create(data: CreateTeamInput) {
     const campaign = await this.campaignRepo.findOne({
       where: { campaignId: data.campaignId },
@@ -165,7 +227,7 @@ export class TeamService {
           uploadedAt: new Date().toISOString(),
           position: attachment.position ?? index,
           team: { teamId: savedTeam.teamId } as any,
-        })
+        }),
       );
       await this.attachmentRepo.save(attachmentsToCreate);
     }
@@ -195,14 +257,20 @@ export class TeamService {
   async update(id: number, data: UpdateTeamInput, currentUser: JwtPayload) {
     const team = await this.getTeamEntity(id);
 
-    if (currentUser.role === RoleEnum.LEADER) {
+    if (
+      currentUser.role === RoleEnum.LEADER ||
+      currentUser.role === RoleEnum.VICELEADER
+    ) {
       const leaderUser = await this.userRepo.findOne({
         where: { account: { accId: currentUser.accId }, isDeleted: 0 },
         relations: ["team"],
       });
 
       if (!leaderUser || !leaderUser.team || leaderUser.team.teamId !== id) {
-        throw new HttpError(TEAM_ERRORS.FORBIDDEN_ACCESS, HTTP_STATUS.FORBIDDEN);
+        throw new HttpError(
+          TEAM_ERRORS.FORBIDDEN_ACCESS,
+          HTTP_STATUS.FORBIDDEN,
+        );
       }
     }
 
@@ -219,17 +287,31 @@ export class TeamService {
     return await this.teamRepo.save(team);
   }
 
-  async addAttachments(teamId: number, attachments: AttachmentInput[], currentUser: JwtPayload) {
+  async addAttachments(
+    teamId: number,
+    attachments: AttachmentInput[],
+    currentUser: JwtPayload,
+  ) {
     await this.getTeamEntity(teamId);
 
-    if (currentUser.role === RoleEnum.LEADER) {
+    if (
+      currentUser.role === RoleEnum.LEADER ||
+      currentUser.role === RoleEnum.VICELEADER
+    ) {
       const leaderUser = await this.userRepo.findOne({
         where: { account: { accId: currentUser.accId }, isDeleted: 0 },
         relations: ["team"],
       });
 
-      if (!leaderUser || !leaderUser.team || leaderUser.team.teamId !== teamId) {
-        throw new HttpError(TEAM_ERRORS.FORBIDDEN_ACCESS, HTTP_STATUS.FORBIDDEN);
+      if (
+        !leaderUser ||
+        !leaderUser.team ||
+        leaderUser.team.teamId !== teamId
+      ) {
+        throw new HttpError(
+          TEAM_ERRORS.FORBIDDEN_ACCESS,
+          HTTP_STATUS.FORBIDDEN,
+        );
       }
     }
 
@@ -237,20 +319,23 @@ export class TeamService {
       where: { team: { teamId } },
       order: { position: "DESC" },
     });
-    const maxPosition = existingAttachments.length > 0 
-      ? (existingAttachments[0].position ?? 0) 
-      : -1;
+    const maxPosition =
+      existingAttachments.length > 0
+        ? existingAttachments[0].position ?? 0
+        : -1;
 
     const attachmentsToCreate = attachments.map((attachment, index) =>
       this.attachmentRepo.create({
         imageUrl: attachment.imageUrl,
         uploadedAt: new Date().toISOString(),
-        position: attachment.position ?? (maxPosition + 1 + index),
+        position: attachment.position ?? maxPosition + 1 + index,
         team: { teamId } as any,
-      })
+      }),
     );
 
-    const savedAttachments = await this.attachmentRepo.save(attachmentsToCreate);
+    const savedAttachments = await this.attachmentRepo.save(
+      attachmentsToCreate,
+    );
     return savedAttachments;
   }
 

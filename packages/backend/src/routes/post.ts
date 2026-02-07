@@ -69,7 +69,10 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.use(authenticateToken, requireRole([RoleEnum.ADMIN, RoleEnum.LEADER]));
+router.use(
+  authenticateToken,
+  requireRole([RoleEnum.ADMIN, RoleEnum.LEADER, RoleEnum.VICELEADER]),
+);
 
 router.post("/", validate(createPostSchema), async (req, res) => {
   try {

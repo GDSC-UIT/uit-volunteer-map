@@ -1,7 +1,11 @@
 import { Router } from "express";
 import { TeamService } from "../service/teamService.js";
 import { validate } from "../middleware/validate.js";
-import { createTeamSchema, updateTeamSchema, addTeamAttachmentsSchema } from "../schemas/team.js";
+import {
+  createTeamSchema,
+  updateTeamSchema,
+  addTeamAttachmentsSchema,
+} from "../schemas/team.js";
 import { authenticateToken, requireRole } from "../middleware/auth.js";
 import { HttpError } from "../errors/HttpError.js";
 import {
@@ -87,7 +91,7 @@ router.post(
 router.put(
   "/:id",
   authenticateToken,
-  requireRole([RoleEnum.ADMIN, RoleEnum.LEADER]),
+  requireRole([RoleEnum.ADMIN, RoleEnum.LEADER, RoleEnum.VICELEADER]),
   validate(updateTeamSchema),
   async (req, res) => {
     try {
@@ -98,7 +102,7 @@ router.put(
           error: TEAM_ERRORS.INVALID_ID,
         });
       }
-      
+
       const data = await teamService.update(id, req.body, req.user!);
       res.status(HTTP_STATUS.OK).json({
         success: true,
@@ -154,7 +158,7 @@ router.delete(
 router.post(
   "/:id/attachments",
   authenticateToken,
-  requireRole([RoleEnum.ADMIN, RoleEnum.LEADER]),
+  requireRole([RoleEnum.ADMIN, RoleEnum.LEADER, RoleEnum.VICELEADER]),
   validate(addTeamAttachmentsSchema),
   async (req, res) => {
     try {
@@ -168,7 +172,7 @@ router.post(
       const data = await teamService.addAttachments(
         id,
         req.body.attachments,
-        req.user!
+        req.user!,
       );
       res.status(HTTP_STATUS.CREATED).json({
         success: true,
