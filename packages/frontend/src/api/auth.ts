@@ -12,8 +12,6 @@ export const authApi = {
       },
     );
 
-    console.log(API_ROUTES.AUTH.LOGIN);
-
     if (!data.success || !data.data) {
       throw new Error(data.error || "Login failed");
     }
