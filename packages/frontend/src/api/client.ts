@@ -1,8 +1,15 @@
 import axios from "axios";
 import { STORAGE_KEYS } from "@uit-volunteer-map/shared";
 
+const rawApiUrl = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
+const baseURL = rawApiUrl
+  ? rawApiUrl.endsWith("/api")
+    ? rawApiUrl
+    : `${rawApiUrl}/api`
+  : "/api";
+
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL,
   headers: {
     "Content-Type": "application/json",
   },

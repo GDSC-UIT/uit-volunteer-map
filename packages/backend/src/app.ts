@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
+import { fileURLToPath } from 'node:url';
 import { healthRouter } from './routes/health.js';
 import { authRouter } from './routes/auth.js';
 import { errorHandler } from './middleware/errorHandler.js';
@@ -15,7 +16,7 @@ import { teamRouter } from './routes/team.route.js';
 import { accountRouter } from './routes/account.route.js';
 import { verifyTokenRouter } from './routes/verify-token.js';
 
-dotenv.config();
+dotenv.config({ path: fileURLToPath(new URL('../.env', import.meta.url)) });
 
 const app = express();
 
