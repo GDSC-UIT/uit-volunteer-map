@@ -1,5 +1,13 @@
 import app from './app.js';
 import { AppDataSource } from './db/data-source.js';
+import { imageRouter } from './routes/image.js';
+
+// Register routes
+app.use('/api/images', imageRouter);  
+
+import express from 'express';
+import path from 'path';
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 const PORT = process.env.PORT || 5000;
 
