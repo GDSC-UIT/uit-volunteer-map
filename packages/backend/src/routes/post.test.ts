@@ -99,8 +99,8 @@ describe('Post CRUD Routes', () => {
   beforeEach(async () => {
     const photoRepo = AppDataSource.getRepository(Photo);
     const postRepo = AppDataSource.getRepository(Post);
-    await photoRepo.delete({});
-    await postRepo.delete({});
+    await photoRepo.clear();
+    await postRepo.clear();
   });
 
   // ---------------------------------------------------------------------------
