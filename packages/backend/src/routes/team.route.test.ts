@@ -21,7 +21,6 @@ describe('Team CRUD Routes', () => {
   let leaderToken: string;
   let testCampaignId: number;
   let testLeaderUserId: number;
-  let testLeaderAccId: number;
 
   beforeAll(async () => {
     if (!AppDataSource.isInitialized) {
@@ -61,7 +60,6 @@ describe('Team CRUD Routes', () => {
       password: leaderPass,
       roleId: leaderRole.roleId,
     });
-    testLeaderAccId = leaderAccount.accId;
 
     adminToken = jwt.sign(
       { accId: adminAccount.accId, role: RoleEnum.ADMIN },
