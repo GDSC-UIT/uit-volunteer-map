@@ -15,8 +15,6 @@ import {
 const router = Router();
 const campaignService = new CampaignService();
 
-router.use(authenticateToken, requireRole([RoleEnum.ADMIN, RoleEnum.LEADER]));
-
 router.get('/', async (_req, res) => {
   try {
     const data = await campaignService.getAll();
@@ -54,7 +52,12 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', validate(createCampaignSchema), async (req, res) => {
+router.post(
+  '/',
+  authenticateToken,
+  requireRole([RoleEnum.ADMIN]),
+  validate(createCampaignSchema),
+  async (req, res) => {
   try {
     const data = await campaignService.create(req.body);
     res.status(HTTP_STATUS.CREATED).json({ success: true, data });
@@ -67,9 +70,15 @@ router.post('/', validate(createCampaignSchema), async (req, res) => {
       error: ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
     });
   }
-});
+  },
+);
 
-router.put('/:id', validate(updateCampaignSchema), async (req, res) => {
+router.put(
+  '/:id',
+  authenticateToken,
+  requireRole([RoleEnum.ADMIN]),
+  validate(updateCampaignSchema),
+  async (req, res) => {
   try {
     const id = Number(req.params.id);
     if (isNaN(id)) {
@@ -89,9 +98,14 @@ router.put('/:id', validate(updateCampaignSchema), async (req, res) => {
       error: ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
     });
   }
-});
+  },
+);
 
-router.delete('/:id', async (req, res) => {
+router.delete(
+  '/:id',
+  authenticateToken,
+  requireRole([RoleEnum.ADMIN]),
+  async (req, res) => {
   try {
     const id = Number(req.params.id);
     if (isNaN(id)) {
@@ -111,6 +125,7 @@ router.delete('/:id', async (req, res) => {
       error: ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
     });
   }
-});
+  },
+);
 
 export { router as campaignRouter };
