@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
-import type { ReactNode } from 'react';
-import type { AuthUser, ApiResponse, LoginResponse } from '@uit-volunteer-map/shared';
-import { API_ROUTES, STORAGE_KEYS } from '@uit-volunteer-map/shared';
-import { AuthContext } from './AuthContext';
+import { useState, useEffect, useCallback } from "react";
+import type { ReactNode } from "react";
+import type { AuthUser } from "@uit-volunteer-map/shared";
+import { STORAGE_KEYS } from "@uit-volunteer-map/shared";
+import { AuthContext } from "./AuthContext";
+import { authApi } from "@/api";
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -27,19 +28,10 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = useCallback(async (username: string, password: string) => {
-    const res = await fetch(API_ROUTES.AUTH.LOGIN, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    });
-
-    const response: ApiResponse<LoginResponse> = await res.json();
-
-    if (!res.ok || !response.success || !response.data) {
-      throw new Error(response.error || 'Login failed');
-    }
-
-    const { token: newToken, user: newUser } = response.data;
+    const { token: newToken, user: newUser } = await authApi.login(
+      username,
+      password,
+    );
 
     setToken(newToken);
     setUser(newUser);
@@ -48,12 +40,8 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const logout = useCallback(async () => {
-    const currentToken = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
     try {
-      await fetch(API_ROUTES.AUTH.LOGOUT, {
-        method: 'POST',
-        headers: currentToken ? { 'Authorization': `Bearer ${currentToken}` } : {},
-      });
+      await authApi.logout();
     } catch {
       // Ignore logout API errors
     }

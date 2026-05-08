@@ -9,6 +9,7 @@ import { Campaign } from '../entities/Campaign.js';
 import { Team } from '../entities/Team.js';
 import { Post } from '../entities/Post.js';
 import { Photo } from '../entities/Photo.js';
+import { Attachment } from '../entities/Attachment.js';
 import bcrypt from 'bcrypt';
 import { RoleEnum, HTTP_STATUS, AUTH_ERRORS, SUCCESS_MESSAGES } from '@uit-volunteer-map/shared';
 
@@ -21,7 +22,7 @@ describe('POST /api/auth/login', () => {
         database: ':memory:',
         synchronize: true,
         logging: false,
-        entities: [Account, Role, User, Campaign, Team, Post, Photo],
+        entities: [Account, Role, User, Campaign, Team, Post, Photo, Attachment],
         migrations: [],
         subscribers: [],
       }).initialize();

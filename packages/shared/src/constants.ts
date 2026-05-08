@@ -38,12 +38,27 @@ export const USER_ERRORS = {
 export const POST_MESSAGES = {
   CREATED: 'Post created successfully',
   UPDATED: 'Post updated successfully',
-  DELETED: 'Post deleted successfully',
-  APPROVED: 'Post approved successfully'
+  DELETED: 'Post deleted successfully'
 } as const;
 
 export const POST_ERRORS = {
   NOT_FOUND: 'Post not found'
+} as const;
+
+export const TEAM_ERRORS = {
+  NOT_FOUND: 'Team not found',
+  ALREADY_EXISTS: 'Team name already exists',
+  INVALID_ID: 'Invalid team ID',
+  LEADER_NOT_FOUND: 'Leader not found',
+  LEADER_INVALID_ROLE: 'User must have LEADER role',
+  CAMPAIGN_NOT_FOUND: "Campaign not found",
+  FORBIDDEN_ACCESS: 'You are not allowed to update this team',
+} as const;
+
+export const TEAM_MESSAGES = {
+  CREATED: 'Team created successfully',
+  UPDATED: 'Team updated successfully',
+  DELETED: 'Team deleted successfully',
 } as const;
 
 export const SUCCESS_MESSAGES = {

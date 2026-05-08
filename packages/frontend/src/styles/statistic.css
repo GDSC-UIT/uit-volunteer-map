@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2:wght@400;700;800&display=swap');
+
+.stats-number {
+  font-family: 'Baloo Bhaina 2', sans-serif;
+  color: #EE574D;
+  /* Tạo viền chữ (stroke) giống Figma */
+  -webkit-text-stroke: 5px #F4B212; 
+  /* Hoặc dùng text-shadow nếu muốn viền dày và mượt hơn */
+  paint-order: stroke fill;
+  
+  line-height: 1;
+  font-weight: 800;
+}
+
+.stats-label {
+  font-family: 'Baloo Bhaina 2', sans-serif;
+  color: #EE574D;
+  font-weight: 800;
+  -webkit-text-stroke: 2px #F4B212;
+  paint-order: stroke fill;
+  line-height: 1;
+  /* Hoặc dùng text-shadow nếu muốn viền dày và mượt hơn */
+}

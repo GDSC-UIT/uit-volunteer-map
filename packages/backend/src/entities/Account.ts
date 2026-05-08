@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import type { Role } from "./Role.js";
 import type { User } from "./User.js";
+import { Team } from "./Team.js";
 
 @Entity("Account")
 export class Account {
@@ -30,10 +31,16 @@ export class Account {
   @Column("text", { name: "UpdatedAt", nullable: true })
   updatedAt?: string | null;
 
+  @Column({ type: "boolean", default: false })
+  isDeleted!: boolean;
+
   @ManyToOne("Role", "accounts")
   @JoinColumn({ name: "RoleId" })
   role!: Relation<Role>;
 
   @OneToOne("User", "account")
   user?: Relation<User>;
+
+  @OneToOne("Team", "account")
+  team?: Relation<Team>;
 }

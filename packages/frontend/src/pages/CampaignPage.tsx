@@ -1,108 +1,155 @@
-import { useParams, Link } from "react-router";
-import GuestHeader from "@/components/layouts/GuestHeader";
-import Footer from "@/components/layouts/Footer";
-import MapView from "@/components/layouts/MapView";
+import { useState } from "react";
+import MapView, { MarkerData } from "@/components/layouts/MapView";
+import Statistic from "@/components/layouts/Statistic";
+import GuestPostOverPlay from "@/components/ui/popups/post/GuestPostOverPlay";
+import TimeSelect from "@/components/layouts/TimeSelect";
+import EventCard from "@/components/ui/popups/post/EventCard";
+import TeamItem from "@/components/ui/TeamItem";
+
+import { useTeams } from "@/hooks/useTeams";
+import { usePosts } from "@/hooks/usePosts";
+
+import bndLogo from "@/assets/icons/bnd.png";
+import bgTop from "@/assets/background/background_top-01.svg";
+import { PostItem } from "@/components/ui/PostItem";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import ErrorMessage from "@/components/ui/ErrorMessage";
+import EmptyState from "@/components/ui/EmptyState";
 
 export default function CampaignPage() {
-  const { campaignId } = useParams<{ campaignId: string }>();
+  const [selectedEvent, setSelectedEvent] = useState<MarkerData | null>(null);
+  const [hoverData, setHoverData] = useState<MarkerData | null>(null);
 
-  const teams = Array.from({ length: 7 });
-  const activities = Array.from({ length: 9 });
+  const { data: teams = [], isLoading: isTeamsLoading, isError: isTeamsError, refetch: refetchTeams } = useTeams();
+  const { data: posts = [], isLoading: isPostsLoading, isError: isPostsError, refetch: refetchPosts } = usePosts();
+
+  const handleClose = () => {
+    setSelectedEvent(null);
+  };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#BDBDBD]">
-      <GuestHeader />
-
-      <main className="flex-1 py-6 mt-14 relative z-0 isolate">
-        <section className="max-w-4xl mx-auto px-4">
-          <div className="bg-white p-3 rounded-md">
-            <div className="border-4 border-black aspect-video relative z-0 overflow-hidden">
-              <MapView />
-            </div>
-          </div>
-        </section>
-
-        <section
-          id="info"
-          className="max-w-4xl mx-auto mt-10 px-4"
-        >
-          <h2 className="text-center font-black tracking-widest mb-6">
-            THÔNG TIN CHUNG CHIẾN DỊCH {campaignId}
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-            <p className="text-sm font-bold leading-relaxed text-black">
-              Mô tả chi tiết về chiến dịch.
-            </p>
-
-            <div className="bg-[#D9D9D9] aspect-square flex items-center justify-center">
-              <div className="w-16 h-16 border-2 border-white rotate-45" />
-            </div>
-          </div>
-        </section>
-        <section
-          id="teams"
-          className="max-w-4xl mx-auto mt-12 px-4"
-        >
-          <h2 className="text-center font-black tracking-widest mb-6">
-            ĐỘI HÌNH
-          </h2>
-
-          <div className="space-y-5">
-            {teams.map((_, i) => (
-              <Link
-                key={i}
-                to={`team/${i + 1}`}
-                className="flex bg-[#E6E6E6] rounded-xl overflow-hidden hover:translate-x-1 transition"
+    <div className="z-25">
+      <img
+        src={bgTop}
+        alt="background top"
+        className="absolute top-0 left-0 w-full z-15 pointer-events-none"
+      />
+      <section id="logoTop" className="max-w-4xl mx-auto px-4">
+        <div className="flex justify-center">
+          <img src={bndLogo} className="h-16 object-contain" alt="BND Logo" />
+        </div>
+      </section>
+      {hoverData && <EventCard visible={true} data={null} />}
+      {selectedEvent && (
+        <GuestPostOverPlay post={posts[0]} onClose={handleClose} />
+      )}
+      <main className="flex-1">
+        <section id="mapSection" className="max-w-6xl mx-auto px-4">
+          <div className="p-3 rounded-md flex">
+            <div
+              className="relative flex items-center justify-center"
+              style={{ width: 650, height: 550 }}
+            >
+              <div
+                className="overflow-hidden"
+                style={{ width: 580, height: 450, zIndex: 1 }}
               >
-                <div className="w-32 bg-[#D9D9D9] flex items-center justify-center">
-                  <div className="w-12 h-12 border-2 border-white rotate-45" />
-                </div>
+                <MapView
+                  onMarkerClick={(data) => setSelectedEvent(data)}
+                  onMarkerHover={(data) => setHoverData(data)}
+                />
+              </div>
+              <img
+                src="/map-element/map-frame-01.svg"
+                className="absolute top-0 left-0 pointer-events-none w-170 z-10"
+                alt=""
+              />
+            </div>
+            <Statistic />
+          </div>
+          <TimeSelect />
+        </section>
 
-                <div className="flex-1 bg-[#FFF2CC] border-l-4 border-red-600 p-4">
-                  <h3 className="font-black text-sm mb-1">
-                    TÊN ĐỘI HÌNH
-                  </h3>
-                  <p className="text-xs font-bold text-black mb-2">
-                    Mô tả về đội hình.
-                  </p>
-                  <div className="text-[10px] font-black">
-                    Chỉ huy: Tên 1 ; Tên 2 ; Tên 3
-                  </div>
-                </div>
-              </Link>
-            ))}
+        <section id="info" className="max-w-6xl mx-auto mt-16 px-6">
+          <h2 className="text-center font-black text-black mb-12 text-5xl">
+            THÔNG TIN CHUNG
+          </h2>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <p className="text-black text-2xl font-bold leading-relaxed">
+              Chiến dịch Xuân Tình Nguyện – Trường Đại học Công nghệ Thông tin,
+              ĐHQG-HCM là hoạt động tình nguyện ý nghĩa được tổ chức thường niên
+              với sự tham gia của hàng trăm sinh viên thuộc nhiều đội hình khác
+              nhau, với sứ mệnh mang không khí và hơi ấm ngày Tết đến với những
+              hoàn cảnh, địa phương còn khó khăn.
+            </p>
+            <img
+              src="https://res.cloudinary.com/duallvqjh/image/upload/v1770284139/XTN_info_nce2w5.jpg"
+              className="rounded-3xl shadow-xl w-full"
+              alt="Volunteer"
+            />
           </div>
         </section>
 
-        <section
-          id="activities"
-          className="max-w-4xl mx-auto mt-14 px-4"
-        >
-          <h2 className="text-center font-black tracking-widest mb-6">
+        <section id="teams" className="max-w-7xl mx-auto mt-32 px-10 relative">
+          <div className="mb-12">
+            <h2 className="text-center font-black text-5xl text-black">
+              ĐỘI HÌNH
+            </h2>
+          </div>
+
+          {/* Vertical line */}
+          <div className="absolute left-25 top-40 bottom-0 w-2 bg-green-600 z-1 rounded-lg" />
+
+          {/* Teams list */}
+          <div className="relative z-2 mt-16 space-y-24">
+            {isTeamsLoading ? (
+              <LoadingSpinner />
+            ) : isTeamsError ? (
+              <ErrorMessage onRetry={refetchTeams} />
+            ) : teams.length === 0 ? (
+              <EmptyState title="Chưa có đội hình nào" />
+            ) : (
+              teams.map((team, index) => {
+                return (
+                  <div
+                    key={`${team.teamId}-${index}`}
+                    className="flex items-center justify-center"
+                  >
+                    <div
+                      className={
+                        index % 2 === 0
+                          ? "scroll-appear timeline-item"
+                          : "scroll-appear scroll-appear-right timeline-item"
+                      }
+                    >
+                      <TeamItem team={team} />
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+        </section>
+
+        <section id="activities" className="max-w-6xl mx-auto mt-32 px-6 pb-32">
+          <h2 className="text-center font-black text-5xl mb-16 text-black tracking-widest">
             HOẠT ĐỘNG
           </h2>
-
-          <div className="grid grid-cols-3 gap-6">
-            {activities.map((_, i) => (
-              <div
-                key={i}
-                className="bg-[#FFD966] p-2 rounded-md"
-              >
-                <div className="text-[10px] font-black mb-1">
-                  TÊN HOẠT ĐỘNG
-                </div>
-
-                <div className="bg-[#E6E6E6] aspect-square flex items-center justify-center">
-                  <div className="w-10 h-10 border-2 border-white rotate-45" />
-                </div>
-              </div>
-            ))}
-          </div>
+          {isPostsLoading ? (
+            <LoadingSpinner />
+          ) : isPostsError ? (
+            <ErrorMessage onRetry={refetchPosts} />
+          ) : posts.length === 0 ? (
+            <EmptyState title="Chưa có bài đăng nào" />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+              {posts.map((post, i) => (
+                <PostItem key={i} post={post} />
+              ))}
+            </div>
+          )}
         </section>
       </main>
-
-      <Footer />
     </div>
   );
 }
