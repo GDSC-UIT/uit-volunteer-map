@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { validate } from "../middleware/validate.js";
-import { authenticateToken, requireRole } from "../middleware/auth.js";
+import { authenticateToken } from "../middleware/auth.js";
+import { authorizeRoles, ROLE_PERMISSIONS } from "../middleware/authorization.js";
 import { HttpError } from "../errors/HttpError.js";
 import {
-  RoleEnum,
   HTTP_STATUS,
   ERROR_MESSAGES,
   ApiResponse,
@@ -69,9 +69,12 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.use(authenticateToken, requireRole([RoleEnum.ADMIN, RoleEnum.LEADER]));
-
-router.post("/", validate(createPostSchema), async (req, res) => {
+router.post(
+  "/",
+  authenticateToken,
+  authorizeRoles(ROLE_PERMISSIONS.post.create),
+  validate(createPostSchema),
+  async (req, res) => {
   try {
     const result = await postService.create(req.body);
     return res.status(HTTP_STATUS.OK).json({
@@ -93,10 +96,13 @@ router.post("/", validate(createPostSchema), async (req, res) => {
     };
     return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(response);
   }
-});
+  },
+);
 
 router.post(
   "/:id/photos",
+  authenticateToken,
+  authorizeRoles(ROLE_PERMISSIONS.post.addPhoto),
   validate(createPostImageSchema),
   async (req, res) => {
     try {
@@ -131,7 +137,12 @@ router.post(
   },
 );
 
-router.put("/:id", validate(updatePostSchema), async (req, res) => {
+router.put(
+  "/:id",
+  authenticateToken,
+  authorizeRoles(ROLE_PERMISSIONS.post.update),
+  validate(updatePostSchema),
+  async (req, res) => {
   try {
     const result = await postService.update(Number(req.params.id), req.body);
     const response: ApiResponse<Post> = {
@@ -154,9 +165,14 @@ router.put("/:id", validate(updatePostSchema), async (req, res) => {
     };
     return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(response);
   }
-});
+  },
+);
 
-router.delete("/:id", async (req, res) => {
+router.delete(
+  "/:id",
+  authenticateToken,
+  authorizeRoles(ROLE_PERMISSIONS.post.delete),
+  async (req, res) => {
   try {
     const result = await postService.delete(Number(req.params.id));
     const response: ApiResponse<Post> = {
@@ -179,6 +195,7 @@ router.delete("/:id", async (req, res) => {
     };
     return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(response);
   }
-});
+  },
+);
 
 export { router as postRouter };
