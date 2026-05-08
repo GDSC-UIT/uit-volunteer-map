@@ -1,7 +1,10 @@
 import { useParams, Link, useLocation } from "react-router";
 import avatarFrame from "@/assets/background/avar_frame.svg";
 import { PostItem } from "@/components/ui/PostItem";
-import { usePosts } from "@/hooks/usePosts";
+import { usePostsByTeam } from "@/hooks/usePosts";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import ErrorMessage from "@/components/ui/ErrorMessage";
+import EmptyState from "@/components/ui/EmptyState";
 
 
 
@@ -9,7 +12,7 @@ import { usePosts } from "@/hooks/usePosts";
 export default function TeamPage() {
   const { teamId } = useParams<{ teamId: string }>();
   const location = useLocation();
-  const { data: posts = [] } = usePosts();
+  const { data: posts = [], isLoading: isPostsLoading, isError: isPostsError, refetch: refetchPosts } = usePostsByTeam(Number(teamId));
 
   const commanders = Array.from({ length: 3 });
 
@@ -80,18 +83,26 @@ export default function TeamPage() {
       <section className="max-w-4xl mx-auto px-4">
         <h2 className="text-center font-black mb-6">Hoạt động</h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-          {posts.map((post, i) => (
-            <Link
-              key={i}
-              to={`post/${post.postId}`}
-              state={{ backgroundLocation: location }}
-              className="hover:scale-105 transition"
-            >
-              <PostItem post={post} />
-            </Link>
-          ))}
-        </div>
+        {isPostsLoading ? (
+          <LoadingSpinner />
+        ) : isPostsError ? (
+          <ErrorMessage onRetry={refetchPosts} />
+        ) : posts.length === 0 ? (
+          <EmptyState title="Chưa có bài đăng nào" />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+            {posts.map((post, i) => (
+              <Link
+                key={i}
+                to={`post/${post.postId}`}
+                state={{ backgroundLocation: location }}
+                className="hover:scale-105 transition"
+              >
+                <PostItem post={post} />
+              </Link>
+            ))}
+          </div>
+        )}
       </section>
     </div>
 );

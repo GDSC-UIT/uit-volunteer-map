@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router";
 import QueryProvider from "@/contexts/QueryProvider";
 import AuthProvider from "@/contexts/AuthProvider";
+import { ToastProvider } from "@/hooks/useToast";
 import { router } from "@/routes";
 import "leaflet/dist/leaflet.css";
 import "./index.css";
@@ -13,7 +14,9 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryProvider>
       <AuthProvider>
-        <RouterProvider router={router} />
+        <ToastProvider>
+          <RouterProvider router={router} />
+        </ToastProvider>
       </AuthProvider>
     </QueryProvider>
   </StrictMode>,

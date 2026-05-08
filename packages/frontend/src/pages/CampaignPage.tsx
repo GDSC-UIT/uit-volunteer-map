@@ -12,13 +12,16 @@ import { usePosts } from "@/hooks/usePosts";
 import bndLogo from "@/assets/icons/bnd.png";
 import bgTop from "@/assets/background/background_top-01.svg";
 import { PostItem } from "@/components/ui/PostItem";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import ErrorMessage from "@/components/ui/ErrorMessage";
+import EmptyState from "@/components/ui/EmptyState";
 
 export default function CampaignPage() {
   const [selectedEvent, setSelectedEvent] = useState<MarkerData | null>(null);
   const [hoverData, setHoverData] = useState<MarkerData | null>(null);
 
-  const { data: teams = [] } = useTeams();
-  const { data: posts = [] } = usePosts();
+  const { data: teams = [], isLoading: isTeamsLoading, isError: isTeamsError, refetch: refetchTeams } = useTeams();
+  const { data: posts = [], isLoading: isPostsLoading, isError: isPostsError, refetch: refetchPosts } = usePosts();
 
   const handleClose = () => {
     setSelectedEvent(null);
@@ -99,24 +102,32 @@ export default function CampaignPage() {
 
           {/* Teams list */}
           <div className="relative z-2 mt-16 space-y-24">
-            {teams.map((team, index) => {
-              return (
-                <div
-                  key={`${team.teamId}-${index}`}
-                  className="flex items-center justify-center"
-                >
+            {isTeamsLoading ? (
+              <LoadingSpinner />
+            ) : isTeamsError ? (
+              <ErrorMessage onRetry={refetchTeams} />
+            ) : teams.length === 0 ? (
+              <EmptyState title="Chưa có đội hình nào" />
+            ) : (
+              teams.map((team, index) => {
+                return (
                   <div
-                    className={
-                      index % 2 === 0
-                        ? "scroll-appear timeline-item"
-                        : "scroll-appear scroll-appear-right timeline-item"
-                    }
+                    key={`${team.teamId}-${index}`}
+                    className="flex items-center justify-center"
                   >
-                    <TeamItem team={team} />
+                    <div
+                      className={
+                        index % 2 === 0
+                          ? "scroll-appear timeline-item"
+                          : "scroll-appear scroll-appear-right timeline-item"
+                      }
+                    >
+                      <TeamItem team={team} />
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
         </section>
 
@@ -124,11 +135,19 @@ export default function CampaignPage() {
           <h2 className="text-center font-black text-5xl mb-16 text-black tracking-widest">
             HOẠT ĐỘNG
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-            {posts.map((post, i) => (
-              <PostItem key={i} post={post} />
-            ))}
-          </div>
+          {isPostsLoading ? (
+            <LoadingSpinner />
+          ) : isPostsError ? (
+            <ErrorMessage onRetry={refetchPosts} />
+          ) : posts.length === 0 ? (
+            <EmptyState title="Chưa có bài đăng nào" />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+              {posts.map((post, i) => (
+                <PostItem key={i} post={post} />
+              ))}
+            </div>
+          )}
         </section>
       </main>
     </div>
