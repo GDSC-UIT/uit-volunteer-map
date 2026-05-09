@@ -51,6 +51,6 @@ export const teamApi = {
     // Since backend team getAll doesn't include campaignId in the current payload, 
     // we'd need to either update backend or skip filtering.
     // The previous mock filtered by campaignId. Let's just return all teams for now or filter if it exists.
-    return teams.filter((team: any) => team.campaignId ? team.campaignId === campaignId : true);
+    return teams.filter((team: TeamData & { campaignId?: number }) => team.campaignId ? team.campaignId === campaignId : true);
   }
 };
