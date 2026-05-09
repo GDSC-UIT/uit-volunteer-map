@@ -16,6 +16,13 @@ export const API_ROUTES = {
     BASE: "/leader",
   },
   HEALTH: "/health",
+  TEAM: {
+    GET_ALL: "/teams",
+    GET_BY_ID: (id: number) => `/teams/${id}`,
+    CREATE: "/teams",
+    UPDATE: (id: number) => `/teams/${id}`,
+    DELETE: (id: number) => `/teams/${id}`,
+  },
 } as const;
 
 /**

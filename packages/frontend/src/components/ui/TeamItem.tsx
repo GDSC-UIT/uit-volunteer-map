@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { useEffect, useRef, useState } from "react";
 import banhChungPin from "@/assets/icons/Formation-pin-slider.png";
-import { TeamData } from "@/mocks/team.mock";
+import { TeamData } from "@/types/team";
 
 interface TeamItemProps {
   team: TeamData;
@@ -48,6 +48,9 @@ const TeamItem = ({ team }: TeamItemProps) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const leader = team.leaders.find(l => l.role === "LEADER");
+  const vice = team.leaders.find(l => l.role !== "LEADER");
+
   return (
     <div
       ref={ref}
@@ -74,19 +77,19 @@ const TeamItem = ({ team }: TeamItemProps) => {
         <div className="flex gap-10 text-2xl text-black mb-6">
           <span>
             <span className="font-bold">Đội trưởng:</span>{" "}
-            <span className="font-normal">{team.leader.name}</span>
+            <span className="font-normal">{leader ? leader.fullName : "Đang cập nhật"}</span>
           </span>
 
           <span>
             <span className="font-bold">Đội phó:</span>{" "}
-            <span className="font-normal">{team.vice[0].name}</span>
+            <span className="font-normal">{vice ? vice.fullName : "Đang cập nhật"}</span>
           </span>
         </div>
         <div className="flex gap-10 items-center">
           {/* Image */}
           <div className="flex-7 rounded-[35px] overflow-hidden shadow-2xl group">
             <img
-              src={team.images[0]}
+              src={team.imageUrl || "https://res.cloudinary.com/duallvqjh/image/upload/v1770283327/truyenthong_lz7uhf.jpg"}
               alt={team.teamName}
               className="w-full block transition-transform duration-500 group-hover:scale-[1.08]"
             />

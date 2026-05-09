@@ -7,11 +7,16 @@ import FormationEditRole from "@/components/ui/popups/FormationEditRole";
 import PostCreatePopup from "@/components/ui/popups/post/PostCreatePopup";
 import PostDetailPopup from "@/components/ui/popups/post/PostDetailPopup";
 import ConfirmDeletePopup from "@/components/ui/popups/ConfirmDeletePopup";
-
+import { useTeam } from "@/hooks/useTeams";
+import { usePostsByTeam } from "@/hooks/usePosts";
 
 export default function MyTeamPage() {
   const { teamId } = useParams<{ teamId: string }>();
   const location = useLocation();
+  const id = Number(teamId);
+
+  const { data: team, isLoading: teamLoading } = useTeam(id);
+  const { data: posts = [], isLoading: postsLoading } = usePostsByTeam(id);
 
   const [showOverall, setShowOverall] = useState(false);
   const [showRole, setShowRole] = useState(false);
@@ -19,14 +24,11 @@ export default function MyTeamPage() {
   const [postStep, setPostStep] = useState<"upload" | "publish" | null>(null);
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
 
-  const commanders = Array.from({ length: 3 });
-  const activities = Array.from({ length: 8 });
-
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [selectedPost, setSelectedPost] = useState<number | null>(null);
 
-  
-
+  if (teamLoading) return <div className="text-center py-10">Đang tải...</div>;
+  if (!team) return <div className="text-center py-10">Không tìm thấy đội hình</div>;
 
   return (
     <>
@@ -86,7 +88,7 @@ export default function MyTeamPage() {
         <section className="max-w-4xl mx-auto px-4 mb-8">
           <div className="flex items-center justify-center gap-2">
             <h1 className="text-3xl font-black">
-              Tên đội hình {teamId}
+              {team.teamName}
             </h1>
           </div>
         </section>
@@ -99,7 +101,11 @@ export default function MyTeamPage() {
 
             {/* MAIN IMAGE */}
             <div className="relative z-20 w-110 h-70 rounded-2xl overflow-hidden shadow-lg bg-white flex items-center justify-center">
-              <span className="text-gray-400 text-sm">Ảnh chính</span>
+              {team.imageUrl ? (
+                 <img src={team.imageUrl} alt={team.teamName} className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-gray-400 text-sm">Ảnh chính</span>
+              )}
             </div>
 
             {/* LEFT IMAGE */}
@@ -137,28 +143,33 @@ export default function MyTeamPage() {
         </section>
 
         {/* ===== DESCRIPTION ===== */}
-        <section className="max-w-3xl mx-auto px-4 text-center mb-12">
-          <p className="text-sm font-bold leading-relaxed text-black">
-            Mô tả đội hình
-          </p>
-        </section>
+        {team.description && (
+          <section className="max-w-3xl mx-auto px-4 text-center mb-12">
+            <p className="text-sm font-bold leading-relaxed text-black">
+              {team.description}
+            </p>
+          </section>
+        )}
 
         {/* ===== COMMANDERS ===== */}
         <section className="max-w-4xl mx-auto px-4 mb-14 relative">
           <h2 className="text-center font-black mb-6">Ban chỉ huy</h2>
 
-
           <div className="grid grid-cols-3 gap-8">
-            {commanders.map((_, i) => (
+            {team.leaders.map((leader, i) => (
               <div key={i} className="text-center">
                 <div
                   onClick={() => setShowRole(true)}
-                  className="cursor-pointer w-24 h-24 mx-auto rounded-full bg-white/70 backdrop-blur-sm flex items-center justify-center mb-4"
+                  className="cursor-pointer w-24 h-24 mx-auto rounded-full bg-white/70 backdrop-blur-sm flex items-center justify-center mb-4 overflow-hidden"
                 >
-                  <div className="w-8 h-8 rounded-full bg-white/60" />
+                  {leader.avatarUrl ? (
+                    <img src={leader.avatarUrl} alt={leader.fullName} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-white/60" />
+                  )}
                 </div>
-                <div className="text-xs font-black">Chức vụ</div>
-                <div className="text-xs font-bold text-gray-700">Họ và tên</div>
+                <div className="text-xs font-black">{leader.role === "LEADER" ? "Đội trưởng" : "Đội phó"}</div>
+                <div className="text-xs font-bold text-gray-700">{leader.fullName}</div>
               </div>
             ))}
           </div>
@@ -177,93 +188,101 @@ export default function MyTeamPage() {
             </button>
           </div>
 
-          <div className="grid grid-cols-4 gap-6">
-            {activities.map((_, i) => (
-              <div key={i} className="relative group">
+          {postsLoading ? (
+             <div className="text-center py-4">Đang tải hoạt động...</div>
+          ) : (
+            <div className="grid grid-cols-4 gap-6">
+              {posts.map((post, i) => (
+                <div key={i} className="relative group">
 
-                {/* POST THUMBNAIL */}
-                <Link
-                  to={`post/${i + 1}`}
-                  state={{ backgroundLocation: location }}
-                  className="bg-white/80 backdrop-blur-sm aspect-square flex items-center justify-center rounded-md hover:scale-105 transition"
-                >
-                  <div className="w-12 h-12 border-2 border-white rotate-45" />
-                </Link>
+                  {/* POST THUMBNAIL */}
+                  <Link
+                    to={`post/${post.postId}`}
+                    state={{ backgroundLocation: location }}
+                    className="bg-white/80 backdrop-blur-sm aspect-square flex items-center justify-center rounded-md hover:scale-105 transition overflow-hidden"
+                  >
+                    {post.photos && post.photos.length > 0 ? (
+                      <img src={post.photos[0]} alt={post.title} className="w-full h-full object-cover" />
+                    ) : (
+                       <div className="w-12 h-12 border-2 border-white rotate-45" />
+                    )}
+                  </Link>
 
-                {/* ACTION BUTTONS (DELETE + EDIT) */}
-                <div
-                  className="
-                    absolute inset-0 
-                    opacity-0 group-hover:opacity-100 
-                    transition
-                    flex items-center justify-center
-                  "
-                >
-
-                  {/* CONTAINER chứa 2 nút + dấu gạch */}
-                  <div className="relative w-full h-full">
-
-                    {/* DELETE BUTTON */}
-                    <button
-                      onClick={() => {
-                        setSelectedPost(i);
-                        setShowDeletePopup(true);
-                      }}
-                      className="
-                        absolute
-                        top-[18%] left-[18%]
-                        w-14 h-14 rounded-full bg-red-400
-                        flex items-center justify-center
-                        hover:scale-110 transition
-                        shadow-lg z-20
-                      "
-                    >
-                      <img src={deleteIcon} className="w-6 h-6" />
-                    </button>
-
-                    {/* DẤU GẠCH CHÉO Ở GIỮA */}
-                <div
-                  className="
-                    absolute inset-0
-                    flex items-center justify-center
-                    pointer-events-none
-                  "
-                >
+                  {/* ACTION BUTTONS (DELETE + EDIT) */}
                   <div
                     className="
-                      w-[120px] h-[6px]
-                      bg-white
-                      -rotate-45
-                      rounded-full
-                      opacity-100
-                      shadow
+                      absolute inset-0 
+                      opacity-0 group-hover:opacity-100 
+                      transition
+                      flex items-center justify-center
                     "
-                  />
-                </div>
+                  >
 
+                    {/* CONTAINER chứa 2 nút + dấu gạch */}
+                    <div className="relative w-full h-full">
 
-                    {/* EDIT BUTTON */}
-                    <Link
-                      to={`post/${i + 1}`}
-                      state={{ backgroundLocation: location }}
+                      {/* DELETE BUTTON */}
+                      <button
+                        onClick={() => {
+                          setSelectedPost(post.postId);
+                          setShowDeletePopup(true);
+                        }}
+                        className="
+                          absolute
+                          top-[18%] left-[18%]
+                          w-14 h-14 rounded-full bg-red-400
+                          flex items-center justify-center
+                          hover:scale-110 transition
+                          shadow-lg z-20
+                        "
+                      >
+                        <img src={deleteIcon} className="w-6 h-6" />
+                      </button>
+
+                      {/* DẤU GẠCH CHÉO Ở GIỮA */}
+                  <div
+                    className="
+                      absolute inset-0
+                      flex items-center justify-center
+                      pointer-events-none
+                    "
+                  >
+                    <div
                       className="
-                        absolute
-                        bottom-[18%] right-[18%]
-                        w-14 h-14 rounded-full bg-gray-400
-                        flex items-center justify-center
-                        hover:scale-110 transition
-                        shadow-lg z-20
+                        w-[120px] h-[6px]
+                        bg-white
+                        -rotate-45
+                        rounded-full
+                        opacity-100
+                        shadow
                       "
-                    >
-                      <img src={editIcon} className="w-6 h-6" />
-                    </Link>
-
+                    />
                   </div>
-                </div>
 
-              </div>
-            ))}
-          </div>
+
+                      {/* EDIT BUTTON */}
+                      <Link
+                        to={`post/${post.postId}`}
+                        state={{ backgroundLocation: location }}
+                        className="
+                          absolute
+                          bottom-[18%] right-[18%]
+                          w-14 h-14 rounded-full bg-gray-400
+                          flex items-center justify-center
+                          hover:scale-110 transition
+                          shadow-lg z-20
+                        "
+                      >
+                        <img src={editIcon} className="w-6 h-6" />
+                      </Link>
+
+                    </div>
+                  </div>
+
+                </div>
+              ))}
+            </div>
+          )}
         </section>
       </div>
     </>
