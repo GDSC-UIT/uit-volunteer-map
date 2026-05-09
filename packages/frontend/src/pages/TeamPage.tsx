@@ -1,14 +1,20 @@
 import { useParams, Link, useLocation } from "react-router";
+import avatarFrame from "@/assets/background/avar_frame.svg";
+import { PostItem } from "@/components/ui/PostItem";
+import { usePosts } from "@/hooks/usePosts";
+
+
+
 
 export default function TeamPage() {
   const { teamId } = useParams<{ teamId: string }>();
   const location = useLocation();
+  const { data: posts = [] } = usePosts();
 
   const commanders = Array.from({ length: 3 });
-  const activities = Array.from({ length: 8 });
 
   return (
-    <div className="bg-[#D9D9D9] py-8">
+    <div className="py-8">
       <section className="max-w-4xl mx-auto px-4">
         <h1 className="text-center text-3xl font-black mb-8">
           Tên đội hình {teamId}
@@ -37,13 +43,9 @@ export default function TeamPage() {
 
       <section className="max-w-3xl mx-auto px-4 text-center mb-12">
         <p className="text-sm font-bold leading-relaxed text-black">
-          Rhoncus morbi et augue nec, in id ullamcorper at. Condimentum sit nunc
-          in eros scelerisque sed. Commodo in viverra nunc, ullamcorper ut.
-          Aliquet scelerisque nullam sagittis, pulvinar. Fermentum scelerisque
-          sit consectetur maecenas. Molestie eleifend ultrices purus lectus.
+          Rhoncus morbi et augue nec, in id ullamcorper at...
         </p>
       </section>
-
 
       <section className="max-w-4xl mx-auto px-4 mb-14">
         <h2 className="text-center font-black mb-6">Ban chỉ huy</h2>
@@ -51,8 +53,20 @@ export default function TeamPage() {
         <div className="grid grid-cols-3 gap-8">
           {commanders.map((_, i) => (
             <div key={i} className="text-center">
-              <div className="w-24 h-24 mx-auto rounded-full bg-[#E6E6E6] flex items-center justify-center mb-4">
-                <div className="w-8 h-8 rounded-full bg-white/60" />
+              {/* Container avatar */}
+              <div className="relative w-28 h-40 mx-auto mb-4">
+                <div className="absolute inset-3 rounded-[9999px] overflow-hidden bg-[#DDE1E6]">
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-full bg-white/70" />
+                  </div>
+                </div>
+
+                {/* Frame */}
+                <img
+                  src={avatarFrame}
+                  alt="avatar frame"
+                  className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+                />
               </div>
               <div className="text-xs font-black">Chức vụ</div>
               <div className="text-xs font-bold text-gray-700">
@@ -66,19 +80,20 @@ export default function TeamPage() {
       <section className="max-w-4xl mx-auto px-4">
         <h2 className="text-center font-black mb-6">Hoạt động</h2>
 
-        <div className="grid grid-cols-4 gap-6">
-          {activities.map((_, i) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+          {posts.map((post, i) => (
             <Link
               key={i}
-              to={`post/${i + 1}`}
+              to={`post/${post.postId}`}
               state={{ backgroundLocation: location }}
-              className="bg-[#E6E6E6] aspect-square flex items-center justify-center rounded-md hover:scale-105 transition"
+              className="hover:scale-105 transition"
             >
-              <div className="w-12 h-12 border-2 border-white rotate-45" />
+              <PostItem post={post} />
             </Link>
           ))}
         </div>
       </section>
     </div>
-  );
+);
 }
+

@@ -11,6 +11,7 @@ import { Campaign } from '../entities/Campaign.js';
 import { Team } from '../entities/Team.js';
 import { Post } from '../entities/Post.js';
 import { Photo } from '../entities/Photo.js';
+import { Attachment } from '../entities/Attachment.js';
 import { RoleEnum, CAMPAIGN_ERRORS, HTTP_STATUS } from '@uit-volunteer-map/shared';
 
 const JWT_SECRET = process.env.JWT_SECRET!;
@@ -26,7 +27,7 @@ describe('Campaign CRUD Routes', () => {
         database: ':memory:',
         synchronize: true,
         logging: false,
-        entities: [Account, Role, User, Campaign, Team, Post, Photo],
+        entities: [Account, Role, User, Campaign, Team, Post, Photo, Attachment],
         migrations: [],
         subscribers: [],
       }).initialize();

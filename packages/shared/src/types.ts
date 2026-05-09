@@ -32,23 +32,28 @@ export interface LoginResponse {
   user: AuthUser;
 }
 
-/**
- * User info returned after login (from Account + Role)
- * This is what gets stored in localStorage and JWT
- */
 export interface AuthUser {
   accId: number;
   username: string;
   role: UserRole;
 }
 
-/**
- * JWT payload structure
- */
 export interface JwtPayload {
   accId: number;
   role: UserRole;
 }
+
+// ============================================
+// Campaign Types
+// ============================================
+export interface CreateCampaignInput {
+  campaignName: string;
+  description?: string | null;
+  startDate: string;
+  endDate: string;
+}
+
+export type UpdateCampaignInput = Partial<CreateCampaignInput>;
 
 // ============================================
 // Entity Types (matching backend entities)
@@ -75,16 +80,19 @@ export interface Team {
   teamId: number;
   teamName: string;
   description?: string | null;
+  imageUrl?: string | null;
+  attachments?: Attachment[];
 }
 
 export interface Post {
   postId: number;
   title: string;
   content: string;
-  status: string;
   isDeleted: number;
   createdAt: string;
   updatedAt: string;
+  thumbnail?: Photo | null;
+  photos?: Photo[];
 }
 
 export interface Photo {
@@ -92,6 +100,14 @@ export interface Photo {
   title?: string | null;
   imageUrl: string;
   uploadedAt: string;
+  isFirstImage?: number;
+}
+
+export interface Attachment {
+  attachmentId: number;
+  imageUrl: string;
+  uploadedAt: string;
+  position?: number | null;
 }
 
 export interface VolunteerLocation {

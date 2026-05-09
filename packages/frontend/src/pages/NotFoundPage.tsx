@@ -5,9 +5,9 @@ export default function NotFoundPage() {
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
         <h1 className="text-6xl font-bold text-gray-300 mb-4">404</h1>
-        <p className="text-gray-600 mb-4">Page not found</p>
+        <p className="text-gray-600 mb-4">Không tìm thấy trang</p>
         <Link to="/" className="text-primary-600 hover:underline">
-          Go home
+          Về trang chủ
         </Link>
       </div>
     </div>

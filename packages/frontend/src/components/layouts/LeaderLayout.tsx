@@ -1,9 +1,14 @@
-import { Outlet } from 'react-router';
+import { Outlet } from "react-router";
+import BackgroundLayout from "./BackgroundLayout";
+import TeamHeader from "@/components/layouts/MyTeamPageHeader";
 
 export default function LeaderLayout() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Outlet />
-    </div>
+    <>
+     <TeamHeader />
+      <BackgroundLayout>
+        <Outlet />
+      </BackgroundLayout>
+    </>
   );
 }
