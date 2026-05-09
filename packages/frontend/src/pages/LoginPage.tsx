@@ -119,7 +119,7 @@ return (
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6"
+            className="absolute z-20 right-4 top-1/2 -translate-y-1/2 w-6 h-6"
           >
             <div className="relative w-6 h-6">
               {/* Eye icon */}

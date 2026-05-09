@@ -5,6 +5,7 @@ import { HTTP_STATUS, ERROR_MESSAGES } from '@uit-volunteer-map/shared';
 
 export function validate<T>(schema: ZodSchema<T>) {
   return (req: Request, res: Response, next: NextFunction) => {
+    
     const result = schema.safeParse(req.body);
 
     if (!result.success) {

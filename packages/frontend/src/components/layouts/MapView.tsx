@@ -1,14 +1,26 @@
 import { useEffect, useRef } from "react";
-import L from "leaflet";
+import L, { LeafletMouseEvent } from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-declare module 'leaflet' {
+declare module "leaflet" {
   interface Layer {
     __labelMarker?: L.Marker;
   }
   interface GeoJSONOptions {
     renderer?: L.Renderer;
   }
+}
+
+export interface MarkerData {
+  title?: string;
+  x?: number;
+  y?: number;
+  [key: string]: unknown;
+}
+
+interface MapViewProps {
+  onMarkerClick: (data: MarkerData) => void;
+  onMarkerHover: (data: MarkerData | null) => void;
 }
 
 const highlightLabel = (marker: L.Marker) => {
@@ -25,7 +37,12 @@ const resetLabel = (marker: L.Marker) => {
   el.classList.remove("label-highlight");
 };
 
-const MapView: React.FC = () => {
+const mapBounds = L.latLngBounds(
+  [2, 95],
+  [30, 120]
+);
+
+const MapView: React.FC<MapViewProps> = ({ onMarkerClick, onMarkerHover }) => {
   const mapRef = useRef<L.Map | null>(null);
 
   useEffect(() => {
@@ -34,6 +51,9 @@ const MapView: React.FC = () => {
     // ===============================
     // 1. Init Map
     // ===============================
+    
+    
+
     const map = L.map("map", {
       minZoom: 4,
       maxZoom: 14,
@@ -44,12 +64,13 @@ const MapView: React.FC = () => {
       touchZoom: true,
       boxZoom: true,
       keyboard: true,
+      maxBounds: mapBounds,
 
       dragging: true,
       zoomControl: true,
       attributionControl: false,
       preferCanvas: true,
-    }).setView([10.762622, 107], 6); // TP. HCM
+    }).setView([10.8231, 106.6296], 6); // TP. HCM
     //.setView([16.047079, 108.206231], 4); // Toàn map
 
     console.log("scrollWheelZoom", map.scrollWheelZoom.enabled());
@@ -57,16 +78,19 @@ const MapView: React.FC = () => {
     console.log("touchZoom", map.touchZoom.enabled());
 
     mapRef.current = map;
-
+    // Resize map after container size stable
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 500);
     // ===============================
     // 2. Tile Layer (OSM / Esri) (Optional)
     // ===============================
-    L.tileLayer(
+    /*L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
       {
         maxZoom: 14,
       },
-    ).addTo(map);
+    ).addTo(map);*/
 
     // ===============================
     // 3. Layer Groups
@@ -90,26 +114,32 @@ const MapView: React.FC = () => {
     ];
 
     const getColor = (tenTinh?: string) =>
-      visitedTinh.includes(tenTinh ?? "") ? "#3498db" : "#696969";
+      visitedTinh.includes(tenTinh ?? "") ? "#FF632A" : "#FFF2C9";
 
-    const getOpacity = (tenXa?: string) => (tenXa ? 0.2 : 0.4);
+    const getOpacity = (tenXa?: string) => (tenXa ? 1 : 1);
 
     const hoverStyle = (): L.PathOptions => ({
-      weight: 4,
-      color: "#f39c12",
+      weight: 2,
+      color: "#FFBA4A",
       fillOpacity: 0.6,
     });
 
     // ===============================
     // 5. Arrow Marker
     // ===============================
-    const createArrowIcon = (color = "#e74c3c") =>
-      L.divIcon({
-        className: "arrow-marker",
-        html: `<div style="border-top-color:${color}"></div>`,
-        iconSize: [20, 20],
-        iconAnchor: [10, 20],
-      });
+    const normalIcon = L.icon({
+      iconUrl: "/map-element/map-pin-flower.svg",
+      iconSize: [30, 30],
+      iconAnchor: [15, 15],
+    });
+
+    const hoverIcon = L.icon({
+      iconUrl: "/map-element/map-pin-flower.svg",
+      iconSize: [42, 42],      // phóng to
+      iconAnchor: [21, 21],    // giữ đúng tâm
+    });
+    
+    const createArrowIcon = () => normalIcon
 
     // ===============================
     // 6. Load Annotations
@@ -118,13 +148,33 @@ const MapView: React.FC = () => {
       .then((res) => res.json())
       .then((data) => {
         L.geoJSON(data, {
-          pointToLayer: (feature, latlng) =>
+          pointToLayer: (_feature, latlng) =>
             L.marker(latlng, {
-              icon: createArrowIcon(feature.properties.color),
+              icon: createArrowIcon(),
             }),
           onEachFeature: (feature, layer) => {
-            layer.on("click", () => {
+            layer.on("click", (e) => {
               console.log("Annotation:", feature.properties);
+              L.DomEvent.stopPropagation(e);
+              onMarkerClick(feature.properties); // Todo : Thay '1' bằng dữ liệu thực tế của bạn
+            });
+
+            layer.on("mouseover", (e: LeafletMouseEvent) => {
+              const marker = e.target as L.Marker;
+              marker.setIcon(hoverIcon);
+              onMarkerHover({
+                title: feature.properties.title,
+                x: e.originalEvent.clientX,
+                y: e.originalEvent.clientY,
+                // Bạn có thể lấy tọa độ chuột để hiển thị BasicInfo ngay tại con trỏ
+              });
+            });
+
+            // 3. Sự kiện RỜI CHUỘT (Mouse Out)
+            layer.on("mouseout", (e: LeafletMouseEvent) => {
+              const marker = e.target as L.Marker;
+              marker.setIcon(normalIcon);
+              onMarkerHover(null); // Xóa dữ liệu hover để ẩn Component đi
             });
           },
         }).addTo(annotationLayer);
@@ -148,9 +198,11 @@ const MapView: React.FC = () => {
 
         // ===== Base style (1 nơi duy nhất) =====
         const baseStyle: L.PathOptions = {
-          color: getColor(data.features[0].properties?.ten_tinh),
-          weight: 2,
+          fillColor: getColor(data.features[0].properties?.ten_tinh),
+          weight: 1,
           fillOpacity: getOpacity(data.features[0].properties?.ten_xa),
+          color: "#FFBA4A",
+          className: "area-layer",
         };
 
         // ===== Tạo GeoJSON layer =====
@@ -166,7 +218,7 @@ const MapView: React.FC = () => {
             if (feature.properties?.ten_xa === undefined) {
               tinhLayer.addLayer(featureLayer);
 
-              const bounds = polygonLayer.getBounds();  
+              const bounds = polygonLayer.getBounds();
               const center = bounds.getCenter();
               labelMarker = L.marker(center, {
                 interactive: false, // không chặn event
@@ -249,7 +301,7 @@ const MapView: React.FC = () => {
       }
       if (z < 12) {
         map.addLayer(tinhLayer);
-        if (z >= 6) {
+        if (z >= 8) {
           map.addLayer(tinhLabelLayer);
         }
       }
@@ -279,9 +331,9 @@ const MapView: React.FC = () => {
 
       //map.remove();
     };
-  }, []);
+  }, [onMarkerClick, onMarkerHover]);
 
-  return <div id="map" style={{ width: "80vw", height: "80vh" }} />;
+  return <div id="map" style={{ width: "80vw", height: "80vh" , zIndex: 22, isolation: "isolate"}} />;
 };
 
 export default MapView;

@@ -1,7 +1,8 @@
 .area-label {
+    font-family: 'Righteous', 'Arial', sans-serif !important;
     font-size: 10px;
     font-weight: 600;
-    color: #2c3e50;
+    color: #4B2D0C;
     background: transparent;
     border: none;
     box-shadow: none;
@@ -13,17 +14,20 @@
 .area-tinh {
     font-size: 12px;
     font-weight: 700;
+    font-family: "Roboto";
 }
 
 .area-xa {
     font-size: 15px;
     font-weight: 700;
+    font-family: "Roboto";
 }
 
 .label-highlight {/* xã */
-  color: #e74c3c;
+  color: #2a9705;
   transform: scale(1.15);
   z-index: 1000;
+  font-family: "Roboto";
 }
 
 .area-tinh.label-highlight {
@@ -47,7 +51,19 @@
     padding: 16px;
     box-shadow: 0 2px 12px rgba(0,0,0,.2);
     z-index: 1000;
+    font-family: "Roboto";
 }
 .hidden {
     display: none;
+}
+ 
+#map {
+    background-color: #FF9600;
+}
+
+.leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100%;
+  max-height: 100%;
 }

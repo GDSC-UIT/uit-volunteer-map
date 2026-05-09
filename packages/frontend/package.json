@@ -14,8 +14,11 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "@tanstack/react-query": "^5.90.20",
     "@types/leaflet": "^1.9.21",
     "@uit-volunteer-map/shared": "*",
+    "axios": "^1.13.4",
     "clsx": "^2.1.1",
     "leaflet": "^1.9.4",
     "react": "^19.0.0",

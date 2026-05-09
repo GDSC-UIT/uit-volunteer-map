@@ -1,18 +1,28 @@
 interface Props {
+  imageUrls?: string[];
   onBack?: () => void;
   onSubmit?: () => void;
 }
 
-export default function PostCreatePublishEditPopup({
+export default function PostDetailPopup({
+  imageUrls = [],
   onBack,
   onSubmit,
 }: Props) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="w-[760px] h-[420px] rounded-xl overflow-hidden bg-[#F5F5F5] flex">
+      <div className="w-190 h-105 rounded-xl overflow-hidden bg-[#F5F5F5] flex">
         {/* Preview */}
         <div className="w-1/2 bg-[#E1E4E8] flex items-center justify-center">
-          <div className="w-64 h-64 bg-gray-300">Preview</div>
+          {imageUrls.length > 0 ? (
+            <img
+              src={imageUrls[0]}
+              alt="Preview"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-64 h-64 bg-gray-300">Preview</div>
+          )}
         </div>
 
         {/* Form */}
@@ -27,9 +37,7 @@ export default function PostCreatePublishEditPopup({
             className="flex-1 resize-none bg-transparent outline-none text-sm"
           />
 
-          <div className="text-right text-xs text-gray-500 mb-2">
-            0 / 3000
-          </div>
+          <div className="text-right text-xs text-gray-500 mb-2">0 / 3000</div>
 
           <div className="flex gap-2 mb-4">
             <select className="border text-xs px-2 py-1 rounded">
@@ -41,10 +49,7 @@ export default function PostCreatePublishEditPopup({
           </div>
 
           <div className="flex justify-end gap-2">
-            <button
-              onClick={onBack}
-              className="text-xs underline"
-            >
+            <button onClick={onBack} className="text-xs underline">
               Quay lại
             </button>
 

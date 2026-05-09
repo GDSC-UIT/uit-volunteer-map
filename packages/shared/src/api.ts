@@ -3,27 +3,37 @@
  */
 export const API_ROUTES = {
   AUTH: {
-    LOGIN: '/api/auth/login',
-    LOGOUT: '/api/auth/logout',
+    LOGIN: "/auth/login",
+    LOGOUT: "/auth/logout",
   },
+  CAMPAIGNS: "/campaigns",
+  USERS: "/users",
+  POSTS: "/posts",
   ADMIN: {
-    BASE: '/api/admin',
+    BASE: "/admin",
   },
   LEADER: {
-    BASE: '/api/leader',
+    BASE: "/leader",
   },
-  HEALTH: '/api/health',
+  HEALTH: "/health",
+  TEAM: {
+    GET_ALL: "/teams",
+    GET_BY_ID: (id: number) => `/teams/${id}`,
+    CREATE: "/teams",
+    UPDATE: (id: number) => `/teams/${id}`,
+    DELETE: (id: number) => `/teams/${id}`,
+  },
 } as const;
 
 /**
  * Auth error messages - consistent across FE/BE
  */
 export const AUTH_ERRORS = {
-  INVALID_CREDENTIALS: 'Invalid username or password',
-  TOKEN_REQUIRED: 'Access token required',
-  TOKEN_INVALID: 'Invalid or expired token',
-  PERMISSION_DENIED: 'Permission denied',
-  JWT_SECRET_MISSING: 'JWT_SECRET is not defined',
+  INVALID_CREDENTIALS: "Invalid username or password",
+  TOKEN_REQUIRED: "Access token required",
+  TOKEN_INVALID: "Invalid or expired token",
+  PERMISSION_DENIED: "Permission denied",
+  JWT_SECRET_MISSING: "JWT_SECRET is not defined",
   TOKEN_EXPIRED: "Token has expired",
 } as const;
 
@@ -31,6 +41,6 @@ export const AUTH_ERRORS = {
  * Local storage keys
  */
 export const STORAGE_KEYS = {
-  AUTH_TOKEN: 'auth_token',
-  AUTH_USER: 'auth_user',
+  AUTH_TOKEN: "auth_token",
+  AUTH_USER: "auth_user",
 } as const;
