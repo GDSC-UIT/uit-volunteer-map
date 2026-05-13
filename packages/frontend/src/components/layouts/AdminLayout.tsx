@@ -1,13 +1,23 @@
-import { Outlet, NavLink } from "react-router";
+import { Outlet, NavLink, useNavigate } from "react-router";
+import { useAuth } from "@/hooks/useAuth";
 
 const menu = [
   { label: "Bảng điều khiển", to: "/admin/dashboard" },
   { label: "Quản lý Chiến dịch", to: "/admin/campaigns" },
   { label: "Quản lý Chỉ huy", to: "/admin/accounts" },
   { label: "Quản lý Đội hình", to: "/admin/teams" },
+  { label: "Quản lý Bài viết", to: "/admin/posts" },
 ];
 
 export default function AdminLayout() {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  async function handleLogout() {
+    await logout();
+    navigate("/login");
+  }
+
   return (
     <div className="min-h-screen bg-[#BFB8B8] p-6">
       <div className="flex gap-6 h-[calc(100vh-48px)]">
@@ -35,7 +45,10 @@ export default function AdminLayout() {
             </nav>
           </div>
 
-          <button className="border rounded px-3 py-1 text-sm hover:bg-gray-100 text-black">
+          <button
+            onClick={handleLogout}
+            className="border rounded px-3 py-1 text-sm hover:bg-gray-100 text-black"
+          >
             Đăng xuất
           </button>
         </aside>

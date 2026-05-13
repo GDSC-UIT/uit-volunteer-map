@@ -1,21 +1,74 @@
-import { PostData, mockPosts } from "@/mocks/post.mock";
+import { Post, Photo, ApiResponse } from '@uit-volunteer-map/shared';
 
-// Simulated API delay
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const BASE_URL = 'http://localhost:5000/api/posts';
 
 export const postApi = {
-  getAll: async (): Promise<PostData[]> => {
-    await delay(5000);
-    return mockPosts;
+  // ── Queries ───────────────────────────────────────────────────────────────
+
+  getAll: async (): Promise<Post[]> => {
+    const res = await fetch(BASE_URL);
+    const json: ApiResponse<Post[]> = await res.json();
+    if (json.success && json.data) return json.data;
+    return [];
   },
 
-  getById: async (id: number): Promise<PostData | undefined> => {
-    await delay(1000);
-    return mockPosts.find((post) => post.postId === id);
+  getById: async (id: number): Promise<Post | undefined> => {
+    const res = await fetch(`${BASE_URL}/${id}`);
+    const json: ApiResponse<Post> = await res.json();
+    return json.data;
   },
 
-  getByTeam: async (teamId: number): Promise<PostData[]> => {
-    await delay(3000);
-    return mockPosts.filter((post) => post.teamId === teamId);
+  getByTeam: async (teamId: number): Promise<Post[]> => {
+    const res = await fetch(`${BASE_URL}?teamId=${teamId}`);
+    const json: ApiResponse<Post[]> = await res.json();
+    return json.data || [];
+  },
+
+  // ── Mutations ─────────────────────────────────────────────────────────────
+
+  create: async (data: Partial<Post>, token: string): Promise<ApiResponse<Post>> => {
+    const res = await fetch(BASE_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  },
+
+  update: async (id: number, data: Partial<Post>, token: string): Promise<ApiResponse<Post>> => {
+    const res = await fetch(`${BASE_URL}/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  },
+
+  delete: async (id: number, token: string): Promise<ApiResponse<Post>> => {
+    const res = await fetch(`${BASE_URL}/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    return res.json();
+  },
+
+  addPhoto: async (id: number, photoData: Partial<Photo>, token: string): Promise<ApiResponse<Photo>> => {
+    const res = await fetch(`${BASE_URL}/${id}/photos`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(photoData),
+    });
+    return res.json();
   },
 };
