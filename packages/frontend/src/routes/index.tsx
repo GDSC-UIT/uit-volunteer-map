@@ -10,9 +10,11 @@ import { RoleEnum } from "@uit-volunteer-map/shared";
 import LeaderLayout from "@/components/layouts/LeaderLayout";
 import CampaignPage from "@/pages/CampaignPage";
 import TeamPage from "@/pages/TeamPage";
+import PostPage from "@/pages/PostPage";
 import MyTeamPage from "@/pages/leader/MyTeamPage";
 import CampaignManagementPage from "@/pages/admin/CampaignManagementPage";
 import TeamManagementPage from "@/pages/admin/TeamManagementPage";
+import PostManagementPage from "@/pages/admin/PostManagementPage";
 import AccountManagementPage from "@/pages/admin/AccountManagementPage";
 import CampaignLayout from "@/components/layouts/CampaignLayout";
 
@@ -30,7 +32,10 @@ export const router = createBrowserRouter([
           { index: true, element: <CampaignPage /> },
           {
             path: "team/:teamId",
-            element: <TeamPage />,
+            children: [
+              { index: true, element: <TeamPage /> },
+              { path: "post/:postId", element: <PostPage /> },
+            ],
           },
         ],
       },
@@ -48,6 +53,7 @@ export const router = createBrowserRouter([
               { path: "dashboard", element: <AdminDashboard /> },
               { path: "campaigns", element: <CampaignManagementPage /> },
               { path: "teams", element: <TeamManagementPage /> },
+              { path: "posts", element: <PostManagementPage /> },
               { path: "accounts", element: <AccountManagementPage /> },
             ],
           },
