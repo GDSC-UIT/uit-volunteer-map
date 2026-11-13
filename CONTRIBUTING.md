@@ -81,16 +81,31 @@ docs: update API documentation
 
 ## Getting Started
 
+Create `packages/backend/.env` from `.env.example` if it does not already exist,
+and set a private `JWT_SECRET`. Preserve existing environment files and databases.
+
 ```bash
-# Install dependencies
-npm install
+# 1. Install dependencies
+npm ci # or npm install
 
-# Start development (both frontend & backend)
-npm run dev
+# 2. Setup database migrations and initial seed data
+npm run migration:run
+npm run seed
 
-# Or run separately
-npm run dev:frontend  # http://localhost:3000
-npm run dev:backend   # http://localhost:5000
+# 3. Development Workflow
+
+# Multi-terminal development (recommended when modifying shared code):
+# Terminal 1: Watch & auto-rebuild shared package
+npm run dev:shared   # or npm run watch:shared
+
+# Terminal 2: Backend development server
+npm run dev:backend  # http://localhost:5000
+
+# Terminal 3: Frontend development server
+npm run dev:frontend # http://localhost:3001
+
+# npm run dev executes workspace scripts sequentially. Use the terminals above
+# to run shared watch, backend and frontend together.
 ```
 
 ## Project Structure
@@ -246,12 +261,31 @@ it('returns 200', async () => {
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start all packages |
+| `npm run dev` | Sequential workspace runner; use separate development terminals above |
+| `npm run dev:shared` | Watch and recompile shared package |
+| `npm run dev:backend` | Start backend in development mode |
+| `npm run dev:frontend` | Start frontend in development mode |
 | `npm run build` | Build all packages |
-| `npm test` | Run all tests (once) |
+| `npm run migration:run` | Run pending migrations |
+| `npm run seed` | Seed initial roles |
+| `npm test` | Run all unit tests (once) |
+| `npm run test:smoke` | Run reusable compiled runtime smoke test |
 | `npm run typecheck` | TypeScript check all packages |
 | `npm run lint` | Lint all packages |
 | `npm run clean` | Remove node_modules & dist |
+
+### Compiled runtime smoke check
+
+Run `npm run test:smoke` from the repository root. It builds the current shared
+and backend source once, runs compiled migrations and seeds on an isolated SQLite
+database in the system temporary directory, starts the compiled server and checks
+`/api/health`. Child processes and temporary files are cleaned up before success
+or failure is reported. The existing developer database is never selected.
+
+The runner uses the npm CLI supplied by npm, with Node and argument arrays on
+Windows and Unix-like systems. Invoke it through the npm command, not directly
+with `node scripts/smoke-runtime.mjs`. Build, migration, seed and health waits are
+bounded; failures include subprocess output and return a nonzero exit code.
 
 ## Test Accounts
 

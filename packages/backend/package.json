@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "npm run build -w @uit-volunteer-map/shared && tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "lint": "eslint .",
@@ -12,11 +12,14 @@
     "test": "vitest",
     "test:run": "vitest run",
     "typeorm": "typeorm-ts-node-esm",
-    "migration:generate": "npm run typeorm -- migration:generate -d typeorm.config.ts",
-    "migration:run": "npm run typeorm -- migration:run -d typeorm.config.ts",
-    "migration:revert": "npm run typeorm -- migration:revert -d typeorm.config.ts",
+    "migration:generate": "npm run build -w @uit-volunteer-map/shared && npm run typeorm -- migration:generate -d typeorm.config.ts",
+    "migration:run": "npm run build -w @uit-volunteer-map/shared && npm run typeorm -- migration:run -d typeorm.config.ts",
+    "migration:run:dist": "typeorm migration:run -d dist/db/data-source.js",
+    "migration:revert": "npm run build -w @uit-volunteer-map/shared && npm run typeorm -- migration:revert -d typeorm.config.ts",
+    "migration:revert:dist": "typeorm migration:revert -d dist/db/data-source.js",
     "migration:create": "npm run typeorm -- migration:create src/db/migrations",
-    "seed": "tsx src/db/seeds/index.ts"
+    "seed": "npm run build -w @uit-volunteer-map/shared && tsx src/db/seeds/index.ts",
+    "seed:dist": "node dist/db/seeds/index.js"
   },
   "dependencies": {
     "@uit-volunteer-map/shared": "*",
