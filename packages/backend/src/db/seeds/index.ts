@@ -1,8 +1,9 @@
-import { AppDataSource } from "../data-source.js";
+import { AppDataSource, DATABASE_PATH, ensureDatabaseDirectory } from "../data-source.js";
 import { seedRoles } from "./roles.seed.js";
 
 const runSeed = async () => {
   try {
+    ensureDatabaseDirectory(DATABASE_PATH);
     if (!AppDataSource.isInitialized) {
       await AppDataSource.initialize();
     }
