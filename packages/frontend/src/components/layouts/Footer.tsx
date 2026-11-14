@@ -10,8 +10,8 @@ export default function Footer() {
   return (
     <footer className="bg-black text-white">
       <div className="max-w-6xl mx-auto px-6 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-[50%_1fr_1fr] md:gap-x-8 gap-y-10 items-start">
-          <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-6 gap-y-10 items-start">
+          <div className="min-w-0 flex flex-col gap-4">
             <Link to="/">
               <img src={uitLogo} alt="UITVolunteer" className="h-12 w-auto" />
             </Link>
@@ -35,7 +35,7 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="flex flex-col md:ml-8">
+          <div className="min-w-0 flex flex-col lg:ml-8">
             <h3 className="font-semibold text-lg mb-8">Liên kết nhanh</h3>
 
             <div className="flex flex-col space-y-6">
@@ -53,18 +53,18 @@ export default function Footer() {
               <span className="text-sm text-white/80">Mùa Hè Xanh</span>
             </div>
           </div>
-          <div className="flex flex-col">
+          <div className="min-w-0 flex flex-col">
             <h3 className="font-semibold text-lg mb-8">Liên hệ</h3>
 
             <div className="flex flex-col space-y-6">
               <div className="flex items-start gap-3 text-sm text-white/80">
-                <img src={locationIcon} className="w-4 h-4 mt-0.5" />
-                <span>Khu phố 34, Phường Linh Xuân, TP.HCM</span>
+                <img src={locationIcon} alt="" className="w-4 h-4 mt-0.5 shrink-0" />
+                <span className="min-w-0 wrap-anywhere">Khu phố 34, Phường Linh Xuân, TP.HCM</span>
               </div>
 
               <div className="flex items-center gap-2 text-sm text-white/80">
-                <img src={mailIcon} className="w-4 h-4" />
-                <span>hsvdhcntt@hoisinhvientphcm.com</span>
+                <img src={mailIcon} alt="" className="w-4 h-4 shrink-0" />
+                <span className="min-w-0 wrap-anywhere">hsvdhcntt@hoisinhvientphcm.com</span>
               </div>
 
               <a
@@ -73,19 +73,19 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-white/80 hover:text-white"
               >
-                <img src={fbIcon} className="w-4 h-4" />
-                <span>facebook.com/tuoitre.uit</span>
+                <img src={fbIcon} alt="" className="w-4 h-4 shrink-0" />
+                <span className="min-w-0 wrap-anywhere">facebook.com/tuoitre.uit</span>
               </a>
             </div>
           </div>
         </div>
         <div className="border-t border-white/20 my-6" />
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap gap-4 items-center justify-between">
           <span className="text-xs text-white/60">
             UITVolunteer © 2026. All rights reserved.
           </span>
 
-          <img src={creditIcon} alt="Credits" className="w-20 h-auto" />
+          <img src={creditIcon} alt="Credits" className="w-20 h-auto shrink-0" />
         </div>
       </div>
     </footer>
