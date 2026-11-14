@@ -1,0 +1,2530 @@
+[
+  {
+    "phase": "after",
+    "surface": "login",
+    "width": 375,
+    "viewport": 375,
+    "documentWidth": 375,
+    "header": null,
+    "headerControls": [],
+    "fields": [
+      {
+        "labels": 1,
+        "fontSize": "16px",
+        "left": 40,
+        "right": 335,
+        "top": 399.1875,
+        "bottom": 449.1875,
+        "width": 295,
+        "height": 50,
+        "scrollWidth": 291,
+        "clientWidth": 291
+      },
+      {
+        "labels": 1,
+        "fontSize": "16px",
+        "left": 40,
+        "right": 335,
+        "top": 479.1875,
+        "bottom": 529.1875,
+        "width": 295,
+        "height": 50,
+        "scrollWidth": 291,
+        "clientWidth": 291
+      }
+    ],
+    "main": {
+      "left": 0,
+      "right": 375,
+      "top": 0,
+      "bottom": 900,
+      "width": 375,
+      "height": 900,
+      "scrollWidth": 375,
+      "clientWidth": 375
+    },
+    "footer": null,
+    "footerItems": []
+  },
+  {
+    "phase": "after",
+    "surface": "login",
+    "width": 768,
+    "viewport": 768,
+    "documentWidth": 768,
+    "header": null,
+    "headerControls": [],
+    "fields": [
+      {
+        "labels": 1,
+        "fontSize": "16px",
+        "left": 104,
+        "right": 664,
+        "top": 438.78125,
+        "bottom": 488.78125,
+        "width": 560,
+        "height": 50,
+        "scrollWidth": 556,
+        "clientWidth": 556
+      },
+      {
+        "labels": 1,
+        "fontSize": "16px",
+        "left": 104,
+        "right": 664,
+        "top": 518.78125,
+        "bottom": 568.78125,
+        "width": 560,
+        "height": 50,
+        "scrollWidth": 556,
+        "clientWidth": 556
+      }
+    ],
+    "main": {
+      "left": 0,
+      "right": 768,
+      "top": 0,
+      "bottom": 900,
+      "width": 768,
+      "height": 900,
+      "scrollWidth": 768,
+      "clientWidth": 768
+    },
+    "footer": null,
+    "footerItems": []
+  },
+  {
+    "phase": "after",
+    "surface": "login",
+    "width": 1024,
+    "viewport": 1024,
+    "documentWidth": 1024,
+    "header": null,
+    "headerControls": [],
+    "fields": [
+      {
+        "labels": 1,
+        "fontSize": "16px",
+        "left": 232,
+        "right": 792,
+        "top": 438.78125,
+        "bottom": 488.78125,
+        "width": 560,
+        "height": 50,
+        "scrollWidth": 556,
+        "clientWidth": 556
+      },
+      {
+        "labels": 1,
+        "fontSize": "16px",
+        "left": 232,
+        "right": 792,
+        "top": 518.78125,
+        "bottom": 568.78125,
+        "width": 560,
+        "height": 50,
+        "scrollWidth": 556,
+        "clientWidth": 556
+      }
+    ],
+    "main": {
+      "left": 0,
+      "right": 1024,
+      "top": 0,
+      "bottom": 900,
+      "width": 1024,
+      "height": 900,
+      "scrollWidth": 1024,
+      "clientWidth": 1024
+    },
+    "footer": null,
+    "footerItems": []
+  },
+  {
+    "phase": "after",
+    "surface": "login",
+    "width": 1440,
+    "viewport": 1440,
+    "documentWidth": 1440,
+    "header": null,
+    "headerControls": [],
+    "fields": [
+      {
+        "labels": 1,
+        "fontSize": "16px",
+        "left": 440,
+        "right": 1000,
+        "top": 438.78125,
+        "bottom": 488.78125,
+        "width": 560,
+        "height": 50,
+        "scrollWidth": 556,
+        "clientWidth": 556
+      },
+      {
+        "labels": 1,
+        "fontSize": "16px",
+        "left": 440,
+        "right": 1000,
+        "top": 518.78125,
+        "bottom": 568.78125,
+        "width": 560,
+        "height": 50,
+        "scrollWidth": 556,
+        "clientWidth": 556
+      }
+    ],
+    "main": {
+      "left": 0,
+      "right": 1440,
+      "top": 0,
+      "bottom": 900,
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1440,
+      "clientWidth": 1440
+    },
+    "footer": null,
+    "footerItems": []
+  },
+  {
+    "phase": "after",
+    "surface": "home",
+    "width": 375,
+    "viewport": 375,
+    "documentWidth": 375,
+    "header": {
+      "left": 0,
+      "right": 375,
+      "top": 0,
+      "bottom": 64,
+      "width": 375,
+      "height": 64,
+      "scrollWidth": 375,
+      "clientWidth": 375
+    },
+    "headerControls": [
+      {
+        "text": "UITVolunteer — Trang chủ",
+        "left": 16,
+        "right": 144.25,
+        "top": 18,
+        "bottom": 46,
+        "width": 128.25,
+        "height": 28,
+        "scrollWidth": 128,
+        "clientWidth": 128
+      },
+      {
+        "text": "Đăng nhập",
+        "left": 242.484375,
+        "right": 359,
+        "top": 10,
+        "bottom": 54,
+        "width": 116.515625,
+        "height": 44,
+        "scrollWidth": 117,
+        "clientWidth": 117
+      }
+    ],
+    "fields": [],
+    "main": {
+      "left": 0,
+      "right": 375,
+      "top": 64,
+      "bottom": 1845.328125,
+      "width": 375,
+      "height": 1781.328125,
+      "scrollWidth": 375,
+      "clientWidth": 375
+    },
+    "footer": {
+      "left": 0,
+      "right": 375,
+      "top": 1845.328125,
+      "bottom": 2675.46875,
+      "width": 375,
+      "height": 830.140625,
+      "scrollWidth": 375,
+      "clientWidth": 375
+    },
+    "footerItems": [
+      {
+        "left": 24,
+        "right": 351,
+        "top": 1885.328125,
+        "bottom": 1933.328125,
+        "width": 327,
+        "height": 48,
+        "scrollWidth": 327,
+        "clientWidth": 327
+      },
+      {
+        "left": 24,
+        "right": 351,
+        "top": 2217.328125,
+        "bottom": 2237.328125,
+        "width": 327,
+        "height": 20,
+        "scrollWidth": 327,
+        "clientWidth": 327
+      },
+      {
+        "left": 24,
+        "right": 351,
+        "top": 2261.328125,
+        "bottom": 2281.328125,
+        "width": 327,
+        "height": 20,
+        "scrollWidth": 327,
+        "clientWidth": 327
+      },
+      {
+        "left": 24,
+        "right": 351,
+        "top": 2305.328125,
+        "bottom": 2325.328125,
+        "width": 327,
+        "height": 20,
+        "scrollWidth": 327,
+        "clientWidth": 327
+      },
+      {
+        "left": 52,
+        "right": 320.59375,
+        "top": 2425.328125,
+        "bottom": 2445.328125,
+        "width": 268.59375,
+        "height": 20,
+        "scrollWidth": 269,
+        "clientWidth": 269
+      },
+      {
+        "left": 48,
+        "right": 284.203125,
+        "top": 2469.328125,
+        "bottom": 2489.328125,
+        "width": 236.203125,
+        "height": 20,
+        "scrollWidth": 236,
+        "clientWidth": 236
+      },
+      {
+        "left": 24,
+        "right": 351,
+        "top": 2513.328125,
+        "bottom": 2533.328125,
+        "width": 327,
+        "height": 20,
+        "scrollWidth": 327,
+        "clientWidth": 327
+      },
+      {
+        "left": 48,
+        "right": 222.328125,
+        "top": 2513.328125,
+        "bottom": 2533.328125,
+        "width": 174.328125,
+        "height": 20,
+        "scrollWidth": 174,
+        "clientWidth": 174
+      },
+      {
+        "left": 24,
+        "right": 261.78125,
+        "top": 2582.328125,
+        "bottom": 2598.328125,
+        "width": 237.78125,
+        "height": 16,
+        "scrollWidth": 238,
+        "clientWidth": 238
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "surface": "home",
+    "width": 768,
+    "viewport": 768,
+    "documentWidth": 768,
+    "header": {
+      "left": 0,
+      "right": 768,
+      "top": 0,
+      "bottom": 64,
+      "width": 768,
+      "height": 64,
+      "scrollWidth": 768,
+      "clientWidth": 768
+    },
+    "headerControls": [
+      {
+        "text": "UITVolunteer — Trang chủ",
+        "left": 24,
+        "right": 152.25,
+        "top": 18,
+        "bottom": 46,
+        "width": 128.25,
+        "height": 28,
+        "scrollWidth": 128,
+        "clientWidth": 128
+      },
+      {
+        "text": "Đăng nhập",
+        "left": 627.484375,
+        "right": 744,
+        "top": 14,
+        "bottom": 50,
+        "width": 116.515625,
+        "height": 36,
+        "scrollWidth": 117,
+        "clientWidth": 117
+      }
+    ],
+    "fields": [],
+    "main": {
+      "left": 0,
+      "right": 768,
+      "top": 64,
+      "bottom": 1587,
+      "width": 768,
+      "height": 1523,
+      "scrollWidth": 768,
+      "clientWidth": 768
+    },
+    "footer": {
+      "left": 0,
+      "right": 768,
+      "top": 1587,
+      "bottom": 2313.140625,
+      "width": 768,
+      "height": 726.140625,
+      "scrollWidth": 768,
+      "clientWidth": 768
+    },
+    "footerItems": [
+      {
+        "left": 24,
+        "right": 744,
+        "top": 1627,
+        "bottom": 1675,
+        "width": 720,
+        "height": 48,
+        "scrollWidth": 720,
+        "clientWidth": 720
+      },
+      {
+        "left": 24,
+        "right": 744,
+        "top": 1887,
+        "bottom": 1907,
+        "width": 720,
+        "height": 20,
+        "scrollWidth": 720,
+        "clientWidth": 720
+      },
+      {
+        "left": 24,
+        "right": 744,
+        "top": 1931,
+        "bottom": 1951,
+        "width": 720,
+        "height": 20,
+        "scrollWidth": 720,
+        "clientWidth": 720
+      },
+      {
+        "left": 24,
+        "right": 744,
+        "top": 1975,
+        "bottom": 1995,
+        "width": 720,
+        "height": 20,
+        "scrollWidth": 720,
+        "clientWidth": 720
+      },
+      {
+        "left": 52,
+        "right": 320.59375,
+        "top": 2095,
+        "bottom": 2115,
+        "width": 268.59375,
+        "height": 20,
+        "scrollWidth": 269,
+        "clientWidth": 269
+      },
+      {
+        "left": 48,
+        "right": 284.203125,
+        "top": 2139,
+        "bottom": 2159,
+        "width": 236.203125,
+        "height": 20,
+        "scrollWidth": 236,
+        "clientWidth": 236
+      },
+      {
+        "left": 24,
+        "right": 744,
+        "top": 2183,
+        "bottom": 2203,
+        "width": 720,
+        "height": 20,
+        "scrollWidth": 720,
+        "clientWidth": 720
+      },
+      {
+        "left": 48,
+        "right": 222.328125,
+        "top": 2183,
+        "bottom": 2203,
+        "width": 174.328125,
+        "height": 20,
+        "scrollWidth": 174,
+        "clientWidth": 174
+      },
+      {
+        "left": 24,
+        "right": 261.78125,
+        "top": 2254.5625,
+        "bottom": 2270.5625,
+        "width": 237.78125,
+        "height": 16,
+        "scrollWidth": 238,
+        "clientWidth": 238
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "surface": "home",
+    "width": 1024,
+    "viewport": 1024,
+    "documentWidth": 1024,
+    "header": {
+      "left": 0,
+      "right": 1024,
+      "top": 0,
+      "bottom": 64,
+      "width": 1024,
+      "height": 64,
+      "scrollWidth": 1024,
+      "clientWidth": 1024
+    },
+    "headerControls": [
+      {
+        "text": "UITVolunteer — Trang chủ",
+        "left": 80,
+        "right": 208.25,
+        "top": 18,
+        "bottom": 46,
+        "width": 128.25,
+        "height": 28,
+        "scrollWidth": 128,
+        "clientWidth": 128
+      },
+      {
+        "text": "Đăng nhập",
+        "left": 827.484375,
+        "right": 944,
+        "top": 14,
+        "bottom": 50,
+        "width": 116.515625,
+        "height": 36,
+        "scrollWidth": 117,
+        "clientWidth": 117
+      }
+    ],
+    "fields": [],
+    "main": {
+      "left": 0,
+      "right": 1024,
+      "top": 64,
+      "bottom": 1571.328125,
+      "width": 1024,
+      "height": 1507.328125,
+      "scrollWidth": 1024,
+      "clientWidth": 1024
+    },
+    "footer": {
+      "left": 0,
+      "right": 1024,
+      "top": 1571.328125,
+      "bottom": 1929.46875,
+      "width": 1024,
+      "height": 358.140625,
+      "scrollWidth": 1024,
+      "clientWidth": 1024
+    },
+    "footerItems": [
+      {
+        "left": 24,
+        "right": 488,
+        "top": 1611.328125,
+        "bottom": 1659.328125,
+        "width": 464,
+        "height": 48,
+        "scrollWidth": 464,
+        "clientWidth": 464
+      },
+      {
+        "left": 544,
+        "right": 744,
+        "top": 1671.328125,
+        "bottom": 1691.328125,
+        "width": 200,
+        "height": 20,
+        "scrollWidth": 200,
+        "clientWidth": 200
+      },
+      {
+        "left": 544,
+        "right": 744,
+        "top": 1715.328125,
+        "bottom": 1735.328125,
+        "width": 200,
+        "height": 20,
+        "scrollWidth": 200,
+        "clientWidth": 200
+      },
+      {
+        "left": 544,
+        "right": 744,
+        "top": 1759.328125,
+        "bottom": 1779.328125,
+        "width": 200,
+        "height": 20,
+        "scrollWidth": 200,
+        "clientWidth": 200
+      },
+      {
+        "left": 796,
+        "right": 1000,
+        "top": 1671.328125,
+        "bottom": 1711.328125,
+        "width": 204,
+        "height": 40,
+        "scrollWidth": 204,
+        "clientWidth": 204
+      },
+      {
+        "left": 792,
+        "right": 1000,
+        "top": 1735.328125,
+        "bottom": 1775.328125,
+        "width": 208,
+        "height": 40,
+        "scrollWidth": 208,
+        "clientWidth": 208
+      },
+      {
+        "left": 768,
+        "right": 1000,
+        "top": 1799.328125,
+        "bottom": 1819.328125,
+        "width": 232,
+        "height": 20,
+        "scrollWidth": 232,
+        "clientWidth": 232
+      },
+      {
+        "left": 792,
+        "right": 966.328125,
+        "top": 1799.328125,
+        "bottom": 1819.328125,
+        "width": 174.328125,
+        "height": 20,
+        "scrollWidth": 174,
+        "clientWidth": 174
+      },
+      {
+        "left": 24,
+        "right": 261.78125,
+        "top": 1870.890625,
+        "bottom": 1886.890625,
+        "width": 237.78125,
+        "height": 16,
+        "scrollWidth": 238,
+        "clientWidth": 238
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "surface": "home",
+    "width": 1440,
+    "viewport": 1440,
+    "documentWidth": 1440,
+    "header": {
+      "left": 0,
+      "right": 1440,
+      "top": 0,
+      "bottom": 64,
+      "width": 1440,
+      "height": 64,
+      "scrollWidth": 1440,
+      "clientWidth": 1440
+    },
+    "headerControls": [
+      {
+        "text": "UITVolunteer — Trang chủ",
+        "left": 80,
+        "right": 208.25,
+        "top": 18,
+        "bottom": 46,
+        "width": 128.25,
+        "height": 28,
+        "scrollWidth": 128,
+        "clientWidth": 128
+      },
+      {
+        "text": "Đăng nhập",
+        "left": 1243.484375,
+        "right": 1360,
+        "top": 14,
+        "bottom": 50,
+        "width": 116.515625,
+        "height": 36,
+        "scrollWidth": 117,
+        "clientWidth": 117
+      }
+    ],
+    "fields": [],
+    "main": {
+      "left": 0,
+      "right": 1440,
+      "top": 64,
+      "bottom": 1571.328125,
+      "width": 1440,
+      "height": 1507.328125,
+      "scrollWidth": 1440,
+      "clientWidth": 1440
+    },
+    "footer": {
+      "left": 0,
+      "right": 1440,
+      "top": 1571.328125,
+      "bottom": 1909.46875,
+      "width": 1440,
+      "height": 338.140625,
+      "scrollWidth": 1440,
+      "clientWidth": 1440
+    },
+    "footerItems": [
+      {
+        "left": 168,
+        "right": 696,
+        "top": 1611.328125,
+        "bottom": 1659.328125,
+        "width": 528,
+        "height": 48,
+        "scrollWidth": 528,
+        "clientWidth": 528
+      },
+      {
+        "left": 752,
+        "right": 984,
+        "top": 1671.328125,
+        "bottom": 1691.328125,
+        "width": 232,
+        "height": 20,
+        "scrollWidth": 232,
+        "clientWidth": 232
+      },
+      {
+        "left": 752,
+        "right": 984,
+        "top": 1715.328125,
+        "bottom": 1735.328125,
+        "width": 232,
+        "height": 20,
+        "scrollWidth": 232,
+        "clientWidth": 232
+      },
+      {
+        "left": 752,
+        "right": 984,
+        "top": 1759.328125,
+        "bottom": 1779.328125,
+        "width": 232,
+        "height": 20,
+        "scrollWidth": 232,
+        "clientWidth": 232
+      },
+      {
+        "left": 1036,
+        "right": 1272,
+        "top": 1671.328125,
+        "bottom": 1711.328125,
+        "width": 236,
+        "height": 40,
+        "scrollWidth": 236,
+        "clientWidth": 236
+      },
+      {
+        "left": 1032,
+        "right": 1268.203125,
+        "top": 1735.328125,
+        "bottom": 1755.328125,
+        "width": 236.203125,
+        "height": 20,
+        "scrollWidth": 236,
+        "clientWidth": 236
+      },
+      {
+        "left": 1008,
+        "right": 1272,
+        "top": 1779.328125,
+        "bottom": 1799.328125,
+        "width": 264,
+        "height": 20,
+        "scrollWidth": 264,
+        "clientWidth": 264
+      },
+      {
+        "left": 1032,
+        "right": 1206.328125,
+        "top": 1779.328125,
+        "bottom": 1799.328125,
+        "width": 174.328125,
+        "height": 20,
+        "scrollWidth": 174,
+        "clientWidth": 174
+      },
+      {
+        "left": 168,
+        "right": 405.78125,
+        "top": 1850.890625,
+        "bottom": 1866.890625,
+        "width": 237.78125,
+        "height": 16,
+        "scrollWidth": 238,
+        "clientWidth": 238
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "surface": "campaign",
+    "width": 375,
+    "viewport": 375,
+    "documentWidth": 375,
+    "header": {
+      "left": 0,
+      "right": 375,
+      "top": 0,
+      "bottom": 106,
+      "width": 375,
+      "height": 106,
+      "scrollWidth": 375,
+      "clientWidth": 375
+    },
+    "headerControls": [
+      {
+        "text": "Trang chiến dịch Xuân Tình Nguyện",
+        "left": 16,
+        "right": 115.828125,
+        "top": 14,
+        "bottom": 46,
+        "width": 99.828125,
+        "height": 32,
+        "scrollWidth": 100,
+        "clientWidth": 100
+      },
+      {
+        "text": "Thông tin",
+        "left": 16,
+        "right": 86.484375,
+        "top": 52,
+        "bottom": 96,
+        "width": 70.484375,
+        "height": 44,
+        "scrollWidth": 70,
+        "clientWidth": 70
+      },
+      {
+        "text": "Đội hình",
+        "left": 153.6875,
+        "right": 212.71875,
+        "top": 52,
+        "bottom": 96,
+        "width": 59.03125,
+        "height": 44,
+        "scrollWidth": 59,
+        "clientWidth": 59
+      },
+      {
+        "text": "Hoạt động",
+        "left": 279.90625,
+        "right": 359,
+        "top": 52,
+        "bottom": 96,
+        "width": 79.09375,
+        "height": 44,
+        "scrollWidth": 79,
+        "clientWidth": 79
+      },
+      {
+        "text": "Đăng nhập",
+        "left": 246.484375,
+        "right": 359,
+        "top": 8,
+        "bottom": 52,
+        "width": 112.515625,
+        "height": 44,
+        "scrollWidth": 109,
+        "clientWidth": 109
+      }
+    ],
+    "fields": [],
+    "main": {
+      "left": 0,
+      "right": 375,
+      "top": 170,
+      "bottom": 2268.9375,
+      "width": 375,
+      "height": 2098.9375,
+      "scrollWidth": 897,
+      "clientWidth": 375
+    },
+    "footer": {
+      "left": 0,
+      "right": 375,
+      "top": 2358.171875,
+      "bottom": 3188.3125,
+      "width": 375,
+      "height": 830.140625,
+      "scrollWidth": 375,
+      "clientWidth": 375
+    },
+    "footerItems": [
+      {
+        "left": 24,
+        "right": 351,
+        "top": 2398.171875,
+        "bottom": 2446.171875,
+        "width": 327,
+        "height": 48,
+        "scrollWidth": 327,
+        "clientWidth": 327
+      },
+      {
+        "left": 24,
+        "right": 351,
+        "top": 2730.171875,
+        "bottom": 2750.171875,
+        "width": 327,
+        "height": 20,
+        "scrollWidth": 327,
+        "clientWidth": 327
+      },
+      {
+        "left": 24,
+        "right": 351,
+        "top": 2774.171875,
+        "bottom": 2794.171875,
+        "width": 327,
+        "height": 20,
+        "scrollWidth": 327,
+        "clientWidth": 327
+      },
+      {
+        "left": 24,
+        "right": 351,
+        "top": 2818.171875,
+        "bottom": 2838.171875,
+        "width": 327,
+        "height": 20,
+        "scrollWidth": 327,
+        "clientWidth": 327
+      },
+      {
+        "left": 52,
+        "right": 320.59375,
+        "top": 2938.171875,
+        "bottom": 2958.171875,
+        "width": 268.59375,
+        "height": 20,
+        "scrollWidth": 269,
+        "clientWidth": 269
+      },
+      {
+        "left": 48,
+        "right": 284.203125,
+        "top": 2982.171875,
+        "bottom": 3002.171875,
+        "width": 236.203125,
+        "height": 20,
+        "scrollWidth": 236,
+        "clientWidth": 236
+      },
+      {
+        "left": 24,
+        "right": 351,
+        "top": 3026.171875,
+        "bottom": 3046.171875,
+        "width": 327,
+        "height": 20,
+        "scrollWidth": 327,
+        "clientWidth": 327
+      },
+      {
+        "left": 48,
+        "right": 222.328125,
+        "top": 3026.171875,
+        "bottom": 3046.171875,
+        "width": 174.328125,
+        "height": 20,
+        "scrollWidth": 174,
+        "clientWidth": 174
+      },
+      {
+        "left": 24,
+        "right": 261.78125,
+        "top": 3095.171875,
+        "bottom": 3111.171875,
+        "width": 237.78125,
+        "height": 16,
+        "scrollWidth": 238,
+        "clientWidth": 238
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "surface": "campaign",
+    "width": 768,
+    "viewport": 768,
+    "documentWidth": 768,
+    "header": {
+      "left": 0,
+      "right": 768,
+      "top": 0,
+      "bottom": 66,
+      "width": 768,
+      "height": 66,
+      "scrollWidth": 768,
+      "clientWidth": 768
+    },
+    "headerControls": [
+      {
+        "text": "Trang chiến dịch Xuân Tình Nguyện",
+        "left": 24,
+        "right": 123.828125,
+        "top": 16,
+        "bottom": 48,
+        "width": 99.828125,
+        "height": 32,
+        "scrollWidth": 100,
+        "clientWidth": 100
+      },
+      {
+        "text": "Thông tin",
+        "left": 228.3125,
+        "right": 307.609375,
+        "top": 18,
+        "bottom": 46,
+        "width": 79.296875,
+        "height": 28,
+        "scrollWidth": 79,
+        "clientWidth": 79
+      },
+      {
+        "text": "Đội hình",
+        "left": 339.609375,
+        "right": 406.03125,
+        "top": 18,
+        "bottom": 46,
+        "width": 66.421875,
+        "height": 28,
+        "scrollWidth": 66,
+        "clientWidth": 66
+      },
+      {
+        "text": "Hoạt động",
+        "left": 438.03125,
+        "right": 527.015625,
+        "top": 18,
+        "bottom": 46,
+        "width": 88.984375,
+        "height": 28,
+        "scrollWidth": 89,
+        "clientWidth": 89
+      },
+      {
+        "text": "Đăng nhập",
+        "left": 631.484375,
+        "right": 744,
+        "top": 16,
+        "bottom": 48,
+        "width": 112.515625,
+        "height": 32,
+        "scrollWidth": 109,
+        "clientWidth": 109
+      }
+    ],
+    "fields": [],
+    "main": {
+      "left": 0,
+      "right": 768,
+      "top": 130,
+      "bottom": 1915,
+      "width": 768,
+      "height": 1785,
+      "scrollWidth": 897,
+      "clientWidth": 768
+    },
+    "footer": {
+      "left": 0,
+      "right": 768,
+      "top": 2098.796875,
+      "bottom": 2824.9375,
+      "width": 768,
+      "height": 726.140625,
+      "scrollWidth": 768,
+      "clientWidth": 768
+    },
+    "footerItems": [
+      {
+        "left": 24,
+        "right": 744,
+        "top": 2138.796875,
+        "bottom": 2186.796875,
+        "width": 720,
+        "height": 48,
+        "scrollWidth": 720,
+        "clientWidth": 720
+      },
+      {
+        "left": 24,
+        "right": 744,
+        "top": 2398.796875,
+        "bottom": 2418.796875,
+        "width": 720,
+        "height": 20,
+        "scrollWidth": 720,
+        "clientWidth": 720
+      },
+      {
+        "left": 24,
+        "right": 744,
+        "top": 2442.796875,
+        "bottom": 2462.796875,
+        "width": 720,
+        "height": 20,
+        "scrollWidth": 720,
+        "clientWidth": 720
+      },
+      {
+        "left": 24,
+        "right": 744,
+        "top": 2486.796875,
+        "bottom": 2506.796875,
+        "width": 720,
+        "height": 20,
+        "scrollWidth": 720,
+        "clientWidth": 720
+      },
+      {
+        "left": 52,
+        "right": 320.59375,
+        "top": 2606.796875,
+        "bottom": 2626.796875,
+        "width": 268.59375,
+        "height": 20,
+        "scrollWidth": 269,
+        "clientWidth": 269
+      },
+      {
+        "left": 48,
+        "right": 284.203125,
+        "top": 2650.796875,
+        "bottom": 2670.796875,
+        "width": 236.203125,
+        "height": 20,
+        "scrollWidth": 236,
+        "clientWidth": 236
+      },
+      {
+        "left": 24,
+        "right": 744,
+        "top": 2694.796875,
+        "bottom": 2714.796875,
+        "width": 720,
+        "height": 20,
+        "scrollWidth": 720,
+        "clientWidth": 720
+      },
+      {
+        "left": 48,
+        "right": 222.328125,
+        "top": 2694.796875,
+        "bottom": 2714.796875,
+        "width": 174.328125,
+        "height": 20,
+        "scrollWidth": 174,
+        "clientWidth": 174
+      },
+      {
+        "left": 24,
+        "right": 261.78125,
+        "top": 2766.359375,
+        "bottom": 2782.359375,
+        "width": 237.78125,
+        "height": 16,
+        "scrollWidth": 238,
+        "clientWidth": 238
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "surface": "campaign",
+    "width": 1024,
+    "viewport": 1024,
+    "documentWidth": 1024,
+    "header": {
+      "left": 0,
+      "right": 1024,
+      "top": 0,
+      "bottom": 66,
+      "width": 1024,
+      "height": 66,
+      "scrollWidth": 1024,
+      "clientWidth": 1024
+    },
+    "headerControls": [
+      {
+        "text": "Trang chiến dịch Xuân Tình Nguyện",
+        "left": 24,
+        "right": 123.828125,
+        "top": 16,
+        "bottom": 48,
+        "width": 99.828125,
+        "height": 32,
+        "scrollWidth": 100,
+        "clientWidth": 100
+      },
+      {
+        "text": "Thông tin",
+        "left": 324.3125,
+        "right": 403.609375,
+        "top": 18,
+        "bottom": 46,
+        "width": 79.296875,
+        "height": 28,
+        "scrollWidth": 79,
+        "clientWidth": 79
+      },
+      {
+        "text": "Đội hình",
+        "left": 467.609375,
+        "right": 534.03125,
+        "top": 18,
+        "bottom": 46,
+        "width": 66.421875,
+        "height": 28,
+        "scrollWidth": 66,
+        "clientWidth": 66
+      },
+      {
+        "text": "Hoạt động",
+        "left": 598.03125,
+        "right": 687.015625,
+        "top": 18,
+        "bottom": 46,
+        "width": 88.984375,
+        "height": 28,
+        "scrollWidth": 89,
+        "clientWidth": 89
+      },
+      {
+        "text": "Đăng nhập",
+        "left": 887.484375,
+        "right": 1000,
+        "top": 16,
+        "bottom": 48,
+        "width": 112.515625,
+        "height": 32,
+        "scrollWidth": 109,
+        "clientWidth": 109
+      }
+    ],
+    "fields": [],
+    "main": {
+      "left": 0,
+      "right": 1024,
+      "top": 130,
+      "bottom": 1759,
+      "width": 1024,
+      "height": 1629,
+      "scrollWidth": 1024,
+      "clientWidth": 1024
+    },
+    "footer": {
+      "left": 0,
+      "right": 1024,
+      "top": 2004.390625,
+      "bottom": 2362.53125,
+      "width": 1024,
+      "height": 358.140625,
+      "scrollWidth": 1024,
+      "clientWidth": 1024
+    },
+    "footerItems": [
+      {
+        "left": 24,
+        "right": 488,
+        "top": 2044.390625,
+        "bottom": 2092.390625,
+        "width": 464,
+        "height": 48,
+        "scrollWidth": 464,
+        "clientWidth": 464
+      },
+      {
+        "left": 544,
+        "right": 744,
+        "top": 2104.390625,
+        "bottom": 2124.390625,
+        "width": 200,
+        "height": 20,
+        "scrollWidth": 200,
+        "clientWidth": 200
+      },
+      {
+        "left": 544,
+        "right": 744,
+        "top": 2148.390625,
+        "bottom": 2168.390625,
+        "width": 200,
+        "height": 20,
+        "scrollWidth": 200,
+        "clientWidth": 200
+      },
+      {
+        "left": 544,
+        "right": 744,
+        "top": 2192.390625,
+        "bottom": 2212.390625,
+        "width": 200,
+        "height": 20,
+        "scrollWidth": 200,
+        "clientWidth": 200
+      },
+      {
+        "left": 796,
+        "right": 1000,
+        "top": 2104.390625,
+        "bottom": 2144.390625,
+        "width": 204,
+        "height": 40,
+        "scrollWidth": 204,
+        "clientWidth": 204
+      },
+      {
+        "left": 792,
+        "right": 1000,
+        "top": 2168.390625,
+        "bottom": 2208.390625,
+        "width": 208,
+        "height": 40,
+        "scrollWidth": 208,
+        "clientWidth": 208
+      },
+      {
+        "left": 768,
+        "right": 1000,
+        "top": 2232.390625,
+        "bottom": 2252.390625,
+        "width": 232,
+        "height": 20,
+        "scrollWidth": 232,
+        "clientWidth": 232
+      },
+      {
+        "left": 792,
+        "right": 966.328125,
+        "top": 2232.390625,
+        "bottom": 2252.390625,
+        "width": 174.328125,
+        "height": 20,
+        "scrollWidth": 174,
+        "clientWidth": 174
+      },
+      {
+        "left": 24,
+        "right": 261.78125,
+        "top": 2303.953125,
+        "bottom": 2319.953125,
+        "width": 237.78125,
+        "height": 16,
+        "scrollWidth": 238,
+        "clientWidth": 238
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "surface": "campaign",
+    "width": 1440,
+    "viewport": 1440,
+    "documentWidth": 1440,
+    "header": {
+      "left": 0,
+      "right": 1440,
+      "top": 0,
+      "bottom": 66,
+      "width": 1440,
+      "height": 66,
+      "scrollWidth": 1440,
+      "clientWidth": 1440
+    },
+    "headerControls": [
+      {
+        "text": "Trang chiến dịch Xuân Tình Nguyện",
+        "left": 168,
+        "right": 267.828125,
+        "top": 16,
+        "bottom": 48,
+        "width": 99.828125,
+        "height": 32,
+        "scrollWidth": 100,
+        "clientWidth": 100
+      },
+      {
+        "text": "Thông tin",
+        "left": 532.3125,
+        "right": 611.609375,
+        "top": 18,
+        "bottom": 46,
+        "width": 79.296875,
+        "height": 28,
+        "scrollWidth": 79,
+        "clientWidth": 79
+      },
+      {
+        "text": "Đội hình",
+        "left": 675.609375,
+        "right": 742.03125,
+        "top": 18,
+        "bottom": 46,
+        "width": 66.421875,
+        "height": 28,
+        "scrollWidth": 66,
+        "clientWidth": 66
+      },
+      {
+        "text": "Hoạt động",
+        "left": 806.03125,
+        "right": 895.015625,
+        "top": 18,
+        "bottom": 46,
+        "width": 88.984375,
+        "height": 28,
+        "scrollWidth": 89,
+        "clientWidth": 89
+      },
+      {
+        "text": "Đăng nhập",
+        "left": 1159.484375,
+        "right": 1272,
+        "top": 16,
+        "bottom": 48,
+        "width": 112.515625,
+        "height": 32,
+        "scrollWidth": 109,
+        "clientWidth": 109
+      }
+    ],
+    "fields": [],
+    "main": {
+      "left": 0,
+      "right": 1440,
+      "top": 130,
+      "bottom": 1759.90625,
+      "width": 1440,
+      "height": 1629.90625,
+      "scrollWidth": 1440,
+      "clientWidth": 1440
+    },
+    "footer": {
+      "left": 0,
+      "right": 1440,
+      "top": 2105.40625,
+      "bottom": 2443.546875,
+      "width": 1440,
+      "height": 338.140625,
+      "scrollWidth": 1440,
+      "clientWidth": 1440
+    },
+    "footerItems": [
+      {
+        "left": 168,
+        "right": 696,
+        "top": 2145.40625,
+        "bottom": 2193.40625,
+        "width": 528,
+        "height": 48,
+        "scrollWidth": 528,
+        "clientWidth": 528
+      },
+      {
+        "left": 752,
+        "right": 984,
+        "top": 2205.40625,
+        "bottom": 2225.40625,
+        "width": 232,
+        "height": 20,
+        "scrollWidth": 232,
+        "clientWidth": 232
+      },
+      {
+        "left": 752,
+        "right": 984,
+        "top": 2249.40625,
+        "bottom": 2269.40625,
+        "width": 232,
+        "height": 20,
+        "scrollWidth": 232,
+        "clientWidth": 232
+      },
+      {
+        "left": 752,
+        "right": 984,
+        "top": 2293.40625,
+        "bottom": 2313.40625,
+        "width": 232,
+        "height": 20,
+        "scrollWidth": 232,
+        "clientWidth": 232
+      },
+      {
+        "left": 1036,
+        "right": 1272,
+        "top": 2205.40625,
+        "bottom": 2245.40625,
+        "width": 236,
+        "height": 40,
+        "scrollWidth": 236,
+        "clientWidth": 236
+      },
+      {
+        "left": 1032,
+        "right": 1268.203125,
+        "top": 2269.40625,
+        "bottom": 2289.40625,
+        "width": 236.203125,
+        "height": 20,
+        "scrollWidth": 236,
+        "clientWidth": 236
+      },
+      {
+        "left": 1008,
+        "right": 1272,
+        "top": 2313.40625,
+        "bottom": 2333.40625,
+        "width": 264,
+        "height": 20,
+        "scrollWidth": 264,
+        "clientWidth": 264
+      },
+      {
+        "left": 1032,
+        "right": 1206.328125,
+        "top": 2313.40625,
+        "bottom": 2333.40625,
+        "width": 174.328125,
+        "height": 20,
+        "scrollWidth": 174,
+        "clientWidth": 174
+      },
+      {
+        "left": 168,
+        "right": 405.78125,
+        "top": 2384.96875,
+        "bottom": 2400.96875,
+        "width": 237.78125,
+        "height": 16,
+        "scrollWidth": 238,
+        "clientWidth": 238
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "surface": "team",
+    "width": 375,
+    "viewport": 375,
+    "documentWidth": 375,
+    "header": {
+      "left": 0,
+      "right": 375,
+      "top": 0,
+      "bottom": 106,
+      "width": 375,
+      "height": 106,
+      "scrollWidth": 375,
+      "clientWidth": 375
+    },
+    "headerControls": [
+      {
+        "text": "Trang chiến dịch Xuân Tình Nguyện",
+        "left": 16,
+        "right": 115.828125,
+        "top": 14,
+        "bottom": 46,
+        "width": 99.828125,
+        "height": 32,
+        "scrollWidth": 100,
+        "clientWidth": 100
+      },
+      {
+        "text": "Thông tin",
+        "left": 16,
+        "right": 86.484375,
+        "top": 52,
+        "bottom": 96,
+        "width": 70.484375,
+        "height": 44,
+        "scrollWidth": 70,
+        "clientWidth": 70
+      },
+      {
+        "text": "Đội hình",
+        "left": 153.6875,
+        "right": 212.71875,
+        "top": 52,
+        "bottom": 96,
+        "width": 59.03125,
+        "height": 44,
+        "scrollWidth": 59,
+        "clientWidth": 59
+      },
+      {
+        "text": "Hoạt động",
+        "left": 279.90625,
+        "right": 359,
+        "top": 52,
+        "bottom": 96,
+        "width": 79.09375,
+        "height": 44,
+        "scrollWidth": 79,
+        "clientWidth": 79
+      },
+      {
+        "text": "Đăng nhập",
+        "left": 246.484375,
+        "right": 359,
+        "top": 8,
+        "bottom": 52,
+        "width": 112.515625,
+        "height": 44,
+        "scrollWidth": 109,
+        "clientWidth": 109
+      }
+    ],
+    "fields": [],
+    "main": null,
+    "footer": {
+      "left": 0,
+      "right": 375,
+      "top": 1024.734375,
+      "bottom": 1854.875,
+      "width": 375,
+      "height": 830.140625,
+      "scrollWidth": 375,
+      "clientWidth": 375
+    },
+    "footerItems": [
+      {
+        "left": 24,
+        "right": 351,
+        "top": 1064.734375,
+        "bottom": 1112.734375,
+        "width": 327,
+        "height": 48,
+        "scrollWidth": 327,
+        "clientWidth": 327
+      },
+      {
+        "left": 24,
+        "right": 351,
+        "top": 1396.734375,
+        "bottom": 1416.734375,
+        "width": 327,
+        "height": 20,
+        "scrollWidth": 327,
+        "clientWidth": 327
+      },
+      {
+        "left": 24,
+        "right": 351,
+        "top": 1440.734375,
+        "bottom": 1460.734375,
+        "width": 327,
+        "height": 20,
+        "scrollWidth": 327,
+        "clientWidth": 327
+      },
+      {
+        "left": 24,
+        "right": 351,
+        "top": 1484.734375,
+        "bottom": 1504.734375,
+        "width": 327,
+        "height": 20,
+        "scrollWidth": 327,
+        "clientWidth": 327
+      },
+      {
+        "left": 52,
+        "right": 320.59375,
+        "top": 1604.734375,
+        "bottom": 1624.734375,
+        "width": 268.59375,
+        "height": 20,
+        "scrollWidth": 269,
+        "clientWidth": 269
+      },
+      {
+        "left": 48,
+        "right": 284.203125,
+        "top": 1648.734375,
+        "bottom": 1668.734375,
+        "width": 236.203125,
+        "height": 20,
+        "scrollWidth": 236,
+        "clientWidth": 236
+      },
+      {
+        "left": 24,
+        "right": 351,
+        "top": 1692.734375,
+        "bottom": 1712.734375,
+        "width": 327,
+        "height": 20,
+        "scrollWidth": 327,
+        "clientWidth": 327
+      },
+      {
+        "left": 48,
+        "right": 222.328125,
+        "top": 1692.734375,
+        "bottom": 1712.734375,
+        "width": 174.328125,
+        "height": 20,
+        "scrollWidth": 174,
+        "clientWidth": 174
+      },
+      {
+        "left": 24,
+        "right": 261.78125,
+        "top": 1761.734375,
+        "bottom": 1777.734375,
+        "width": 237.78125,
+        "height": 16,
+        "scrollWidth": 238,
+        "clientWidth": 238
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "surface": "team",
+    "width": 768,
+    "viewport": 768,
+    "documentWidth": 768,
+    "header": {
+      "left": 0,
+      "right": 768,
+      "top": 0,
+      "bottom": 66,
+      "width": 768,
+      "height": 66,
+      "scrollWidth": 768,
+      "clientWidth": 768
+    },
+    "headerControls": [
+      {
+        "text": "Trang chiến dịch Xuân Tình Nguyện",
+        "left": 24,
+        "right": 123.828125,
+        "top": 16,
+        "bottom": 48,
+        "width": 99.828125,
+        "height": 32,
+        "scrollWidth": 100,
+        "clientWidth": 100
+      },
+      {
+        "text": "Thông tin",
+        "left": 228.3125,
+        "right": 307.609375,
+        "top": 18,
+        "bottom": 46,
+        "width": 79.296875,
+        "height": 28,
+        "scrollWidth": 79,
+        "clientWidth": 79
+      },
+      {
+        "text": "Đội hình",
+        "left": 339.609375,
+        "right": 406.03125,
+        "top": 18,
+        "bottom": 46,
+        "width": 66.421875,
+        "height": 28,
+        "scrollWidth": 66,
+        "clientWidth": 66
+      },
+      {
+        "text": "Hoạt động",
+        "left": 438.03125,
+        "right": 527.015625,
+        "top": 18,
+        "bottom": 46,
+        "width": 88.984375,
+        "height": 28,
+        "scrollWidth": 89,
+        "clientWidth": 89
+      },
+      {
+        "text": "Đăng nhập",
+        "left": 631.484375,
+        "right": 744,
+        "top": 16,
+        "bottom": 48,
+        "width": 112.515625,
+        "height": 32,
+        "scrollWidth": 109,
+        "clientWidth": 109
+      }
+    ],
+    "fields": [],
+    "main": null,
+    "footer": {
+      "left": 0,
+      "right": 768,
+      "top": 1056.546875,
+      "bottom": 1782.6875,
+      "width": 768,
+      "height": 726.140625,
+      "scrollWidth": 768,
+      "clientWidth": 768
+    },
+    "footerItems": [
+      {
+        "left": 24,
+        "right": 744,
+        "top": 1096.546875,
+        "bottom": 1144.546875,
+        "width": 720,
+        "height": 48,
+        "scrollWidth": 720,
+        "clientWidth": 720
+      },
+      {
+        "left": 24,
+        "right": 744,
+        "top": 1356.546875,
+        "bottom": 1376.546875,
+        "width": 720,
+        "height": 20,
+        "scrollWidth": 720,
+        "clientWidth": 720
+      },
+      {
+        "left": 24,
+        "right": 744,
+        "top": 1400.546875,
+        "bottom": 1420.546875,
+        "width": 720,
+        "height": 20,
+        "scrollWidth": 720,
+        "clientWidth": 720
+      },
+      {
+        "left": 24,
+        "right": 744,
+        "top": 1444.546875,
+        "bottom": 1464.546875,
+        "width": 720,
+        "height": 20,
+        "scrollWidth": 720,
+        "clientWidth": 720
+      },
+      {
+        "left": 52,
+        "right": 320.59375,
+        "top": 1564.546875,
+        "bottom": 1584.546875,
+        "width": 268.59375,
+        "height": 20,
+        "scrollWidth": 269,
+        "clientWidth": 269
+      },
+      {
+        "left": 48,
+        "right": 284.203125,
+        "top": 1608.546875,
+        "bottom": 1628.546875,
+        "width": 236.203125,
+        "height": 20,
+        "scrollWidth": 236,
+        "clientWidth": 236
+      },
+      {
+        "left": 24,
+        "right": 744,
+        "top": 1652.546875,
+        "bottom": 1672.546875,
+        "width": 720,
+        "height": 20,
+        "scrollWidth": 720,
+        "clientWidth": 720
+      },
+      {
+        "left": 48,
+        "right": 222.328125,
+        "top": 1652.546875,
+        "bottom": 1672.546875,
+        "width": 174.328125,
+        "height": 20,
+        "scrollWidth": 174,
+        "clientWidth": 174
+      },
+      {
+        "left": 24,
+        "right": 261.78125,
+        "top": 1724.109375,
+        "bottom": 1740.109375,
+        "width": 237.78125,
+        "height": 16,
+        "scrollWidth": 238,
+        "clientWidth": 238
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "surface": "team",
+    "width": 1024,
+    "viewport": 1024,
+    "documentWidth": 1024,
+    "header": {
+      "left": 0,
+      "right": 1024,
+      "top": 0,
+      "bottom": 66,
+      "width": 1024,
+      "height": 66,
+      "scrollWidth": 1024,
+      "clientWidth": 1024
+    },
+    "headerControls": [
+      {
+        "text": "Trang chiến dịch Xuân Tình Nguyện",
+        "left": 24,
+        "right": 123.828125,
+        "top": 16,
+        "bottom": 48,
+        "width": 99.828125,
+        "height": 32,
+        "scrollWidth": 100,
+        "clientWidth": 100
+      },
+      {
+        "text": "Thông tin",
+        "left": 324.3125,
+        "right": 403.609375,
+        "top": 18,
+        "bottom": 46,
+        "width": 79.296875,
+        "height": 28,
+        "scrollWidth": 79,
+        "clientWidth": 79
+      },
+      {
+        "text": "Đội hình",
+        "left": 467.609375,
+        "right": 534.03125,
+        "top": 18,
+        "bottom": 46,
+        "width": 66.421875,
+        "height": 28,
+        "scrollWidth": 66,
+        "clientWidth": 66
+      },
+      {
+        "text": "Hoạt động",
+        "left": 598.03125,
+        "right": 687.015625,
+        "top": 18,
+        "bottom": 46,
+        "width": 88.984375,
+        "height": 28,
+        "scrollWidth": 89,
+        "clientWidth": 89
+      },
+      {
+        "text": "Đăng nhập",
+        "left": 887.484375,
+        "right": 1000,
+        "top": 16,
+        "bottom": 48,
+        "width": 112.515625,
+        "height": 32,
+        "scrollWidth": 109,
+        "clientWidth": 109
+      }
+    ],
+    "fields": [],
+    "main": null,
+    "footer": {
+      "left": 0,
+      "right": 1024,
+      "top": 1118.140625,
+      "bottom": 1476.28125,
+      "width": 1024,
+      "height": 358.140625,
+      "scrollWidth": 1024,
+      "clientWidth": 1024
+    },
+    "footerItems": [
+      {
+        "left": 24,
+        "right": 488,
+        "top": 1158.140625,
+        "bottom": 1206.140625,
+        "width": 464,
+        "height": 48,
+        "scrollWidth": 464,
+        "clientWidth": 464
+      },
+      {
+        "left": 544,
+        "right": 744,
+        "top": 1218.140625,
+        "bottom": 1238.140625,
+        "width": 200,
+        "height": 20,
+        "scrollWidth": 200,
+        "clientWidth": 200
+      },
+      {
+        "left": 544,
+        "right": 744,
+        "top": 1262.140625,
+        "bottom": 1282.140625,
+        "width": 200,
+        "height": 20,
+        "scrollWidth": 200,
+        "clientWidth": 200
+      },
+      {
+        "left": 544,
+        "right": 744,
+        "top": 1306.140625,
+        "bottom": 1326.140625,
+        "width": 200,
+        "height": 20,
+        "scrollWidth": 200,
+        "clientWidth": 200
+      },
+      {
+        "left": 796,
+        "right": 1000,
+        "top": 1218.140625,
+        "bottom": 1258.140625,
+        "width": 204,
+        "height": 40,
+        "scrollWidth": 204,
+        "clientWidth": 204
+      },
+      {
+        "left": 792,
+        "right": 1000,
+        "top": 1282.140625,
+        "bottom": 1322.140625,
+        "width": 208,
+        "height": 40,
+        "scrollWidth": 208,
+        "clientWidth": 208
+      },
+      {
+        "left": 768,
+        "right": 1000,
+        "top": 1346.140625,
+        "bottom": 1366.140625,
+        "width": 232,
+        "height": 20,
+        "scrollWidth": 232,
+        "clientWidth": 232
+      },
+      {
+        "left": 792,
+        "right": 966.328125,
+        "top": 1346.140625,
+        "bottom": 1366.140625,
+        "width": 174.328125,
+        "height": 20,
+        "scrollWidth": 174,
+        "clientWidth": 174
+      },
+      {
+        "left": 24,
+        "right": 261.78125,
+        "top": 1417.703125,
+        "bottom": 1433.703125,
+        "width": 237.78125,
+        "height": 16,
+        "scrollWidth": 238,
+        "clientWidth": 238
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "surface": "team",
+    "width": 1440,
+    "viewport": 1440,
+    "documentWidth": 1440,
+    "header": {
+      "left": 0,
+      "right": 1440,
+      "top": 0,
+      "bottom": 66,
+      "width": 1440,
+      "height": 66,
+      "scrollWidth": 1440,
+      "clientWidth": 1440
+    },
+    "headerControls": [
+      {
+        "text": "Trang chiến dịch Xuân Tình Nguyện",
+        "left": 168,
+        "right": 267.828125,
+        "top": 16,
+        "bottom": 48,
+        "width": 99.828125,
+        "height": 32,
+        "scrollWidth": 100,
+        "clientWidth": 100
+      },
+      {
+        "text": "Thông tin",
+        "left": 532.3125,
+        "right": 611.609375,
+        "top": 18,
+        "bottom": 46,
+        "width": 79.296875,
+        "height": 28,
+        "scrollWidth": 79,
+        "clientWidth": 79
+      },
+      {
+        "text": "Đội hình",
+        "left": 675.609375,
+        "right": 742.03125,
+        "top": 18,
+        "bottom": 46,
+        "width": 66.421875,
+        "height": 28,
+        "scrollWidth": 66,
+        "clientWidth": 66
+      },
+      {
+        "text": "Hoạt động",
+        "left": 806.03125,
+        "right": 895.015625,
+        "top": 18,
+        "bottom": 46,
+        "width": 88.984375,
+        "height": 28,
+        "scrollWidth": 89,
+        "clientWidth": 89
+      },
+      {
+        "text": "Đăng nhập",
+        "left": 1159.484375,
+        "right": 1272,
+        "top": 16,
+        "bottom": 48,
+        "width": 112.515625,
+        "height": 32,
+        "scrollWidth": 109,
+        "clientWidth": 109
+      }
+    ],
+    "fields": [],
+    "main": null,
+    "footer": {
+      "left": 0,
+      "right": 1440,
+      "top": 1218.25,
+      "bottom": 1556.390625,
+      "width": 1440,
+      "height": 338.140625,
+      "scrollWidth": 1440,
+      "clientWidth": 1440
+    },
+    "footerItems": [
+      {
+        "left": 168,
+        "right": 696,
+        "top": 1258.25,
+        "bottom": 1306.25,
+        "width": 528,
+        "height": 48,
+        "scrollWidth": 528,
+        "clientWidth": 528
+      },
+      {
+        "left": 752,
+        "right": 984,
+        "top": 1318.25,
+        "bottom": 1338.25,
+        "width": 232,
+        "height": 20,
+        "scrollWidth": 232,
+        "clientWidth": 232
+      },
+      {
+        "left": 752,
+        "right": 984,
+        "top": 1362.25,
+        "bottom": 1382.25,
+        "width": 232,
+        "height": 20,
+        "scrollWidth": 232,
+        "clientWidth": 232
+      },
+      {
+        "left": 752,
+        "right": 984,
+        "top": 1406.25,
+        "bottom": 1426.25,
+        "width": 232,
+        "height": 20,
+        "scrollWidth": 232,
+        "clientWidth": 232
+      },
+      {
+        "left": 1036,
+        "right": 1272,
+        "top": 1318.25,
+        "bottom": 1358.25,
+        "width": 236,
+        "height": 40,
+        "scrollWidth": 236,
+        "clientWidth": 236
+      },
+      {
+        "left": 1032,
+        "right": 1268.203125,
+        "top": 1382.25,
+        "bottom": 1402.25,
+        "width": 236.203125,
+        "height": 20,
+        "scrollWidth": 236,
+        "clientWidth": 236
+      },
+      {
+        "left": 1008,
+        "right": 1272,
+        "top": 1426.25,
+        "bottom": 1446.25,
+        "width": 264,
+        "height": 20,
+        "scrollWidth": 264,
+        "clientWidth": 264
+      },
+      {
+        "left": 1032,
+        "right": 1206.328125,
+        "top": 1426.25,
+        "bottom": 1446.25,
+        "width": 174.328125,
+        "height": 20,
+        "scrollWidth": 174,
+        "clientWidth": 174
+      },
+      {
+        "left": 168,
+        "right": 405.78125,
+        "top": 1497.8125,
+        "bottom": 1513.8125,
+        "width": 237.78125,
+        "height": 16,
+        "scrollWidth": 238,
+        "clientWidth": 238
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "surface": "admin-campaigns",
+    "width": 375,
+    "viewport": 375,
+    "documentWidth": 375,
+    "header": null,
+    "headerControls": [],
+    "fields": [],
+    "main": {
+      "left": 16,
+      "right": 359,
+      "top": 364,
+      "bottom": 942,
+      "width": 343,
+      "height": 578,
+      "scrollWidth": 343,
+      "clientWidth": 343
+    },
+    "footer": null,
+    "footerItems": []
+  },
+  {
+    "phase": "after",
+    "surface": "admin-campaigns",
+    "width": 768,
+    "viewport": 768,
+    "documentWidth": 768,
+    "header": null,
+    "headerControls": [],
+    "fields": [],
+    "main": {
+      "left": 16,
+      "right": 752,
+      "top": 260,
+      "bottom": 764,
+      "width": 736,
+      "height": 504,
+      "scrollWidth": 736,
+      "clientWidth": 736
+    },
+    "footer": null,
+    "footerItems": []
+  },
+  {
+    "phase": "after",
+    "surface": "admin-campaigns",
+    "width": 1024,
+    "viewport": 1024,
+    "documentWidth": 1024,
+    "header": null,
+    "headerControls": [],
+    "fields": [],
+    "main": {
+      "left": 308,
+      "right": 1000,
+      "top": 24,
+      "bottom": 876,
+      "width": 692,
+      "height": 852,
+      "scrollWidth": 692,
+      "clientWidth": 692
+    },
+    "footer": null,
+    "footerItems": []
+  },
+  {
+    "phase": "after",
+    "surface": "admin-campaigns",
+    "width": 1440,
+    "viewport": 1440,
+    "documentWidth": 1440,
+    "header": null,
+    "headerControls": [],
+    "fields": [],
+    "main": {
+      "left": 308,
+      "right": 1416,
+      "top": 24,
+      "bottom": 876,
+      "width": 1108,
+      "height": 852,
+      "scrollWidth": 1108,
+      "clientWidth": 1108
+    },
+    "footer": null,
+    "footerItems": []
+  },
+  {
+    "phase": "after",
+    "surface": "admin-teams",
+    "width": 375,
+    "viewport": 375,
+    "documentWidth": 375,
+    "header": null,
+    "headerControls": [],
+    "fields": [],
+    "main": {
+      "left": 16,
+      "right": 359,
+      "top": 364,
+      "bottom": 864,
+      "width": 343,
+      "height": 500,
+      "scrollWidth": 343,
+      "clientWidth": 343
+    },
+    "footer": null,
+    "footerItems": []
+  },
+  {
+    "phase": "after",
+    "surface": "admin-teams",
+    "width": 768,
+    "viewport": 768,
+    "documentWidth": 768,
+    "header": null,
+    "headerControls": [],
+    "fields": [],
+    "main": {
+      "left": 16,
+      "right": 752,
+      "top": 260,
+      "bottom": 678,
+      "width": 736,
+      "height": 418,
+      "scrollWidth": 736,
+      "clientWidth": 736
+    },
+    "footer": null,
+    "footerItems": []
+  },
+  {
+    "phase": "after",
+    "surface": "admin-teams",
+    "width": 1024,
+    "viewport": 1024,
+    "documentWidth": 1024,
+    "header": null,
+    "headerControls": [],
+    "fields": [],
+    "main": {
+      "left": 308,
+      "right": 1000,
+      "top": 24,
+      "bottom": 876,
+      "width": 692,
+      "height": 852,
+      "scrollWidth": 692,
+      "clientWidth": 692
+    },
+    "footer": null,
+    "footerItems": []
+  },
+  {
+    "phase": "after",
+    "surface": "admin-teams",
+    "width": 1440,
+    "viewport": 1440,
+    "documentWidth": 1440,
+    "header": null,
+    "headerControls": [],
+    "fields": [],
+    "main": {
+      "left": 308,
+      "right": 1416,
+      "top": 24,
+      "bottom": 876,
+      "width": 1108,
+      "height": 852,
+      "scrollWidth": 1108,
+      "clientWidth": 1108
+    },
+    "footer": null,
+    "footerItems": []
+  },
+  {
+    "phase": "after",
+    "surface": "admin-accounts",
+    "width": 375,
+    "viewport": 375,
+    "documentWidth": 375,
+    "header": null,
+    "headerControls": [],
+    "fields": [],
+    "main": {
+      "left": 16,
+      "right": 359,
+      "top": 364,
+      "bottom": 864,
+      "width": 343,
+      "height": 500,
+      "scrollWidth": 343,
+      "clientWidth": 343
+    },
+    "footer": null,
+    "footerItems": []
+  },
+  {
+    "phase": "after",
+    "surface": "admin-accounts",
+    "width": 768,
+    "viewport": 768,
+    "documentWidth": 768,
+    "header": null,
+    "headerControls": [],
+    "fields": [],
+    "main": {
+      "left": 16,
+      "right": 752,
+      "top": 260,
+      "bottom": 704,
+      "width": 736,
+      "height": 444,
+      "scrollWidth": 736,
+      "clientWidth": 736
+    },
+    "footer": null,
+    "footerItems": []
+  },
+  {
+    "phase": "after",
+    "surface": "admin-accounts",
+    "width": 1024,
+    "viewport": 1024,
+    "documentWidth": 1024,
+    "header": null,
+    "headerControls": [],
+    "fields": [],
+    "main": {
+      "left": 308,
+      "right": 1000,
+      "top": 24,
+      "bottom": 876,
+      "width": 692,
+      "height": 852,
+      "scrollWidth": 692,
+      "clientWidth": 692
+    },
+    "footer": null,
+    "footerItems": []
+  },
+  {
+    "phase": "after",
+    "surface": "admin-accounts",
+    "width": 1440,
+    "viewport": 1440,
+    "documentWidth": 1440,
+    "header": null,
+    "headerControls": [],
+    "fields": [],
+    "main": {
+      "left": 308,
+      "right": 1416,
+      "top": 24,
+      "bottom": 876,
+      "width": 1108,
+      "height": 852,
+      "scrollWidth": 1108,
+      "clientWidth": 1108
+    },
+    "footer": null,
+    "footerItems": []
+  }
+]

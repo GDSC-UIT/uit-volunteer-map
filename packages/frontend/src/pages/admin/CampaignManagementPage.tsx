@@ -17,9 +17,9 @@ export default function CampaignManagementPage() {
       </h1>
 
       {/* ===== TABS + ADD BUTTON ===== */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
         {/* Tabs */}
-        <div className="flex items-center gap-10">
+        <div className="flex flex-wrap items-center gap-4 lg:gap-10">
           {campaigns.map((name, index) => {
             const isActive = index === activeIndex;
 
@@ -40,7 +40,7 @@ export default function CampaignManagementPage() {
         </div>
 
         {/* Add button */}
-        <button className="flex items-center gap-2 border-2 border-cyan-400 px-4 py-2 rounded text-sm hover:bg-cyan-50 transition">
+        <button className="flex shrink-0 items-center gap-2 border-2 border-cyan-400 px-4 py-2 rounded text-sm hover:bg-cyan-50 transition">
           <span className="w-4 h-4 bg-black inline-block" />
           Thêm chiến dịch
         </button>

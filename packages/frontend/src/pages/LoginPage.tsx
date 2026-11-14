@@ -63,40 +63,40 @@ export default function LoginPage() {
     }
   };
 
-return (
-    <div className="min-h-screen bg-linear-to-b from-[#0480BA] to-[#023A54] flex items-center justify-center">
+  return (
+    <main className="min-h-screen bg-linear-to-b from-[#0480BA] to-[#023A54] flex items-center justify-center px-4 py-8">
       {/* Card */}
       <form
         onSubmit={handleSubmit}
-        className="relative w-full max-w-180 h-139.75 bg-white rounded-[40px] shadow-md"
+        className="w-full max-w-180 bg-white rounded-[40px] shadow-md px-6 pt-10 pb-10 sm:px-20 sm:pt-20"
       >
         {/* Header Logo */}
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 flex items-start gap-1">
-          <div className="w-6 h-6 bg-[#4D5358]" />
+        <div className="flex items-start justify-center gap-1">
+          <div className="w-4 h-4 sm:w-6 sm:h-6 shrink-0 bg-[#4D5358]" />
           <div className="flex flex-col items-end">
-            <div className="text-[48px] font-bold leading-[52.8px] text-[#697077]">
+            <div className="text-[30px] leading-[1.1] sm:text-[48px] font-bold text-[#697077]">
               UITVolunteer
             </div>
-            <div className="text-[24px] font-normal leading-[33.6px] text-[#697077]">
+            <div className="text-[18px] sm:text-[24px] font-normal leading-[1.4] text-[#697077]">
               xxxxxxxxxxx
             </div>
           </div>
         </div>
 
         {/* Title */}
-        <div className="absolute top-48.25 left-1/2 -translate-x-1/2 w-140 text-center text-[42px] font-bold leading-11.5 text-[#21272A]">
+        <h1 className="mt-6 text-center font-body text-[32px] sm:text-[42px] font-bold leading-[1.1] text-[#21272A]">
           Đăng nhập
-        </div>
+        </h1>
 
         {/* Error */}
         {error && (
-          <div className="absolute top-60 left-1/2 -translate-x-1/2 w-140 text-center text-red-600 text-sm">
+          <div role="alert" className="mt-4 text-center text-red-600 text-sm wrap-break-word">
             {error}
           </div>
         )}
 
         {/* Username */}
-        <div className="absolute top-67.25 left-1/2 -translate-x-1/2 w-140">
+        <div className="mt-8">
           <FloatingInput
             label="Tên đăng nhập"
             value={username}
@@ -106,7 +106,7 @@ return (
         </div>
 
         {/* Password */}
-        <div className="absolute top-87.25 left-1/2 -translate-x-1/2 w-140">
+        <div className="relative mt-7.5">
           <FloatingInput
             label="Mật khẩu"
             type={showPassword ? 'text' : 'password'}
@@ -119,11 +119,13 @@ return (
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute z-20 right-4 top-1/2 -translate-y-1/2 w-6 h-6"
+            aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+            aria-pressed={showPassword}
+            className="absolute z-20 right-1.5 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#023A54]"
           >
             <div className="relative w-6 h-6">
               {/* Eye icon */}
-              <img src={EyeIcon} alt="eye" className="w-6 h-6" />
+              <img src={EyeIcon} alt="" className="w-6 h-6" />
 
               {/* Slash when hidden */}
               {!showPassword && (
@@ -137,17 +139,17 @@ return (
         <button
           type="submit"
           disabled={isSubmitting}
-          className="absolute top-107.25 left-1/2 -translate-x-1/2 w-140 h-12.5
+          className="mt-7.5 w-full min-h-12.5
             rounded-lg bg-[#023A54]
             text-white font-bold text-[20px]
-            hover:opacity-90 disabled:opacity-50"
+            hover:opacity-90 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#023A54]"
         >
           {isSubmitting ? 'Đang đăng nhập...' : 'ĐĂNG NHẬP'}
         </button>
 
         {/* Divider */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-140 border-t border-[#DDE1E6]" />
+        <div className="mt-10 border-t border-[#DDE1E6]" />
       </form>
-    </div>
+    </main>
   );
 }

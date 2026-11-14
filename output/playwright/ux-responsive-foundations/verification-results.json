@@ -1,0 +1,128 @@
+[
+  {
+    "width": 375,
+    "check": "login labels, tab order, keyboard reveal, focus and bounds",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "check": "nonoverlapping header; all three local and Team-to-campaign anchors; keyboard activation; sticky offset",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "check": "public header login navigation; Home/footer no horizontal overflow",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "check": "admin campaigns shell/controls fit; main width 343px; account grid scroll is local",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "check": "admin teams shell/controls fit; main width 343px; account grid scroll is local",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "check": "admin accounts shell/controls fit; main width 343px; account grid scroll is local",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "check": "login labels, tab order, keyboard reveal, focus and bounds",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "check": "nonoverlapping header; all three local and Team-to-campaign anchors; keyboard activation; sticky offset",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "check": "public header login navigation; Home/footer no horizontal overflow",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "check": "admin campaigns shell/controls fit; main width 736px; account grid scroll is local",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "check": "admin teams shell/controls fit; main width 736px; account grid scroll is local",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "check": "admin accounts shell/controls fit; main width 736px; account grid scroll is local",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "check": "login labels, tab order, keyboard reveal, focus and bounds",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "check": "nonoverlapping header; all three local and Team-to-campaign anchors; keyboard activation; sticky offset",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "check": "public header login navigation; Home/footer no horizontal overflow",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "check": "admin campaigns shell/controls fit; main width 692px; account grid scroll is local",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "check": "admin teams shell/controls fit; main width 692px; account grid scroll is local",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "check": "admin accounts shell/controls fit; main width 692px; account grid scroll is local",
+    "passed": true
+  },
+  {
+    "width": 1440,
+    "check": "login labels, tab order, keyboard reveal, focus and bounds",
+    "passed": true
+  },
+  {
+    "width": 1440,
+    "check": "nonoverlapping header; all three local and Team-to-campaign anchors; keyboard activation; sticky offset",
+    "passed": true
+  },
+  {
+    "width": 1440,
+    "check": "public header login navigation; Home/footer no horizontal overflow",
+    "passed": true
+  },
+  {
+    "width": 1440,
+    "check": "admin campaigns shell/controls fit; main width 1108px; account grid scroll is local",
+    "passed": true
+  },
+  {
+    "width": 1440,
+    "check": "admin teams shell/controls fit; main width 1108px; account grid scroll is local",
+    "passed": true
+  },
+  {
+    "width": 1440,
+    "check": "admin accounts shell/controls fit; main width 1108px; account grid scroll is local",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 667,
+    "check": "short viewport login keyboard access and bounds",
+    "passed": true
+  }
+]
