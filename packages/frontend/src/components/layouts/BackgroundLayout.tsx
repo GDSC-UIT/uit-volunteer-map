@@ -37,14 +37,14 @@ export default function BackgroundLayout({ children }: Props) {
         />
         
         {/* Nội dung đè lên */}
-        <div className="relative z-10">{children}</div>
+        <main className="relative z-10">{children}</main>
       </div>
 
       {/* Hình bottom */}
       <div className="-mb-px z-20 leading-none">
         <img
           src={bgBottom}
-          alt="background bottom"
+          alt=""
           className="w-full block m-0 p-0 align-bottom"
         />
       </div>

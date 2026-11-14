@@ -84,7 +84,7 @@ export default function GuestHeader() {
           text-base md:text-lg whitespace-nowrap rounded focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black
           transition-all duration-200
           group
-          ${isActive ? "text-red-600" : "text-black hover:text-red-500"}
+          ${isActive ? "text-[#8B0000]" : "text-black hover:text-[#8B0000]"}
         `}
       >
         {label}
@@ -99,7 +99,7 @@ export default function GuestHeader() {
             ${
               isActive
                 ? "scale-x-100"
-                : "scale-x-0 group-hover:scale-x-100 hover:text-red-500"
+                : "scale-x-0 group-hover:scale-x-100 hover:text-[#8B0000]"
             }
           `}
         />

@@ -19,7 +19,7 @@ export function PostItem({ post }: PostItemProps) {
         <img src={post.photos?.[0]} alt={post.title} className="w-full h-full object-cover rounded-2xl" />
       </div>
       <div className="flex items-center gap-3">
-        <span className="text-red-600 text-xl">❤</span>
+        <span aria-hidden="true" className="text-red-600 text-xl">❤</span>
         <div className="flex-1 h-1 bg-black/50 rounded-full" />
       </div>
     </div>

@@ -9,7 +9,7 @@ export default function MyTeamPageHeader() {
 
         {/* LEFT: LOGO */}
         <div className="flex items-center gap-1">
-          <img src={logo} alt="Logo" className="h-12" />
+          <img src={logo} alt="Xuân Tình Nguyện" className="h-12" />
         </div>
 
         {/* RIGHT: DROPDOWN */}

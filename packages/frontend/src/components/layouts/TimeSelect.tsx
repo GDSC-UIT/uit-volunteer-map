@@ -26,7 +26,8 @@ const TimeSelect = () => {
 
         {/* Input Select bên phải */}
         <div className="relative flex items-center px-3 py-2">
-          <select
+          <label className="sr-only" htmlFor="campaign-year">Năm chiến dịch</label>
+          <select id="campaign-year"
             value={selectedYear}
             onChange={(e) => {
               setSelectedYear(e.target.value);

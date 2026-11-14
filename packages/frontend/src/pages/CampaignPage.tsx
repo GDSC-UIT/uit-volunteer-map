@@ -28,19 +28,20 @@ export default function CampaignPage() {
     <div className="z-25">
       <img
         src={bgTop}
-        alt="background top"
+        alt=""
         className="absolute top-0 left-0 w-full z-15 pointer-events-none"
       />
       <section id="logoTop" className="max-w-4xl mx-auto px-4">
         <div className="flex justify-center">
-          <img src={bndLogo} className="h-16 object-contain" alt="BND Logo" />
+          <img src={bndLogo} className="h-16 object-contain" alt="Xuân Tình Nguyện" />
         </div>
       </section>
       {hoverData && <EventCard visible={true} data={null} />}
       {selectedEvent && (
         <GuestPostOverPlay post={posts[0]} onClose={handleClose} />
       )}
-      <main className="flex-1">
+      <div className="flex-1">
+        <h1 className="sr-only">Chiến dịch Xuân Tình Nguyện</h1>
         <section id="mapSection" className="max-w-6xl mx-auto px-4">
           <div className="p-3 rounded-md flex">
             <div
@@ -82,7 +83,7 @@ export default function CampaignPage() {
             <img
               src="https://res.cloudinary.com/duallvqjh/image/upload/v1770284139/XTN_info_nce2w5.jpg"
               className="rounded-3xl shadow-xl w-full"
-              alt="Volunteer"
+              alt="Hoạt động chiến dịch Xuân Tình Nguyện"
             />
           </div>
         </section>
@@ -130,7 +131,7 @@ export default function CampaignPage() {
             ))}
           </div>
         </section>
-      </main>
+      </div>
     </div>
   );
 }

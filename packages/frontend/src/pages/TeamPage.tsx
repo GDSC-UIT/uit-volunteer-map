@@ -64,7 +64,7 @@ export default function TeamPage() {
                 {/* Frame */}
                 <img
                   src={avatarFrame}
-                  alt="avatar frame"
+                  alt=""
                   className="absolute inset-0 w-full h-full object-contain pointer-events-none"
                 />
               </div>

@@ -22,7 +22,8 @@ export default function AccountManagementPage() {
       <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
         {/* Search */}
         <div className="flex min-w-0 items-center gap-2 bg-gray-200 rounded px-3 py-2 w-full sm:w-[420px] max-w-full">
-          <input
+          <label htmlFor="account-search" className="sr-only">Tìm kiếm tài khoản</label>
+          <input id="account-search" type="search"
             placeholder="Tìm kiếm theo tên tài khoản, chiến dịch, đội hình"
             className="bg-transparent min-w-0 w-full flex-1 text-sm outline-none"
           />

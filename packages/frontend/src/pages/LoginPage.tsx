@@ -90,7 +90,7 @@ export default function LoginPage() {
 
         {/* Error */}
         {error && (
-          <div role="alert" className="mt-4 text-center text-red-600 text-sm wrap-break-word">
+          <div id="login-error" role="alert" className="mt-4 text-center text-red-600 text-sm wrap-break-word">
             {error}
           </div>
         )}
@@ -99,6 +99,7 @@ export default function LoginPage() {
         <div className="mt-8">
           <FloatingInput
             label="Tên đăng nhập"
+            name="username" autoComplete="username" required describedBy={error ? "login-error" : undefined}
             value={username}
             onChange={setUsername}
             disabled={isSubmitting}
@@ -109,6 +110,7 @@ export default function LoginPage() {
         <div className="relative mt-7.5">
           <FloatingInput
             label="Mật khẩu"
+            name="password" autoComplete="current-password" required describedBy={error ? "login-error" : undefined}
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={setPassword}

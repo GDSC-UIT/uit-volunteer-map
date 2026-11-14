@@ -50,6 +50,7 @@ export default function HomePage() {
       <PublicHeader />
 
       <main className="flex-1">
+        <h1 className="sr-only">UITVolunteer — Các chiến dịch tình nguyện</h1>
         <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
           <div className="relative w-full h-[85vh] max-h-[980px] group overflow-hidden">
             {/* Sliding images container */}
@@ -74,20 +75,20 @@ export default function HomePage() {
 
             {/* Prev button */}
             <button
-              onClick={prevSlide}
+              aria-label="Ảnh trước" onClick={prevSlide}
               className="absolute left-6 top-1/2 -translate-y-1/2
                       bg-black/40 text-white w-10 h-10 rounded-full
-                      opacity-0 group-hover:opacity-100 transition"
+                      opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition"
             >
               ‹
             </button>
 
             {/* Next button */}
             <button
-              onClick={nextSlide}
+              aria-label="Ảnh tiếp theo" onClick={nextSlide}
               className="absolute right-6 top-1/2 -translate-y-1/2
                       bg-black/40 text-white w-10 h-10 rounded-full
-                      opacity-0 group-hover:opacity-100 transition"
+                      opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition"
             >
               ›
             </button>
@@ -99,13 +100,13 @@ export default function HomePage() {
                 return (
                   <button
                     key={index}
-                    onClick={() => handleThumbClick(index)}
+                    aria-label={`Xem ảnh hoạt động ${index + 1}`} aria-pressed={isActive} onClick={() => handleThumbClick(index)}
                     className={`relative transition-transform duration-300 ${
                       isActive ? "scale-110" : "scale-95"
                     }`}
                   >
                     <img
-                      src={img}
+                      src={img} alt=""
                       className="w-36 h-16 object-cover rounded-md"
                     />
                     {!isActive && (
@@ -120,7 +121,7 @@ export default function HomePage() {
 
         <section className="text-white py-24">
           <div className="max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-[260px_1fr] gap-10">
-            <img src="/Homepage_Logo.svg" className="w-56" />
+            <img alt="UITVolunteer" src="/Homepage_Logo.svg" className="w-56" />
             <p className="font-semibold text-base leading-relaxed">
               UITVolunteer là một trang web tổng hợp các chiến dịch tình nguyện
               đã và đang được tổ chức tại Trường Đại học Công nghệ Thông tin –
@@ -169,7 +170,7 @@ export default function HomePage() {
               className="flex flex-col items-center gap-6"
               title="Chiến dịch chưa diễn ra"
             >
-              <img src={mhx} className="w-40 h-40 object-contain opacity-50" />
+              <img alt="Mùa Hè Xanh — chiến dịch chưa diễn ra" src={mhx} className="w-40 h-40 object-contain opacity-50" />
             </div>
           </div>
         </section>
