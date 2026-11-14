@@ -1,0 +1,42 @@
+[
+  {
+    "width": 375,
+    "check": "simulated long 401 error reflows above fields; input retained; no horizontal overflow",
+    "passed": true,
+    "simulated": true,
+    "errorBottom": 405.1875,
+    "inputTop": 437.1875,
+    "documentWidth": 375,
+    "viewport": 375
+  },
+  {
+    "width": 768,
+    "check": "simulated long 401 error reflows above fields; input retained; no horizontal overflow",
+    "passed": true,
+    "simulated": true,
+    "errorBottom": 434.78125,
+    "inputTop": 466.78125,
+    "documentWidth": 768,
+    "viewport": 768
+  },
+  {
+    "width": 1024,
+    "check": "simulated long 401 error reflows above fields; input retained; no horizontal overflow",
+    "passed": true,
+    "simulated": true,
+    "errorBottom": 434.78125,
+    "inputTop": 466.78125,
+    "documentWidth": 1024,
+    "viewport": 1024
+  },
+  {
+    "width": 1440,
+    "check": "simulated long 401 error reflows above fields; input retained; no horizontal overflow",
+    "passed": true,
+    "simulated": true,
+    "errorBottom": 434.78125,
+    "inputTop": 466.78125,
+    "documentWidth": 1440,
+    "viewport": 1440
+  }
+]
