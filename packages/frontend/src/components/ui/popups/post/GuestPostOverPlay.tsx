@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { createPortal } from "react-dom";
+import Dialog from "@/components/ui/Dialog";
 import LinkIcon from "@heroicons/react/24/outline/LinkIcon";
 import CalendarIcon from "@heroicons/react/24/outline/CalendarIcon";
 import MapPinIcon from "@heroicons/react/24/outline/MapPinIcon";
@@ -37,29 +37,23 @@ export default function GuestPostOverPlay({
 
   const prev = () => setCurrent((current - 1 + photos.length) % photos.length);
 
-  return createPortal(
-    <div
-      className="fixed inset-0 bg-black/60 flex items-center justify-center z-10000 text-black"
-      onClick={onClose}
-    >
-      <div
-        className="w-300 h-162.5 bg-white rounded-lg overflow-hidden flex"
-        onClick={(e) => e.stopPropagation()}
-      >
+  return (
+    <Dialog title={title || "Chi tiết bài viết"} onClose={onClose} className="relative w-300 bg-white rounded-lg">
+      <div className="flex flex-col md:flex-row">
         {/* LEFT - IMAGE SLIDER */}
-        <div className="relative w-[60%] bg-black flex items-center justify-center">
+        <div className="relative w-full md:w-[60%] min-h-48 md:min-h-96 bg-black flex items-center justify-center">
           {photos.length > 0 && (
             <img
               src={photos[current]}
-              alt=""
-              className="w-full h-full object-cover"
+              alt={`${title} — ảnh ${current + 1}`}
+              className="w-full h-60 md:h-162.5 object-cover"
             />
           )}
           {photos.length > 1 && (
             <>
               {/* Prev */}
               <button
-                onClick={prev}
+                aria-label="Ảnh trước" onClick={prev}
                 className="
                     absolute left-4 top-1/2 -translate-y-1/2
                     w-10 h-10
@@ -78,7 +72,7 @@ export default function GuestPostOverPlay({
 
               {/* Next */}
               <button
-                onClick={next}
+                aria-label="Ảnh tiếp theo" onClick={next}
                 className="
                     absolute right-4 top-1/2 -translate-y-1/2
                     w-10 h-10
@@ -99,6 +93,7 @@ export default function GuestPostOverPlay({
                 {photos.map((_: string, index: number) => (
                   <button
                     key={index}
+                    aria-label={`Xem ảnh ${index + 1}`} aria-pressed={current === index}
                     onClick={() => setCurrent(index)}
                     className={`w-2 h-2 rounded-full ${
                       current === index ? "bg-white" : "bg-white/40"
@@ -111,10 +106,10 @@ export default function GuestPostOverPlay({
         </div>
 
         {/* RIGHT - POST CONTENT */}
-        <div className="w-[40%] flex flex-col border-l bg-[#FCF2DA]">
+        <div className="w-full md:w-[40%] min-w-0 flex flex-col border-l bg-[#FCF2DA]">
           {/* Header */}
           <div className="flex items-center gap-3 p-2 mt-10 mx-5">
-            <span className="text-3xl font-heading">{title}</span>
+            <h3 className="text-3xl font-heading wrap-anywhere">{title}</h3>
           </div>
 
           {/* Caption */}
@@ -123,13 +118,13 @@ export default function GuestPostOverPlay({
           </div>
 
           {/* Footer */}
-          <div className="p-2 text-sm text-gray-500 mx-5">
+          <div className="p-2 text-sm text-gray-700 mx-5">
             {/* Actions */}
             <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-4">
+              <div className="flex flex-wrap items-center gap-4">
                 {/* Copy Link icon */}
                 <button
-                  title="Share"
+                  aria-label="Chia sẻ bài viết" title="Chia sẻ bài viết"
                   className="flex items-center hover:text-blue-500 transition"
                 >
                   <LinkIcon className="w-4 h-4" />
@@ -156,31 +151,9 @@ export default function GuestPostOverPlay({
             </div>
           </div>
         </div>
-        <button
-          onClick={onClose}
-          style={{
-            position: "absolute",
-            top: "10px",
-            right: "10px",
-            border: "none",
-            background: "#f0f0f0",
-            width: "30px",
-            height: "30px",
-            borderRadius: "50%",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "18px",
-            transition: "background 0.3s",
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.background = "#e0e0e0")}
-          onMouseLeave={(e) => (e.currentTarget.style.background = "#f0f0f0")}
-        >
-          ✕
-        </button>
+        <button aria-label="Đóng bài viết" onClick={onClose}
+          className="absolute top-2 right-2 w-11 h-11 rounded-full bg-gray-100 text-black">✕</button>
       </div>
-    </div>,
-    document.body,
+    </Dialog>
   );
 }

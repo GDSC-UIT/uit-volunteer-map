@@ -62,3 +62,22 @@ textarea,
 select {
   font-family: var(--font-ui);
 }
+
+/* Two-tone focus remains visible on both seasonal and dark surfaces. */
+:where(button, a, input, textarea, select, [tabindex]):focus-visible {
+  outline: 3px solid #023A54;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px white;
+}
+
+.shared-dialog {
+  margin: auto;
+  padding: 0;
+  border: 0;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.shared-dialog:not([open]) { display: none; }
+.shared-dialog::backdrop { background: rgb(0 0 0 / 50%); }

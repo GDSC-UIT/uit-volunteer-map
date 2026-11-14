@@ -1,17 +1,18 @@
+import Dialog from "@/components/ui/Dialog";
 interface Props {
+  itemName?: string;
   onConfirm: () => void;
   onCancel: () => void;
 }
 
-export default function ConfirmDeletePopup({ onConfirm, onCancel }: Props) {
+export default function ConfirmDeletePopup({ onConfirm, onCancel, itemName = "bài đăng này" }: Props) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-[#FFF8EB] rounded-2xl w-[420px] shadow-lg overflow-hidden">
+      <Dialog title="Xóa bài đăng" onClose={onCancel} className="bg-[#FFF8EB] rounded-2xl w-[420px] shadow-lg ">
 
         {/* CONTENT */}
         <div className="py-8 px-6 text-center">
           <p className="font-bold text-lg">
-            Bạn có chắc muốn xóa không ?
+            Xóa {itemName}?
           </p>
         </div>
 
@@ -30,10 +31,11 @@ export default function ConfirmDeletePopup({ onConfirm, onCancel }: Props) {
             hover:scale-105 transition
             "
         >
-            Có
+            Xóa bài đăng
         </button>
 
         <button
+            data-dialog-initial-focus
             onClick={onCancel}
             className="
             w-[140px] h-[42px]
@@ -42,11 +44,10 @@ export default function ConfirmDeletePopup({ onConfirm, onCancel }: Props) {
             hover:scale-105 transition
             "
         >
-            Không
+            Hủy
         </button>
 
         </div>
-      </div>
-    </div>
+      </Dialog>
   );
 }
