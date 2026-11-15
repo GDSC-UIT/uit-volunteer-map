@@ -9,20 +9,20 @@ const menu = [
 
 export default function AdminLayout() {
   return (
-    <div className="min-h-screen bg-[#BFB8B8] p-6">
-      <div className="flex gap-6 h-[calc(100vh-48px)]">
+    <div className="min-h-screen bg-[#BFB8B8] p-4 lg:p-6">
+      <div className="flex flex-col gap-4 lg:flex-row lg:gap-6 lg:h-[calc(100vh-48px)]">
         {/* Sidebar */}
-        <aside className="w-[260px] bg-white rounded-md p-4 flex flex-col">
+        <aside className="w-full lg:w-[260px] lg:shrink-0 bg-white rounded-md p-4 flex flex-col">
           <div className="flex-1">
             <h2 className="font-bold mb-4 text-black">Admin</h2>
 
-            <nav className="space-y-2 text-black">
+            <nav aria-label="Điều hướng quản trị" className="grid gap-2 sm:grid-cols-2 lg:block lg:space-y-2 text-black">
               {menu.map((item) => (
                 <NavLink
                   key={item.to}
                   to={item.to}
                   className={({ isActive }) =>
-                    `block px-3 py-2 rounded text-sm transition ${
+                    `flex items-center min-h-11 lg:min-h-0 px-3 py-2 rounded text-sm transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#023A54] ${
                       isActive
                         ? "bg-gray-200 font-semibold"
                         : "hover:bg-gray-100"
@@ -35,13 +35,13 @@ export default function AdminLayout() {
             </nav>
           </div>
 
-          <button className="border rounded px-3 py-1 text-sm hover:bg-gray-100 text-black">
+          <button className="mt-4 lg:mt-0 min-h-11 lg:min-h-0 border rounded px-3 py-1 text-sm hover:bg-gray-100 text-black">
             Đăng xuất
           </button>
         </aside>
 
         {/* Content */}
-        <main className="flex-1 bg-white rounded-md p-8 text-black overflow-auto">
+        <main className="min-w-0 flex-1 bg-white rounded-md p-4 sm:p-6 lg:p-8 text-black lg:overflow-y-auto">
           <Outlet />
         </main>
       </div>

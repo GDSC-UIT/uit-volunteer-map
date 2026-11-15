@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useId, useState } from 'react';
 
 interface FloatingInputProps {
   label: string;
@@ -18,12 +18,14 @@ export default function FloatingInput({
 }: FloatingInputProps) {
 
   const [isFocused, setIsFocused] = useState(false);
+  const id = useId();
 
   const isActive = isFocused || value.length > 0;
 
   return (
-    <div className="relative w-140 h-12.5">
+    <div className="relative w-full min-w-0 h-12.5">
       <input
+        id={id}
         type={type}
         value={value}
         disabled={disabled}
@@ -31,13 +33,14 @@ export default function FloatingInput({
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         className={clsx(
-          'relative z-10 w-full h-12.5 rounded-lg border-2 px-4 outline-none text-[16px] leading-[22.4px] text-black placeholder:text-gray-400',
+          'relative z-10 w-full h-12.5 rounded-lg border-2 pl-4 pr-14 outline-none focus-visible:ring-2 focus-visible:ring-[#023A54] focus-visible:ring-offset-2 text-[16px] leading-[22.4px] text-black placeholder:text-gray-400',
           isActive ? 'border-[#00AEEF]' : 'border-[#9E9E9E]',
           disabled && 'opacity-50'
         )}
       />
 
-      <div
+      <label
+        htmlFor={id}
         className={clsx(
           'absolute left-4 px-2 bg-white pointer-events-none transition-all z-20',
           isActive
@@ -46,7 +49,7 @@ export default function FloatingInput({
         )}
       >
         {label}
-      </div>
+      </label>
     </div>
   );
 }

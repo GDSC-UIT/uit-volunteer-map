@@ -16,7 +16,7 @@ export default function TeamManagementPage() {
       <h1 className="text-3xl font-bold mb-6">QUẢN LÝ ĐỘI HÌNH</h1>
 
       {/* Tabs */}
-      <div className="flex items-center gap-10 mb-4">
+      <div className="flex flex-wrap items-center gap-4 lg:gap-10 mb-4">
         {campaigns.map((name, index) => {
           const isActive = index === activeCampaign;
           return (
@@ -36,12 +36,12 @@ export default function TeamManagementPage() {
       </div>
 
       {/* Search + Add */}
-      <div className="flex items-center gap-4 mb-6">
-        <div className="flex-1 border rounded px-3 py-2 text-sm text-gray-400">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-6">
+        <div className="min-w-0 flex-1 border rounded px-3 py-2 text-sm text-gray-400">
           Tìm kiếm đội hình...
         </div>
 
-        <button className="flex items-center gap-2 border-2 border-cyan-400 px-4 py-2 rounded text-sm hover:bg-cyan-50 transition">
+        <button className="flex shrink-0 items-center gap-2 border-2 border-cyan-400 px-4 py-2 rounded text-sm hover:bg-cyan-50 transition">
           <span className="w-4 h-4 bg-black inline-block" />
           Thêm đội hình
         </button>

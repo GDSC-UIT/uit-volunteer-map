@@ -17,21 +17,22 @@ export default function PublicHeader() {
         className="
           max-w-[1920px]
           mx-auto
-          h-16
-          px-20
+          min-h-16
+          px-4 sm:px-6 lg:px-20
           flex
+          flex-wrap gap-3 py-2
           items-center
           justify-between
         "
       >
 
-        <div className="flex items-center gap-3">
+        <Link to="/" aria-label="UITVolunteer — Trang chủ" className="shrink-0 rounded focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
           <img
             src={uitLogo}
             alt="UITVolunteer"
             className="h-7 w-auto drop-shadow-sm"
           />
-        </div>
+        </Link>
 
         <Link
           to="/login"
@@ -39,6 +40,7 @@ export default function PublicHeader() {
             bg-white
             text-[#023A54]
             text-sm
+            shrink-0 whitespace-nowrap inline-flex items-center min-h-11 sm:min-h-0
             font-bold
             px-5
             py-2
@@ -46,7 +48,7 @@ export default function PublicHeader() {
             shadow
             transition-all
             hover:bg-blue-100
-            hover:scale-105
+            hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white
           "
         >
           Đăng nhập
