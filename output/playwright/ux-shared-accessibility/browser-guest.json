@@ -1,0 +1,26 @@
+[
+  {
+    "width": 375,
+    "height": 667,
+    "check": "guest real component with synthetic post: semantics, slider, focus, Escape, scrolling; campaign landmarks",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "height": 900,
+    "check": "guest real component with synthetic post: semantics, slider, focus, Escape, scrolling; campaign landmarks",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "height": 900,
+    "check": "guest real component with synthetic post: semantics, slider, focus, Escape, scrolling; campaign landmarks",
+    "passed": true
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "check": "guest real component with synthetic post: semantics, slider, focus, Escape, scrolling; campaign landmarks",
+    "passed": true
+  }
+]

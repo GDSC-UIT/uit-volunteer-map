@@ -1,0 +1,446 @@
+[
+  {
+    "width": 375,
+    "height": 900,
+    "check": "login labels, autocomplete, keyboard, associated simulated error",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 900,
+    "check": "formation focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 16,
+      "y": 240,
+      "width": 343,
+      "height": 420,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 900,
+    "check": "commander focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 27.5,
+      "y": 236.5,
+      "width": 320,
+      "height": 427,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 900,
+    "check": "delete focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 16,
+      "y": 362.5,
+      "width": 343,
+      "height": 175,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 900,
+    "check": "picker-select focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 16,
+      "y": 236,
+      "width": 343,
+      "height": 428,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 900,
+    "check": "logout safe dialog and focus restore (no logout submitted)",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 900,
+    "check": "keyboard image selection, count, limit, Back retention and step focus",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "height": 900,
+    "check": "login labels, autocomplete, keyboard, associated simulated error",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "height": 900,
+    "check": "formation focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 24,
+      "y": 240,
+      "width": 720,
+      "height": 420,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 768,
+    "height": 900,
+    "check": "commander focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 224,
+      "y": 236.5,
+      "width": 320,
+      "height": 427,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 768,
+    "height": 900,
+    "check": "delete focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 174,
+      "y": 362.5,
+      "width": 420,
+      "height": 175,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 768,
+    "height": 900,
+    "check": "picker-select focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 204,
+      "y": 236,
+      "width": 360,
+      "height": 428,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 768,
+    "height": 900,
+    "check": "logout safe dialog and focus restore (no logout submitted)",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "height": 900,
+    "check": "keyboard image selection, count, limit, Back retention and step focus",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "height": 900,
+    "check": "login labels, autocomplete, keyboard, associated simulated error",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "height": 900,
+    "check": "formation focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 152,
+      "y": 240,
+      "width": 720,
+      "height": 420,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "height": 900,
+    "check": "commander focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 352,
+      "y": 236.5,
+      "width": 320,
+      "height": 427,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "height": 900,
+    "check": "delete focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 302,
+      "y": 362.5,
+      "width": 420,
+      "height": 175,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "height": 900,
+    "check": "picker-select focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 332,
+      "y": 236,
+      "width": 360,
+      "height": 428,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "height": 900,
+    "check": "logout safe dialog and focus restore (no logout submitted)",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "height": 900,
+    "check": "keyboard image selection, count, limit, Back retention and step focus",
+    "passed": true
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "check": "login labels, autocomplete, keyboard, associated simulated error",
+    "passed": true
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "check": "formation focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 360,
+      "y": 240,
+      "width": 720,
+      "height": 420,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "check": "commander focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 560,
+      "y": 236.5,
+      "width": 320,
+      "height": 427,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "check": "delete focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 510,
+      "y": 362.5,
+      "width": 420,
+      "height": 175,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "check": "picker-select focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 540,
+      "y": 236,
+      "width": 360,
+      "height": 428,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "check": "logout safe dialog and focus restore (no logout submitted)",
+    "passed": true
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "check": "keyboard image selection, count, limit, Back retention and step focus",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 667,
+    "check": "login labels, autocomplete, keyboard, associated simulated error",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 667,
+    "check": "formation focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 16,
+      "y": 123.5,
+      "width": 343,
+      "height": 420,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 667,
+    "check": "commander focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 27.5,
+      "y": 120,
+      "width": 320,
+      "height": 427,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 667,
+    "check": "delete focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 16,
+      "y": 246,
+      "width": 343,
+      "height": 175,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 667,
+    "check": "picker-select focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 16,
+      "y": 119.5,
+      "width": 343,
+      "height": 428,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 667,
+    "check": "logout safe dialog and focus restore (no logout submitted)",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 667,
+    "check": "keyboard image selection, count, limit, Back retention and step focus",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 400,
+    "check": "login labels, autocomplete, keyboard, associated simulated error",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 400,
+    "check": "formation focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 16,
+      "y": 16,
+      "width": 343,
+      "height": 368,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 400,
+    "check": "commander focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 27.5,
+      "y": 16,
+      "width": 320,
+      "height": 368,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 400,
+    "check": "delete focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 16,
+      "y": 112.5,
+      "width": 343,
+      "height": 175,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 400,
+    "check": "picker-select focus, trapping, inertness, escape, restore and bounds",
+    "geometry": {
+      "x": 16,
+      "y": 16,
+      "width": 343,
+      "height": 368,
+      "fits": true,
+      "horizontalOverflow": false
+    },
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 400,
+    "check": "logout safe dialog and focus restore (no logout submitted)",
+    "passed": true
+  },
+  {
+    "width": 375,
+    "height": 400,
+    "check": "keyboard image selection, count, limit, Back retention and step focus",
+    "passed": true
+  }
+]
