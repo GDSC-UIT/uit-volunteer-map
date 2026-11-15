@@ -84,7 +84,7 @@ select {
 
 /* One ratio governs artwork and its inset Leaflet viewport. */
 .campaign-map-stats { display: flex; flex-direction: column; gap: 1.5rem; align-items: center; }
-.campaign-map-frame { position: relative; width: 100%; max-width: 650px; aspect-ratio: 1280 / 1080; flex-shrink: 0; }
+.campaign-map-frame { position: relative; z-index: 20; width: 100%; max-width: 650px; aspect-ratio: 1280 / 1080; flex-shrink: 0; }
 .campaign-map-viewport { position: absolute; inset: 12% 10% 14%; overflow: hidden; border-radius: 16px; z-index: 1; }
 .campaign-map-art { position: absolute; inset: 0; width: 100%; height: auto; pointer-events: none; z-index: 0; }
 .campaign-statistics { width: 100%; max-width: 400px; }
