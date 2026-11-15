@@ -51,27 +51,27 @@ const TeamItem = ({ team }: TeamItemProps) => {
   return (
     <div
       ref={ref}
-      className="flex items-start mb-24 transition-all duration-300 ease-out"
+      className="flex min-w-0 items-start mb-12 lg:mb-24 transition-all duration-300 ease-out"
       style={{
         opacity,
         transform: `translateY(${translateY}px)`,
       }}
     >
       {/* Pin */}
-      <div className="w-35 mr-10 shrink-0 flex justify-center relative z-10">
+      <div className="w-10 mr-3 lg:w-35 lg:mr-10 shrink-0 flex justify-center relative z-10">
         <img
           src={banhChungPin}
           alt=""
-          className="w-27.5 h-auto drop-shadow-lg transition-transform duration-500 hover:scale-110 hover:rotate-[5deg]"
+          className="w-10 lg:w-27.5 h-auto drop-shadow-lg transition-transform duration-500 hover:scale-110 hover:rotate-[5deg]"
         />
       </div>
 
       {/* Content */}
-      <div className="grow pt-2">
-        <h3 className="text-[3.5rem] font-black text-red-700 mb-2 leading-none">
+      <div className="min-w-0 flex-1 pt-2">
+        <h3 className="text-2xl sm:text-4xl lg:text-[3.5rem] font-black text-red-700 mb-2 leading-tight wrap-anywhere">
           {team.teamName}
         </h3>
-        <div className="flex gap-10 text-2xl text-black mb-6">
+        <div className="flex flex-col lg:flex-row gap-2 lg:gap-10 text-base sm:text-xl lg:text-2xl text-black mb-6">
           <span>
             <span className="font-bold">Đội trưởng:</span>{" "}
             <span className="font-normal">{team.leader.name}</span>
@@ -82,9 +82,9 @@ const TeamItem = ({ team }: TeamItemProps) => {
             <span className="font-normal">{team.vice[0].name}</span>
           </span>
         </div>
-        <div className="flex gap-10 items-center">
+        <div className="flex flex-col lg:flex-row gap-5 lg:gap-10 items-stretch lg:items-center">
           {/* Image */}
-          <div className="flex-7 rounded-[35px] overflow-hidden shadow-2xl group">
+          <div className="min-w-0 w-full lg:flex-7 rounded-[35px] overflow-hidden shadow-2xl group">
             <img
               src={team.images[0]}
               alt={team.teamName}
@@ -92,10 +92,10 @@ const TeamItem = ({ team }: TeamItemProps) => {
             />
           </div>
           {/* Button */}
-          <div className="flex-3">
+          <div className="lg:flex-3">
             <Link
               to={`team/${team.teamId}`}
-              className="inline-block bg-red-700 text-white text-2xl font-extrabold py-5 px-16 rounded-full shadow-[0_15px_35px_rgba(185,28,28,0.4)] transition-all duration-300 hover:bg-rose-600 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(185,28,28,0.5)] whitespace-nowrap"
+              className="inline-block bg-red-700 text-white text-lg lg:text-2xl font-extrabold py-3 lg:py-5 px-6 lg:px-16 rounded-full shadow-[0_15px_35px_rgba(185,28,28,0.4)] transition-all duration-300 hover:bg-rose-600 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(185,28,28,0.5)] whitespace-nowrap"
             >
               Xem thêm
             </Link>
