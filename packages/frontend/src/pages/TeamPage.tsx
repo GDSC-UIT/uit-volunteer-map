@@ -16,21 +16,21 @@ export default function TeamPage() {
   return (
     <div className="py-8">
       <section className="max-w-4xl mx-auto px-4">
-        <h1 className="text-center text-3xl font-black mb-8">
+        <h1 className="text-center wrap-anywhere text-2xl sm:text-3xl font-black mb-8">
           Tên đội hình {teamId}
         </h1>
       </section>
 
       <section className="max-w-4xl mx-auto px-4 mb-10">
-        <div className="bg-[#E6E6E6] rounded-xl p-6 flex items-center justify-center">
-          <div className="flex gap-6">
-            <div className="w-24 h-24 bg-[#D9D9D9] flex items-center justify-center">
+        <div className="bg-[#E6E6E6] rounded-xl p-3 sm:p-6 flex items-center justify-center">
+          <div className="flex w-full sm:w-auto items-center justify-center gap-3 sm:gap-6">
+            <div className="w-1/4 aspect-square sm:w-24 sm:h-24 bg-[#D9D9D9] flex items-center justify-center">
               <div className="w-10 h-10 border-2 border-white rotate-45" />
             </div>
-            <div className="w-32 h-32 bg-[#D9D9D9] flex items-center justify-center">
+            <div className="w-1/3 aspect-square sm:w-32 sm:h-32 bg-[#D9D9D9] flex items-center justify-center">
               <div className="w-14 h-14 border-2 border-white rotate-45" />
             </div>
-            <div className="w-24 h-24 bg-[#D9D9D9] flex items-center justify-center">
+            <div className="w-1/4 aspect-square sm:w-24 sm:h-24 bg-[#D9D9D9] flex items-center justify-center">
               <div className="w-10 h-10 border-2 border-white rotate-45" />
             </div>
           </div>
@@ -42,7 +42,7 @@ export default function TeamPage() {
       </section>
 
       <section className="max-w-3xl mx-auto px-4 text-center mb-12">
-        <p className="text-sm font-bold leading-relaxed text-black">
+        <p className="text-sm font-bold wrap-anywhere leading-relaxed text-black">
           Rhoncus morbi et augue nec, in id ullamcorper at...
         </p>
       </section>
@@ -50,9 +50,9 @@ export default function TeamPage() {
       <section className="max-w-4xl mx-auto px-4 mb-14">
         <h2 className="text-center font-black mb-6">Ban chỉ huy</h2>
 
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 min-[480px]:grid-cols-3 gap-6 sm:gap-8">
           {commanders.map((_, i) => (
-            <div key={i} className="text-center">
+            <div key={i} className="min-w-0 text-center wrap-anywhere">
               {/* Container avatar */}
               <div className="relative w-28 h-40 mx-auto mb-4">
                 <div className="absolute inset-3 rounded-[9999px] overflow-hidden bg-[#DDE1E6]">
@@ -86,7 +86,7 @@ export default function TeamPage() {
               key={i}
               to={`post/${post.postId}`}
               state={{ backgroundLocation: location }}
-              className="hover:scale-105 transition"
+              className="min-w-0 hover:scale-105 transition"
             >
               <PostItem post={post} />
             </Link>
