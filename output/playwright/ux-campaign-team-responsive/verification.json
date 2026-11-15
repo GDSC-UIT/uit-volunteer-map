@@ -1,0 +1,32 @@
+[
+  {
+    "width": 375,
+    "height": 900,
+    "passed": true,
+    "checks": "map/frame/stats/timeline/cards bounds; loaded frame; zoom/year reachable; resize; long Vietnamese titles; team gallery/portrait bounds; leader hit targets and dialogs/focus; unchanged edit route"
+  },
+  {
+    "width": 768,
+    "height": 900,
+    "passed": true,
+    "checks": "map/frame/stats/timeline/cards bounds; loaded frame; zoom/year reachable; resize; long Vietnamese titles; team gallery/portrait bounds; leader hit targets and dialogs/focus; unchanged edit route"
+  },
+  {
+    "width": 1024,
+    "height": 900,
+    "passed": true,
+    "checks": "map/frame/stats/timeline/cards bounds; loaded frame; zoom/year reachable; resize; long Vietnamese titles; team gallery/portrait bounds; leader hit targets and dialogs/focus; unchanged edit route"
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "passed": true,
+    "checks": "map/frame/stats/timeline/cards bounds; loaded frame; zoom/year reachable; resize; long Vietnamese titles; team gallery/portrait bounds; leader hit targets and dialogs/focus; unchanged edit route"
+  },
+  {
+    "width": 375,
+    "height": 667,
+    "passed": true,
+    "checks": "map/frame/stats/timeline/cards bounds; loaded frame; zoom/year reachable; resize; long Vietnamese titles; team gallery/portrait bounds; leader hit targets and dialogs/focus; unchanged edit route"
+  }
+]
