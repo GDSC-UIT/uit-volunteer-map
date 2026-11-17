@@ -8,28 +8,70 @@ import { Attachment } from "../entities/Attachment.js";
 import { CreateTeamInput, UpdateTeamInput, type AttachmentInput } from "../schemas/team.js";
 import { HttpError } from "../errors/HttpError.js";
 import { HTTP_STATUS, TEAM_ERRORS, RoleEnum, type JwtPayload } from "@uit-volunteer-map/shared";
+import type { EntityManager } from 'typeorm';
+import { Post } from '../entities/Post.js';
+import { lifecycleTransaction } from './lifecycleTransaction.js';
 
 export class TeamService {
   private teamRepo = AppDataSource.getRepository(Team);
   private userRepo = AppDataSource.getRepository(User);
   private campaignRepo = AppDataSource.getRepository(Campaign);
   private attachmentRepo = AppDataSource.getRepository(Attachment);
-  private readQuery() {
-    return this.teamRepo.createQueryBuilder("team")
+  private readQuery(manager = AppDataSource.manager) {
+    return manager.getRepository(Team).createQueryBuilder("team")
       .innerJoinAndSelect("team.campaign", "campaign")
       .leftJoinAndSelect("team.attachments", "attachments")
       .leftJoinAndSelect("team.users", "users")
       .leftJoinAndSelect("users.account", "account")
       .leftJoinAndSelect("account.role", "role")
+      .leftJoinAndSelect("team.leader", "commander")
       .where("team.isDeleted = :deleted", { deleted: 0 });
   }
-  async getAll(filters: TeamReadFilters = {}) {
+  private async readTeams(filters: TeamReadFilters = {}) {
     if (filters.campaignId !== undefined && !await this.campaignRepo.existsBy({ campaignId: filters.campaignId })) {
       throw new HttpError(TEAM_ERRORS.CAMPAIGN_NOT_FOUND, HTTP_STATUS.NOT_FOUND);
     }
     const query = this.readQuery();
     if (filters.campaignId !== undefined) query.andWhere("campaign.campaignId = :campaignId", { campaignId: filters.campaignId });
-    return (await query.orderBy("team.teamId", "ASC").getMany()).map(teamDto);
+    return query.orderBy("team.teamId", "ASC").getMany();
+  }
+
+  async getAll(filters: TeamReadFilters = {}) { return (await this.readTeams(filters)).map(teamDto); }
+  async getManagementTeams(filters: TeamReadFilters = {}) {
+    return (await this.readTeams(filters)).map(team => ({...teamDto(team),leaderId:team.leader?.userId ?? null}));
+  }
+  async getLeaderOptions() {
+    const users = await this.userRepo.find({where:{isDeleted:0,account:{isDeleted:false,role:{roleName:RoleEnum.LEADER}}},relations:['account','account.role','team'],order:{userId:'ASC'}});
+    const teams = await this.teamRepo.find({relations:['leader']});
+    return users.map(user => ({userId:user.userId,fullName:user.fullName,assignedTeamId:user.team?.teamId ?? null,
+      commandedTeamIds:teams.filter(team => team.leader?.userId === user.userId).map(team => team.teamId)}));
+  }
+
+  private async managementDto(manager: EntityManager, id: number) {
+    const team = await this.readQuery(manager).andWhere('team.teamId = :id',{id}).getOneOrFail();
+    return {...teamDto(team),leaderId:team.leader?.userId ?? null};
+  }
+
+  private async assignLeader(manager: EntityManager, teamId: number, leaderId: number | null) {
+    const users = manager.getRepository(User), teams = manager.getRepository(Team);
+    if (leaderId !== null) {
+      const leader = await users.findOne({where:{userId:leaderId,isDeleted:0},relations:['account','account.role','team']});
+      if (!leader || !leader.account || leader.account.isDeleted) throw new HttpError(TEAM_ERRORS.LEADER_NOT_FOUND,404);
+      if (leader.account.role?.roleName !== RoleEnum.LEADER) throw new HttpError(TEAM_ERRORS.LEADER_INVALID_ROLE,400);
+      const commands = await teams.find({where:{leader:{userId:leaderId}}});
+      if ((leader.team && leader.team.teamId !== teamId) || commands.some(team => team.teamId !== teamId)) {
+        throw new HttpError('Chỉ huy đang thuộc đội hình khác. Hãy gỡ phân công cũ trước.',409);
+      }
+    }
+    const team = await teams.findOneOrFail({where:{teamId},relations:['leader']});
+    const members = await users.find({where:{team:{teamId}},relations:['account','account.role']});
+    for (const member of members) {
+      if (member.userId !== leaderId && (member.userId === team.leader?.userId || member.account?.role?.roleName === RoleEnum.LEADER)) {
+        await manager.createQueryBuilder().relation(User,'team').of(member.userId).set(null);
+      }
+    }
+    await manager.createQueryBuilder().relation(Team,'leader').of(teamId).set(leaderId);
+    if (leaderId !== null) await manager.createQueryBuilder().relation(User,'team').of(leaderId).set(teamId);
   }
 
   private async getTeamEntity(id: number) {
@@ -60,113 +102,50 @@ export class TeamService {
   }
 
   async create(data: CreateTeamInput) {
-    const campaign = await this.campaignRepo.findOne({
-      where: { campaignId: data.campaignId },
-    });
-    if (!campaign) {
-      throw new HttpError(
-        TEAM_ERRORS.CAMPAIGN_NOT_FOUND,
-        HTTP_STATUS.BAD_REQUEST,
-      );
-    }
-
-    const existing = await this.teamRepo.findOne({
-      where: {
-        teamName: data.teamName,
-        campaign: { campaignId: data.campaignId },
-      },
-    });
-
-    if (existing) {
-      throw new HttpError(TEAM_ERRORS.ALREADY_EXISTS, HTTP_STATUS.CONFLICT);
-    }
-
-    const leader = await this.userRepo.findOne({
-      where: { userId: data.leaderId, isDeleted: 0 },
-      relations: ["account", "account.role"],
-    });
-
-    if (!leader) {
-      throw new HttpError(TEAM_ERRORS.LEADER_NOT_FOUND, HTTP_STATUS.NOT_FOUND);
-    }
-
-    if (leader.account?.role?.roleName !== RoleEnum.LEADER) {
-      throw new HttpError(
-        TEAM_ERRORS.LEADER_INVALID_ROLE,
-        HTTP_STATUS.BAD_REQUEST,
-      );
-    }
-
-    const newTeam = this.teamRepo.create({
-      teamName: data.teamName,
-      description: data.description,
-      leader: { userId: data.leaderId },
-      imageUrl: data.imageUrl,
-      campaign: { campaignId: data.campaignId },
-      isDeleted: 0,
-    });
-
-    const savedTeam = await this.teamRepo.save(newTeam);
-
-    if (data.attachments && data.attachments.length > 0) {
-      const attachmentsToCreate = data.attachments.map((attachment, index) =>
-        this.attachmentRepo.create({
-          imageUrl: attachment.imageUrl,
-          uploadedAt: new Date().toISOString(),
-          position: attachment.position ?? index,
-          team: { teamId: savedTeam.teamId },
-        })
-      );
-      await this.attachmentRepo.save(attachmentsToCreate);
-    }
-
-    return await this.teamRepo.findOne({
-      where: { teamId: savedTeam.teamId },
-      relations: ["attachments", "leader"],
+    return lifecycleTransaction(async manager => {
+      if (!await manager.getRepository(Campaign).existsBy({campaignId:data.campaignId})) throw new HttpError(TEAM_ERRORS.CAMPAIGN_NOT_FOUND,404);
+      const repo = manager.getRepository(Team);
+      if (await repo.existsBy({teamName:data.teamName})) throw new HttpError(TEAM_ERRORS.ALREADY_EXISTS,409);
+      const team = await repo.save(repo.create({teamName:data.teamName,description:data.description,imageUrl:data.imageUrl,campaign:{campaignId:data.campaignId},isDeleted:0}));
+      await this.assignLeader(manager,team.teamId,data.leaderId ?? null);
+      if (data.attachments?.length) await manager.getRepository(Attachment).save(data.attachments.map((item,index) => ({imageUrl:item.imageUrl,position:item.position ?? index,uploadedAt:new Date().toISOString(),team:{teamId:team.teamId}})));
+      return this.managementDto(manager,team.teamId);
     });
   }
 
   async delete(id: number) {
-    const team = await this.getTeamEntity(id);
-
-    team.isDeleted = 1;
-    await this.teamRepo.save(team);
-    const users = await this.userRepo.find({
-      where: { team: { teamId: id }, isDeleted: 0 },
+    return lifecycleTransaction(async manager => {
+      const teams = manager.getRepository(Team);
+      if (!await teams.existsBy({teamId:id,isDeleted:0})) throw new HttpError(TEAM_ERRORS.NOT_FOUND,404);
+      if (await manager.getRepository(Post).existsBy({team:{teamId:id}}) || await manager.getRepository(Attachment).existsBy({team:{teamId:id}})) {
+        throw new HttpError('Đội hình còn bài đăng hoặc ảnh đính kèm, không thể xóa.',409);
+      }
+      const members = await manager.getRepository(User).find({where:{team:{teamId:id}}});
+      for (const member of members) await manager.createQueryBuilder().relation(User,'team').of(member.userId).set(null);
+      await manager.createQueryBuilder().relation(Team,'leader').of(id).set(null);
+      // Empty teams are physically deleted; FK constraints protect against concurrent linked writes.
+      await teams.delete(id);
+      return true;
     });
-    for (const user of users) {
-      user.isDeleted = 1;
-      await this.userRepo.save(user);
-    }
-
-    return true;
   }
 
   async update(id: number, data: UpdateTeamInput, currentUser: JwtPayload) {
-    const team = await this.getTeamEntity(id);
-
-    if (currentUser.role === RoleEnum.LEADER) {
-      const leaderUser = await this.userRepo.findOne({
-        where: { account: { accId: currentUser.accId }, isDeleted: 0 },
-        relations: ["team"],
-      });
-
-      if (!leaderUser || !leaderUser.team || leaderUser.team.teamId !== id) {
-        throw new HttpError(TEAM_ERRORS.FORBIDDEN_ACCESS, HTTP_STATUS.FORBIDDEN);
+    return lifecycleTransaction(async manager => {
+      const repo = manager.getRepository(Team);
+      const team = await repo.findOne({where:{teamId:id,isDeleted:0},relations:['campaign']});
+      if (!team || !team.campaign) throw new HttpError(TEAM_ERRORS.NOT_FOUND,404);
+      if (currentUser.role !== RoleEnum.ADMIN) {
+        const actor = await manager.getRepository(User).findOne({where:{account:{accId:currentUser.accId},isDeleted:0},relations:['team']});
+        if (currentUser.role !== RoleEnum.LEADER || actor?.team?.teamId !== id || data.leaderId !== undefined) throw new HttpError(TEAM_ERRORS.FORBIDDEN_ACCESS,403);
       }
-    }
-
-    if (data.teamName) {
-      team.teamName = data.teamName;
-    }
-    if (data.description !== undefined) {
-      team.description = data.description;
-    }
-    if (data.imageUrl !== undefined) {
-      team.imageUrl = data.imageUrl;
-    }
-
-    return await this.teamRepo.save(team);
+      if (data.teamName && data.teamName !== team.teamName && await repo.existsBy({teamName:data.teamName})) throw new HttpError(TEAM_ERRORS.ALREADY_EXISTS,409);
+      if (data.teamName !== undefined) team.teamName = data.teamName;
+      if (data.description !== undefined) team.description = data.description;
+      if (data.imageUrl !== undefined) team.imageUrl = data.imageUrl;
+      await repo.save(team);
+      if (data.leaderId !== undefined) await this.assignLeader(manager,id,data.leaderId);
+      return this.managementDto(manager,id);
+    });
   }
 
   async addAttachments(teamId: number, attachments: AttachmentInput[], currentUser: JwtPayload) {

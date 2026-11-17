@@ -85,13 +85,7 @@ router.put(
   validate(updateTeamSchema),
   async (req, res) => {
     try {
-      const id = Number(req.params.id);
-      if (isNaN(id)) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json({
-          success: false,
-          error: TEAM_ERRORS.INVALID_ID,
-        });
-      }
+      const id = readId(req.params.id, 'team');
       
       const data = await teamService.update(id, req.body, req.user!);
       res.status(HTTP_STATUS.OK).json({
@@ -119,13 +113,7 @@ router.delete(
   requireRole([RoleEnum.ADMIN]),
   async (req, res) => {
     try {
-      const id = Number(req.params.id);
-      if (isNaN(id)) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).json({
-          success: false,
-          error: TEAM_ERRORS.INVALID_ID,
-        });
-      }
+      const id = readId(req.params.id, 'team');
       await teamService.delete(id);
       res.status(HTTP_STATUS.OK).json({
         success: true,

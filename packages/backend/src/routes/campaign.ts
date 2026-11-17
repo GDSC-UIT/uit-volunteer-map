@@ -9,7 +9,6 @@ import {
   RoleEnum,
   HTTP_STATUS,
   ERROR_MESSAGES,
-  CAMPAIGN_ERRORS,
   CAMPAIGN_MESSAGES,
 } from '@uit-volunteer-map/shared';
 
@@ -67,13 +66,7 @@ router.post('/', validate(createCampaignSchema), async (req, res) => {
 
 router.put('/:id', validate(updateCampaignSchema), async (req, res) => {
   try {
-    const id = Number(req.params.id);
-    if (isNaN(id)) {
-      return res.status(HTTP_STATUS.BAD_REQUEST).json({
-        success: false,
-        error: CAMPAIGN_ERRORS.INVALID_ID,
-      });
-    }
+    const id = readId(req.params.id, 'campaign');
     const data = await campaignService.update(id, req.body);
     res.status(HTTP_STATUS.OK).json({ success: true, data });
   } catch (err: unknown) {
@@ -89,13 +82,7 @@ router.put('/:id', validate(updateCampaignSchema), async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const id = Number(req.params.id);
-    if (isNaN(id)) {
-      return res.status(HTTP_STATUS.BAD_REQUEST).json({
-        success: false,
-        error: CAMPAIGN_ERRORS.INVALID_ID,
-      });
-    }
+    const id = readId(req.params.id, 'campaign');
     await campaignService.delete(id);
     res.status(HTTP_STATUS.OK).json({ success: true, message: CAMPAIGN_MESSAGES.DELETED });
   } catch (err: unknown) {

@@ -6,3 +6,4 @@ export * from './api.js';
 
 export * from './read-dtos.js';
 export * from './coordinates.js';
+export * from './management-dtos.js';

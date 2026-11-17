@@ -8,22 +8,24 @@ export const attachmentInputSchema = z.object({
 export const createTeamSchema = z.object({
   teamName: z
     .string()
+    .trim()
     .min(3, "Team name must be at least 3 characters")
     .max(100, "Team name must not exceed 100 characters"),
-  leaderId: z.number().int().positive("Leader ID is required"),
-  campaignId: z.number().int().positive("Campaign ID is required"),
+  leaderId: z.number().int().positive().max(Number.MAX_SAFE_INTEGER).nullable().optional(),
+  campaignId: z.number().int().positive().max(Number.MAX_SAFE_INTEGER),
   description: z.string().optional().nullable(),
   imageUrl: z.string().url("Invalid image URL").optional().nullable(),
   attachments: z.array(attachmentInputSchema).optional(),
-});
+}).strict();
 
 export type CreateTeamInput = z.infer<typeof createTeamSchema>;
 
 export const updateTeamSchema = z.object({
-  teamName: z.string().min(1, "Team name cannot be empty").optional(),
+  teamName: z.string().trim().min(3).max(100).optional(),
+  leaderId: z.number().int().positive().max(Number.MAX_SAFE_INTEGER).nullable().optional(),
   description: z.string().optional().nullable(),
   imageUrl: z.string().url("Invalid image URL").optional().nullable(),
-});
+}).strict();
 
 export type UpdateTeamInput = z.infer<typeof updateTeamSchema>;
 
