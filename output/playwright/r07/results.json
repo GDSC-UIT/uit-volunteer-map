@@ -1,0 +1,893 @@
+{
+  "results": [
+    {
+      "width": 375,
+      "height": 900,
+      "passed": true,
+      "campaignId": 504,
+      "teamId": 521,
+      "check": "real Admin login; campaign/team create-edit-reload; duplicate-name input retention; Leader replacement visible to Guest; guarded campaign deletion; empty team/campaign deletion"
+    },
+    {
+      "width": 768,
+      "height": 900,
+      "passed": true,
+      "campaignId": 505,
+      "teamId": 522,
+      "check": "real Admin login; campaign/team create-edit-reload; duplicate-name input retention; Leader replacement visible to Guest; guarded campaign deletion; empty team/campaign deletion"
+    },
+    {
+      "width": 1024,
+      "height": 900,
+      "passed": true,
+      "campaignId": 506,
+      "teamId": 523,
+      "check": "real Admin login; campaign/team create-edit-reload; duplicate-name input retention; Leader replacement visible to Guest; guarded campaign deletion; empty team/campaign deletion"
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "passed": true,
+      "campaignId": 507,
+      "teamId": 524,
+      "check": "real Admin login; campaign/team create-edit-reload; duplicate-name input retention; Leader replacement visible to Guest; guarded campaign deletion; empty team/campaign deletion"
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "passed": true,
+      "campaignId": 508,
+      "teamId": 525,
+      "check": "real Admin login; campaign/team create-edit-reload; duplicate-name input retention; Leader replacement visible to Guest; guarded campaign deletion; empty team/campaign deletion"
+    },
+    {
+      "passed": true,
+      "check": "team with existing posts rejects deletion and its original selected post remains readable"
+    }
+  ],
+  "expectedConflicts": [
+    {
+      "status": 409,
+      "url": "http://127.0.0.1:5017/api/campaigns/504"
+    },
+    {
+      "status": 409,
+      "url": "http://127.0.0.1:5017/api/campaigns/504"
+    },
+    {
+      "status": 409,
+      "url": "http://127.0.0.1:5017/api/campaigns/505"
+    },
+    {
+      "status": 409,
+      "url": "http://127.0.0.1:5017/api/campaigns/505"
+    },
+    {
+      "status": 409,
+      "url": "http://127.0.0.1:5017/api/campaigns/506"
+    },
+    {
+      "status": 409,
+      "url": "http://127.0.0.1:5017/api/campaigns/506"
+    },
+    {
+      "status": 409,
+      "url": "http://127.0.0.1:5017/api/campaigns/507"
+    },
+    {
+      "status": 409,
+      "url": "http://127.0.0.1:5017/api/campaigns/507"
+    },
+    {
+      "status": 409,
+      "url": "http://127.0.0.1:5017/api/campaigns/508"
+    },
+    {
+      "status": 409,
+      "url": "http://127.0.0.1:5017/api/campaigns/508"
+    },
+    {
+      "status": 409,
+      "url": "http://127.0.0.1:5017/api/teams/510"
+    }
+  ],
+  "uncaughtAppErrors": [],
+  "requests": [
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/campaigns/504"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/campaigns/504"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=501"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=504"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/teams"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=504"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=504"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/teams/521"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=504"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=504"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/teams/521"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=521&campaignId=504"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/campaigns/504"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=504"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/teams/521"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=504"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/campaigns/504"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/campaigns/505"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/campaigns/505"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=501"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=505"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/teams"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=505"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=505"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/teams/522"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=505"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=505"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/teams/522"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=522&campaignId=505"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/campaigns/505"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=505"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/teams/522"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=505"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/campaigns/505"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/campaigns/506"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/campaigns/506"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=501"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=506"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/teams"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=506"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=506"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/teams/523"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=506"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=506"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/teams/523"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=523&campaignId=506"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/campaigns/506"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=506"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/teams/523"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=506"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/campaigns/506"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/campaigns/507"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/campaigns/507"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=501"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=507"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/teams"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=507"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=507"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/teams/524"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=507"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=507"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/teams/524"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=524&campaignId=507"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/campaigns/507"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=507"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/teams/524"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=507"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/campaigns/507"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/campaigns/508"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/campaigns/508"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=501"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=508"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/teams"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=508"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=508"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/teams/525"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=508"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=508"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/teams/525"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=525&campaignId=508"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/campaigns/508"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=508"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/teams/525"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=508"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/campaigns/508"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=501"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/teams/510"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=501"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts/5102"
+    }
+  ]
+}
