@@ -143,3 +143,4 @@ vite.config.ts.timestamp-*
 
 # Map data
 *.geojson
+!packages/frontend/public/data/vietnam-outline.geojson

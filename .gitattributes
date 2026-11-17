@@ -1,0 +1,4 @@
+# Map manifest hashes refer to exact bytes on every platform.
+/packages/frontend/public/data/vietnam-outline.geojson text eol=lf
+/packages/frontend/public/map-element/map-pin-flower.svg text eol=lf
+/packages/frontend/public/map-element/map-frame-01.svg text eol=lf

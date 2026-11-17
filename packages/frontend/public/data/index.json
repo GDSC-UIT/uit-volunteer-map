@@ -1,37 +1,30 @@
-[
-    "AnGiang.geojson",
-    "BacNinh.geojson",
-    "CaMau.geojson",
-    "CanTho.geojson",
-    "CaoBang.geojson",
-    "DaNang.geojson",
-    "DakLak.geojson",
-    "DienBien.geojson",
-    "DongNai.geojson",
-    "DongThap.geojson",
-    "GiaLai.geojson",
-    "HaTinh.geojson",
-    "HaiPhong.geojson",
-    "HaNoi.geojson",
-    "HCM-px.geojson",
-    "HoChiMinh.geojson",
-    "Hue.geojson",
-    "HungYen.geojson",
-    "KhanhHoa.geojson",
-    "LaiChau.geojson",
-    "LamDong.geojson",
-    "LangSon.geojson",
-    "LaoCai.geojson",
-    "NgheAn.geojson",
-    "NinhBinh.geojson",
-    "PhuTho.geojson",
-    "QuangNgai.geojson",
-    "QuangNinh.geojson",
-    "QuangTri.geojson",
-    "SonLa.geojson",
-    "TayNinh.geojson",
-    "ThaiNguyen.geojson",
-    "ThanhHoa.geojson",
-    "TuyenQuang.geojson",
-    "VinhLong.geojson"
-]
+{
+  "version": 1,
+  "source": {
+    "name": "Natural Earth",
+    "version": "5.1.2",
+    "scale": "1:110m",
+    "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
+    "sha256": "6866c877d39cba9c357620878839b336d569f8c662d3cfab4cb1dbe2d39c977f",
+    "license": "Public domain",
+    "licenseUrl": "https://www.naturalearthdata.com/about/terms-of-use/"
+  },
+  "scope": "Single generalized Vietnam outline; no provincial/commune boundaries or static activity annotations.",
+  "files": [
+    {
+      "path": "data/vietnam-outline.geojson",
+      "kind": "boundary",
+      "sha256": "e3e499deafd298bcb6055896b1335fe99d4de1d8642f7a3395aecfded333886f"
+    },
+    {
+      "path": "map-element/map-pin-flower.svg",
+      "kind": "image",
+      "sha256": "3d5a1907f2f4a149f8887f71e8a1668377beb528cd2b3e7c6d5469bec625414c"
+    },
+    {
+      "path": "map-element/map-frame-01.svg",
+      "kind": "image",
+      "sha256": "46d714f59b59592b16d11003d4199c0d1710882053882b557d5f8efa6c6afa83"
+    }
+  ]
+}
