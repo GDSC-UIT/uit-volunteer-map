@@ -1,80 +1,23 @@
-import { Router } from 'express';
+import { Router, type Request, type Response } from 'express';
 import { validate } from '../middleware/validate.js';
 import { authenticateToken, requireRole } from '../middleware/auth.js';
 import { createAccountSchema, updateAccountSchema } from '../schemas/account.js';
+import { readId } from '../schemas/read.js';
 import { AccountService } from '../service/accountServices.js';
-import { RoleEnum } from  '@uit-volunteer-map/shared';
+import { RoleEnum, ERROR_MESSAGES } from '@uit-volunteer-map/shared';
+import { HttpError } from '../errors/HttpError.js';
 
-const router = Router();
-const accountService = new AccountService();
-
-router.use(authenticateToken, requireRole([RoleEnum.ADMIN]));
-
-// Get All
-    router.get('/',
-        async (_req, res) => {
-        const accounts = await accountService.getAllAccounts();
-        res.json(accounts);
-    });
-
-// Create Account (Leader only)
-    router.post('/', validate(createAccountSchema), async (req, res) => {
-        try {
-            await accountService.createAccount(req.body);
-            res.status(201).json({
-                success: true,
-                message: "Tạo tài khoản thành công"
-            });
-            } catch (error: any) {
-            res.status(400).json({
-                success: false,
-                message: error.message
-            });
-            }
-    });
-
-// Update Account
-    router.put('/:id', validate(updateAccountSchema), async (req, res) => {
-        try {
-            const updated = await accountService.updateAccount(Number(req.params.id), req.body);
-            res.json({
-                success: true,
-                data: updated,
-                message: "Cập nhật tài khoản thành công"
-            });
-        } catch (error: any) {
-            res.status(400).json({ 
-                success: false, 
-                message: error.message 
-            });
-        }
-    });
-
-// Soft Delete Account
-    router.delete('/:id', async (req, res) => {
-        try {
-            await accountService.softDeleteAccount(Number(req.params.id));
-            
-            // Đổi từ 204 sang 200 để có thể gửi trả Body JSON
-            res.status(200).json({
-                success: true,
-                message: "Xóa tài khoản thành công"
-            });
-        } catch (error: any) {
-            res.status(400).json({ 
-                success: false, 
-                message: error.message 
-            });
-        }
-    });
-// Get Account Info
-    router.get('/:id', async (req, res) => {
-        try {
-            const accInfo = await accountService.getAccountInfo(Number(req.params.id));
-            res.json(accInfo);
-        } catch (error: any) {
-            res.status(400).json({ message: error.message });
-        }
-    })
-
-export { router as accountRouter };
+const router = Router(), service = new AccountService();
+router.use(authenticateToken,requireRole([RoleEnum.ADMIN]));
+const handle = (work:(req:Request)=>Promise<unknown>,status=200) => async (req:Request,res:Response) => {
+  try {res.status(status).json({success:true,data:await work(req)});}
+  catch (error:unknown) {res.status(error instanceof HttpError ? error.statusCode : 500)
+    .json({success:false,error:error instanceof HttpError ? error.message : ERROR_MESSAGES.INTERNAL_SERVER_ERROR});}
+};
+router.get('/',handle(()=>service.getAllAccounts()));
+router.get('/:id',handle(req=>service.getAccountInfo(readId(req.params.id,'account'))));
+router.post('/',validate(createAccountSchema),handle(req=>service.createAccount(req.body),201));
+router.put('/:id',validate(updateAccountSchema),handle(req=>service.updateAccount(readId(req.params.id,'account'),req.body)));
+// Deactivate and release assignments; never physically delete identity/history.
+router.delete('/:id',handle(req=>service.softDeleteAccount(readId(req.params.id,'account'))));
+export {router as accountRouter};
