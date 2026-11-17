@@ -9,11 +9,13 @@ export const API_ROUTES = {
   CAMPAIGNS: "/campaigns",
   USERS: "/users",
   POSTS: "/posts",
+  TEAMS: "/teams",
   ADMIN: {
     BASE: "/admin",
   },
   LEADER: {
     BASE: "/leader",
+    TEAM: "/leader/team",
   },
   HEALTH: "/health",
 } as const;
