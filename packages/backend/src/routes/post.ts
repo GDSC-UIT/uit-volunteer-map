@@ -10,7 +10,6 @@ import {
   Post,
   Photo,
   POST_MESSAGES,
-  POST_ERRORS,
 } from "@uit-volunteer-map/shared";
 import { PostService } from "../service/postService.js";
 import {
@@ -73,7 +72,7 @@ router.use(authenticateToken, requireRole([RoleEnum.ADMIN, RoleEnum.LEADER]));
 
 router.post("/", validate(createPostSchema), async (req, res) => {
   try {
-    const result = await postService.create(req.body);
+    const result = await postService.create(req.body, req.user!);
     return res.status(HTTP_STATUS.OK).json({
       success: true,
       data: result,
@@ -101,14 +100,7 @@ router.post(
   async (req, res) => {
     try {
       const postId = Number(req.params.id);
-      if (isNaN(postId)) {
-        const response: ApiResponse<null> = {
-          success: false,
-          error: POST_ERRORS.NOT_FOUND,
-        };
-        return res.status(HTTP_STATUS.BAD_REQUEST).json(response);
-      }
-      const result = await postService.addPhoto(postId, req.body);
+      const result = await postService.addPhoto(postId, req.body, req.user!);
       const response: ApiResponse<Photo> = {
         success: true,
         data: result,
@@ -133,7 +125,7 @@ router.post(
 
 router.put("/:id", validate(updatePostSchema), async (req, res) => {
   try {
-    const result = await postService.update(Number(req.params.id), req.body);
+    const result = await postService.update(Number(req.params.id), req.body, req.user!);
     const response: ApiResponse<Post> = {
       success: true,
       data: result,
@@ -158,7 +150,7 @@ router.put("/:id", validate(updatePostSchema), async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    const result = await postService.delete(Number(req.params.id));
+    const result = await postService.delete(Number(req.params.id), req.user!);
     const response: ApiResponse<Post> = {
       success: true,
       data: result,

@@ -42,7 +42,10 @@ export const POST_MESSAGES = {
 } as const;
 
 export const POST_ERRORS = {
-  NOT_FOUND: 'Post not found'
+  NOT_FOUND: 'Post not found',
+  INVALID_ID: 'Invalid post ID',
+  FORBIDDEN_ACCESS: 'You are not allowed to modify posts in this team',
+  AUTHOR_REQUIRED: 'An active user profile is required to publish posts'
 } as const;
 
 export const TEAM_ERRORS = {
