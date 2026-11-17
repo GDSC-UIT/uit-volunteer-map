@@ -1,3 +1,4 @@
+import { campaignDto } from '../transport/read.js';
 import { AppDataSource } from '../db/data-source.js';
 import { Campaign } from '../entities/Campaign.js';
 import { CreateCampaignInput, UpdateCampaignInput } from '../schemas/campaign.js';
@@ -9,12 +10,16 @@ export class CampaignService {
 
   // 1. GET ALL
   async getAll() {
-    return await this.campaignRepo.find();
+    return (await this.campaignRepo.find({ relations: ['attachments'], order: { campaignId: 'ASC' } })).map(campaignDto);
   }
 
   // 2. GET ONE
   async getOne(id: number) {
-    const campaign = await this.campaignRepo.findOneBy({ campaignId: id });
+    return campaignDto(await this.getEntity(id));
+  }
+
+  private async getEntity(id: number) {
+    const campaign = await this.campaignRepo.findOne({ where: { campaignId: id }, relations: ['attachments'] });
     if (!campaign) throw new HttpError(CAMPAIGN_ERRORS.NOT_FOUND, HTTP_STATUS.NOT_FOUND);
     return campaign;
   }
@@ -30,7 +35,7 @@ export class CampaignService {
 
   // 4. UPDATE
   async update(id: number, data: UpdateCampaignInput) {
-    const campaign = await this.getOne(id);
+    const campaign = await this.getEntity(id);
     this.campaignRepo.merge(campaign, data);
     return await this.campaignRepo.save(campaign);
   }

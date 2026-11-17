@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { readId } from '../schemas/read.js';
 import { CampaignService } from '../service/campaignService.js';
 import { validate } from '../middleware/validate.js';
 import { createCampaignSchema, updateCampaignSchema } from '../schemas/campaign.js';
@@ -32,13 +33,7 @@ router.get('/', async (_req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const id = Number(req.params.id);
-    if (isNaN(id)) {
-      return res.status(HTTP_STATUS.BAD_REQUEST).json({
-        success: false,
-        error: CAMPAIGN_ERRORS.INVALID_ID,
-      });
-    }
+    const id = readId(req.params.id, "campaign");
     const data = await campaignService.getOne(id);
     res.status(HTTP_STATUS.OK).json({ success: true, data });
   } catch (err: unknown) {

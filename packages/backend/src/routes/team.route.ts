@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { readId, optionalReadId } from "../schemas/read.js";
 import { TeamService } from "../service/teamService.js";
 import { validate } from "../middleware/validate.js";
 import { createTeamSchema, updateTeamSchema, addTeamAttachmentsSchema } from "../schemas/team.js";
@@ -17,8 +18,7 @@ const teamService = new TeamService();
 
 router.get("/", async (req, res) => {
   try {
-    const userRole = req.user?.role;
-    const data = await teamService.getAll(userRole);
+    const data = await teamService.getAll({ campaignId: optionalReadId(req.query.campaignId, "campaign") });
     res.status(HTTP_STATUS.OK).json({ success: true, data });
   } catch (err: unknown) {
     if (err instanceof HttpError) {
@@ -35,13 +35,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const id = Number(req.params.id);
-    if (isNaN(id)) {
-      return res.status(HTTP_STATUS.BAD_REQUEST).json({
-        success: false,
-        error: TEAM_ERRORS.INVALID_ID,
-      });
-    }
+    const id = readId(req.params.id, "team");
     const data = await teamService.getOne(id);
     res.status(HTTP_STATUS.OK).json({ success: true, data });
   } catch (err: unknown) {
@@ -191,13 +185,7 @@ router.post(
 
 router.get("/:id/attachments", async (req, res) => {
   try {
-    const id = Number(req.params.id);
-    if (isNaN(id)) {
-      return res.status(HTTP_STATUS.BAD_REQUEST).json({
-        success: false,
-        error: TEAM_ERRORS.INVALID_ID,
-      });
-    }
+    const id = readId(req.params.id, "team");
     const data = await teamService.getTeamWithAttachments(id);
     res.status(HTTP_STATUS.OK).json({ success: true, data });
   } catch (err: unknown) {

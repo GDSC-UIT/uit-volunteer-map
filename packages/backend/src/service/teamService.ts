@@ -1,3 +1,5 @@
+import { teamDto } from "../transport/read.js";
+import type { TeamReadFilters } from "@uit-volunteer-map/shared";
 import { AppDataSource } from "../db/data-source.js";
 import { Team } from "../entities/Team.js";
 import { User } from "../entities/User.js";
@@ -12,58 +14,22 @@ export class TeamService {
   private userRepo = AppDataSource.getRepository(User);
   private campaignRepo = AppDataSource.getRepository(Campaign);
   private attachmentRepo = AppDataSource.getRepository(Attachment);
-  async getAll(userRole?: string) {
-    const teams = await this.teamRepo.find({
-      where: { isDeleted: 0 },
-      relations: ["leader", "users", "users.account", "users.account.role"],
-    });
-   if (userRole === "guest" || !userRole) {
-      return teams.map((team) => {
-        const leaders = team.users.filter(
-          (u) =>
-            u.isDeleted === 0 && u.account?.role?.roleName === RoleEnum.LEADER,
-        );
-
-        return {
-          teamId: team.teamId,
-          teamName: team.teamName,
-          imageUrl: team.imageUrl,
-          leaders: leaders.map((l) => ({
-            userId: l.userId,
-            fullName: l.fullName,
-            role: l.account?.role?.roleName,
-          })),
-        };
-      });
+  private readQuery() {
+    return this.teamRepo.createQueryBuilder("team")
+      .innerJoinAndSelect("team.campaign", "campaign")
+      .leftJoinAndSelect("team.attachments", "attachments")
+      .leftJoinAndSelect("team.users", "users")
+      .leftJoinAndSelect("users.account", "account")
+      .leftJoinAndSelect("account.role", "role")
+      .where("team.isDeleted = :deleted", { deleted: 0 });
+  }
+  async getAll(filters: TeamReadFilters = {}) {
+    if (filters.campaignId !== undefined && !await this.campaignRepo.existsBy({ campaignId: filters.campaignId })) {
+      throw new HttpError(TEAM_ERRORS.CAMPAIGN_NOT_FOUND, HTTP_STATUS.NOT_FOUND);
     }
-
-    return teams.map((team) => {
-      const leaders = team.users.filter(
-        (u) =>
-          u.isDeleted === 0 && u.account?.role?.roleName === RoleEnum.LEADER,
-      );
-
-      const leaderIds = leaders.map((l) => l.userId);
-      const members = team.users.filter(
-        (u) => u.isDeleted === 0 && !leaderIds.includes(u.userId),
-      );
-
-      return {
-        teamId: team.teamId,
-        teamName: team.teamName,
-        description: team.description,
-        imageUrl: team.imageUrl,
-        leaders: leaders.map((l) => ({
-          userId: l.userId,
-          fullName: l.fullName,
-          role: l.account?.role?.roleName,
-        })),
-        members: members.map((m) => ({
-          userId: m.userId,
-          fullName: m.fullName,
-        })),
-      };
-    });
+    const query = this.readQuery();
+    if (filters.campaignId !== undefined) query.andWhere("campaign.campaignId = :campaignId", { campaignId: filters.campaignId });
+    return (await query.orderBy("team.teamId", "ASC").getMany()).map(teamDto);
   }
 
   private async getTeamEntity(id: number) {
@@ -80,35 +46,19 @@ export class TeamService {
   }
 
   async getOne(id: number) {
-    const team = await this.getTeamEntity(id);
-
-    const leaders = await this.userRepo.find({
-      where: {
-        team: { teamId: id },
-        isDeleted: 0,
-        account: {
-          role: {
-            roleName: RoleEnum.LEADER,
-          },
-        },
-      },
-      relations: ["account", "account.role"],
-    });
-
-    return {
-      teamId: team.teamId,
-      teamName: team.teamName,
-      description: team.description,
-      imageUrl: team.imageUrl,
-      leaders: leaders.map((leader) => ({
-        userId: leader.userId,
-        fullName: leader.fullName,
-        role: leader.account?.role?.roleName,
-        avatarUrl: leader.avatarUrl,
-      })),
-    };
+    const team = await this.readQuery().andWhere("team.teamId = :id", { id }).getOne();
+    if (!team) throw new HttpError(TEAM_ERRORS.NOT_FOUND, HTTP_STATUS.NOT_FOUND);
+    return teamDto(team);
   }
-  
+
+  async getOwnTeam(actor: JwtPayload) {
+    const user = await this.userRepo.findOne({
+      where: { account: { accId: actor.accId }, isDeleted: 0 }, relations: ["team"],
+    });
+    if (!user?.team) throw new HttpError(TEAM_ERRORS.NOT_FOUND, HTTP_STATUS.NOT_FOUND);
+    return this.getOne(user.team.teamId);
+  }
+
   async create(data: CreateTeamInput) {
     const campaign = await this.campaignRepo.findOne({
       where: { campaignId: data.campaignId },
@@ -150,9 +100,9 @@ export class TeamService {
     const newTeam = this.teamRepo.create({
       teamName: data.teamName,
       description: data.description,
-      leader: { userId: data.leaderId } as any,
+      leader: { userId: data.leaderId },
       imageUrl: data.imageUrl,
-      campaign: { campaignId: data.campaignId } as any,
+      campaign: { campaignId: data.campaignId },
       isDeleted: 0,
     });
 
@@ -164,7 +114,7 @@ export class TeamService {
           imageUrl: attachment.imageUrl,
           uploadedAt: new Date().toISOString(),
           position: attachment.position ?? index,
-          team: { teamId: savedTeam.teamId } as any,
+          team: { teamId: savedTeam.teamId },
         })
       );
       await this.attachmentRepo.save(attachmentsToCreate);
@@ -246,7 +196,7 @@ export class TeamService {
         imageUrl: attachment.imageUrl,
         uploadedAt: new Date().toISOString(),
         position: attachment.position ?? (maxPosition + 1 + index),
-        team: { teamId } as any,
+        team: { teamId },
       })
     );
 
@@ -255,15 +205,6 @@ export class TeamService {
   }
 
   async getTeamWithAttachments(teamId: number) {
-    const team = await this.teamRepo.findOne({
-      where: { teamId, isDeleted: 0 },
-      relations: ["attachments", "leader"],
-    });
-
-    if (!team) {
-      throw new HttpError(TEAM_ERRORS.NOT_FOUND, HTTP_STATUS.NOT_FOUND);
-    }
-
-    return team;
+    return this.getOne(teamId);
   }
 }

@@ -1,3 +1,6 @@
+import { postSummaryDto, postDetailDto } from "../transport/read.js";
+import type { PostReadFilters } from "@uit-volunteer-map/shared";
+import { Campaign } from "../entities/Campaign.js";
 import { AppDataSource } from "../db/data-source.js";
 import { Post } from "../entities/Post.js";
 import { Photo } from "../entities/Photo.js";
@@ -15,51 +18,30 @@ export class PostService {
   private postRepo = AppDataSource.getRepository(Post);
   private photoRepo = AppDataSource.getRepository(Photo);
 
-  async getAll() {
-    const posts = await this.postRepo.find({
-      where: { isDeleted: 0 },
-      relations: ["photos", "team", "author"],
-    });
+  private readQuery() {
+    return this.postRepo.createQueryBuilder("post")
+      .innerJoinAndSelect("post.team", "team", "team.isDeleted = :teamDeleted", { teamDeleted: 0 })
+      .innerJoinAndSelect("team.campaign", "campaign")
+      .leftJoinAndSelect("post.author", "author")
+      .leftJoinAndSelect("post.photos", "photos")
+      .where("post.isDeleted = :deleted", { deleted: 0 });
+  }
 
-    return posts.map((post) => {
-      const photos = post.photos?.filter((p) => p.isDeleted === 0) || [];
-      const thumbnail =
-        photos.find((p) => p.isFirstImage === 1) || photos[0] || null;
-
-      return {
-        postId: post.postId,
-        title: post.title,
-        content: post.content,
-        createdAt: post.createdAt,
-        updatedAt: post.updatedAt,
-        thumbnail: thumbnail
-          ? {
-              photoId: thumbnail.photoId,
-              imageUrl: thumbnail.imageUrl,
-              title: thumbnail.title,
-            }
-          : null,
-        team: post.team
-          ? {
-              teamId: post.team.teamId,
-              teamName: post.team.teamName,
-            }
-          : null,
-        author: post.author
-          ? {
-              userId: post.author.userId,
-              fullName: post.author.fullName,
-            }
-          : null,
-      };
-    });
+  async getAll(filters: PostReadFilters = {}) {
+    if (filters.campaignId !== undefined && !await AppDataSource.getRepository(Campaign).existsBy({ campaignId: filters.campaignId })) {
+      throw new HttpError(TEAM_ERRORS.CAMPAIGN_NOT_FOUND, HTTP_STATUS.NOT_FOUND);
+    }
+    if (filters.teamId !== undefined) await this.getActiveTeam(filters.teamId);
+    const query = this.readQuery();
+    if (filters.teamId !== undefined) query.andWhere("team.teamId = :teamId", { teamId: filters.teamId });
+    if (filters.campaignId !== undefined) query.andWhere("campaign.campaignId = :campaignId", { campaignId: filters.campaignId });
+    return (await query.orderBy("post.postId", "ASC").getMany()).map(postSummaryDto);
   }
 
   async getOne(id: number) {
-    const post = await this.postRepo.findOneBy({ postId: id });
-    if (!post || post.isDeleted === 1)
-      throw new HttpError(POST_ERRORS.NOT_FOUND, HTTP_STATUS.NOT_FOUND);
-    return post;
+    const post = await this.readQuery().andWhere("post.postId = :id", { id }).getOne();
+    if (!post) throw new HttpError(POST_ERRORS.NOT_FOUND, HTTP_STATUS.NOT_FOUND);
+    return postDetailDto(post);
   }
 
   private async getActiveTeam(teamId: number) {

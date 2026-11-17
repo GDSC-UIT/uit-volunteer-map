@@ -8,9 +8,11 @@ import {
   ERROR_MESSAGES,
   ApiResponse,
   Post,
+  PostDetailDto,
   Photo,
   POST_MESSAGES,
 } from "@uit-volunteer-map/shared";
+import { readId, optionalReadId } from "../schemas/read.js";
 import { PostService } from "../service/postService.js";
 import {
   createPostSchema,
@@ -21,9 +23,9 @@ import {
 const router = Router();
 const postService = new PostService();
 
-router.get("/", async (_req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const result = await postService.getAll();
+    const result = await postService.getAll({ campaignId: optionalReadId(req.query.campaignId, "campaign"), teamId: optionalReadId(req.query.teamId, "team") });
     return res.status(HTTP_STATUS.OK).json({
       success: true,
       data: result,
@@ -46,8 +48,8 @@ router.get("/", async (_req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const result = await postService.getOne(Number(req.params.id));
-    const response: ApiResponse<Post> = {
+    const result = await postService.getOne(readId(req.params.id, "post"));
+    const response: ApiResponse<PostDetailDto> = {
       success: true,
       data: result,
     };
