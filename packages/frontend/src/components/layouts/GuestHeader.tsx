@@ -30,13 +30,26 @@ export default function GuestHeader() {
       },
     );
 
-    if (pathname !== campaignPath) setActive(null);
-    SECTIONS.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
+    if (pathname !== campaignPath) {
+      setActive(null);
+      return () => observer.disconnect();
+    }
+    const observed = new Set<Element>();
+    const observeSections = () => {
+      SECTIONS.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el && !observed.has(el)) {
+          observed.add(el);
+          observer.observe(el);
+        }
+      });
+      if (observed.size === SECTIONS.length) mutations.disconnect();
+    };
+    // API content can mount after the header and its initial effect.
+    const mutations = new MutationObserver(observeSections);
+    mutations.observe(document.body, { childList: true, subtree: true });
+    observeSections();
+    return () => { mutations.disconnect(); observer.disconnect(); };
   }, [pathname, campaignPath]);
 
   const scrollToSection = useCallback((id: SectionId) => {
@@ -55,8 +68,16 @@ export default function GuestHeader() {
   useEffect(() => {
     const id = hash.slice(1) as SectionId;
     if (pathname !== campaignPath || !SECTIONS.includes(id)) return;
-    const frame = requestAnimationFrame(() => scrollToSection(id));
-    return () => cancelAnimationFrame(frame);
+    let frame = 0;
+    const scrollWhenReady = () => {
+      if (!document.getElementById(id)) return;
+      mutations.disconnect();
+      frame = requestAnimationFrame(() => scrollToSection(id));
+    };
+    const mutations = new MutationObserver(scrollWhenReady);
+    mutations.observe(document.body, { childList: true, subtree: true });
+    scrollWhenReady();
+    return () => { mutations.disconnect(); cancelAnimationFrame(frame); };
   }, [pathname, hash, campaignPath, scrollToSection]);
 
   const handleClick = (
