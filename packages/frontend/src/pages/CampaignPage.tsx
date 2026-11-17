@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { Link, useParams, useLocation } from "react-router";
+import { useCallback } from "react";
+import { Link, useParams, useLocation, useNavigate } from "react-router";
 import { useCampaign } from "@/hooks/useCampaigns";
 import ReadState from "@/components/ui/ReadState";
 import { routeId } from "@/hooks/readState";
 import MapView from "@/components/layouts/MapView";
 import Statistic from "@/components/layouts/Statistic";
-import TimeSelect from "@/components/layouts/TimeSelect";
+import { getMapPosts } from "@/components/layouts/mapData";
 import TeamItem from "@/components/ui/TeamItem";
 
 import { useTeamsByCampaign } from "@/hooks/useTeams";
@@ -14,17 +14,22 @@ import { usePostsByCampaign } from "@/hooks/usePosts";
 import bndLogo from "@/assets/icons/bnd.png";
 import bgTop from "@/assets/background/background_top-01.svg";
 import { PostItem } from "@/components/ui/PostItem";
+import type { PostSummaryDto } from "@uit-volunteer-map/shared";
 
 export default function CampaignPage() {
   const { campaignId } = useParams();
   const id = routeId(campaignId);
   const location = useLocation();
+  const navigate = useNavigate();
+  const openMapPost = useCallback((post: PostSummaryDto) => {
+    navigate(`post/${post.postId}`, { state: { from: location.pathname } });
+  }, [navigate, location.pathname]);
   const campaign = useCampaign(id);
   const teamsQuery = useTeamsByCampaign(id);
   const postsQuery = usePostsByCampaign(id);
   const teams = teamsQuery.data ?? [];
   const posts = postsQuery.data ?? [];
-  const [mapNotice, setMapNotice] = useState('Bản đồ chưa kết nối bài đăng. Vui lòng xem danh sách hoạt động bên dưới.');
+  const locatedPosts = getMapPosts(posts, id);
   if(!id) return <p role="alert" className="p-8">Không tìm thấy chiến dịch.</p>;
   if(!campaign.data || campaign.isError) return <ReadState pending={campaign.isPending} error={campaign.error} label="chiến dịch" onRetry={campaign.refetch} />;
 
@@ -43,31 +48,28 @@ export default function CampaignPage() {
       <main className="flex-1">
         <h1 className="text-center text-3xl font-bold p-4">{campaign.data.campaignName}</h1>
         <section id="mapSection" className="max-w-6xl mx-auto px-4">
-          <div className="p-3 rounded-md flex">
-            <div
-              className="relative flex items-center justify-center"
-              style={{ width: 650, height: 550 }}
-            >
-              <div
-                className="overflow-hidden"
-                style={{ width: 580, height: 450, zIndex: 1 }}
-              >
+          <div className="p-0 sm:p-3 rounded-md flex flex-col lg:flex-row items-center gap-4">
+            <div className="relative w-full max-w-[650px] p-8 sm:p-12 shrink-0 lg:w-[60%]">
+              <div className="relative z-20">
                 <MapView
-                  onMarkerClick={() => setMapNotice("Thông tin bản đồ chưa được kết nối. Chọn bài đăng trong danh sách hoạt động.")}
-                  onMarkerHover={() => {}}
+                  campaignId={id}
+                  posts={posts}
+                  onMarkerClick={openMapPost}
                 />
               </div>
               <img
                 src="/map-element/map-frame-01.svg"
-                className="absolute top-0 left-0 pointer-events-none w-170 z-10"
+                className="absolute inset-0 pointer-events-none w-full h-full z-10"
                 alt=""
               />
             </div>
-            <Statistic />
+            <Statistic postCount={postsQuery.isSuccess ? posts.length : undefined} teamCount={teamsQuery.isSuccess ? teams.length : undefined} mappedCount={postsQuery.isSuccess ? locatedPosts.length : undefined} />
           </div>
-          <TimeSelect />
-          <p role="status" className="p-3 text-center">{mapNotice}</p>
-          <p className="text-center text-sm">Năm và số liệu trên bản đồ là minh họa, chưa kết nối dữ liệu.</p>
+          <p role="status" className="p-3 text-center">
+            {postsQuery.isPending ? 'Đang tải điểm bài đăng…' : postsQuery.isError ? 'Chưa tải được điểm bài đăng. Vui lòng thử lại ở danh sách hoạt động.'
+              : locatedPosts.length ? `${locatedPosts.length} bài đăng có tọa độ. Chọn một bông hoa để mở đúng bài đăng.` : 'Chưa có bài đăng có tọa độ trong chiến dịch này.'}
+            {postsQuery.isSuccess && posts.length > locatedPosts.length && ` ${posts.length - locatedPosts.length} bài chưa có tọa độ hợp lệ; vẫn có trong danh sách hoạt động.`}
+          </p>
         </section>
 
         <section id="info" className="max-w-6xl mx-auto mt-16 px-6">

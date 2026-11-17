@@ -1,0 +1,4 @@
+.volunteer-map { background: #fff2c9; border-radius: 24px; }
+.volunteer-map .leaflet-control-zoom a { width: 44px; height: 44px; line-height: 44px; }
+.volunteer-map .leaflet-marker-icon:focus-visible { outline: 3px solid #660000; outline-offset: 3px; border-radius: 50%; }
+.volunteer-map .leaflet-control-attribution { max-width: 100%; white-space: normal; }

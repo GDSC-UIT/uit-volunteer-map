@@ -1,339 +1,102 @@
-import { useEffect, useRef } from "react";
-import L, { LeafletMouseEvent } from "leaflet";
-import "leaflet/dist/leaflet.css";
-
-declare module "leaflet" {
-  interface Layer {
-    __labelMarker?: L.Marker;
-  }
-  interface GeoJSONOptions {
-    renderer?: L.Renderer;
-  }
-}
-
-export interface MarkerData {
-  title?: string;
-  x?: number;
-  y?: number;
-  [key: string]: unknown;
-}
+import { useEffect, useRef, useState } from 'react';
+import L from 'leaflet';
+import type { PostSummaryDto } from '@uit-volunteer-map/shared';
+import { getMapPosts, loadMapBoundary } from './mapData';
+import 'leaflet/dist/leaflet.css';
+import './MapView.css';
 
 interface MapViewProps {
-  onMarkerClick: (data: MarkerData) => void;
-  onMarkerHover: (data: MarkerData | null) => void;
+  campaignId: number;
+  posts: PostSummaryDto[];
+  onMarkerClick: (post: PostSummaryDto) => void;
 }
 
-const highlightLabel = (marker: L.Marker) => {
-  const el = marker.getElement();
-  if (!el) return;
+const countryBounds = L.latLngBounds([8.2, 102], [23.6, 110]);
+const flowerIcon = L.icon({ iconUrl: '/map-element/map-pin-flower.svg', iconSize: [36, 36], iconAnchor: [18, 18] });
 
-  el.classList.add("label-highlight");
-};
-
-const resetLabel = (marker: L.Marker) => {
-  const el = marker.getElement();
-  if (!el) return;
-
-  el.classList.remove("label-highlight");
-};
-
-const mapBounds = L.latLngBounds(
-  [2, 95],
-  [30, 120]
-);
-
-const MapView: React.FC<MapViewProps> = ({ onMarkerClick, onMarkerHover }) => {
+export default function MapView({ campaignId, posts, onMarkerClick }: MapViewProps) {
+  const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
+  const markerLayer = useRef<L.LayerGroup | null>(null);
+  const viewBounds = useRef(countryBounds);
+  const [attempt, setAttempt] = useState(0);
+  const [boundaryState, setBoundaryState] = useState<'loading' | 'ready' | 'error'>('loading');
 
   useEffect(() => {
-    if (mapRef.current) return;
-
-    // ===============================
-    // 1. Init Map
-    // ===============================
-    
-    
-
-    const map = L.map("map", {
-      minZoom: 4,
-      maxZoom: 14,
-      zoomSnap: 2,
-      zoomDelta: 2,
-      scrollWheelZoom: true,
-      doubleClickZoom: true,
-      touchZoom: true,
-      boxZoom: true,
-      keyboard: true,
-      maxBounds: mapBounds,
-
-      dragging: true,
-      zoomControl: true,
-      attributionControl: false,
-      preferCanvas: true,
-    }).setView([10.8231, 106.6296], 6); // TP. HCM
-    //.setView([16.047079, 108.206231], 4); // Toàn map
-
-    console.log("scrollWheelZoom", map.scrollWheelZoom.enabled());
-    console.log("doubleClickZoom", map.doubleClickZoom.enabled());
-    console.log("touchZoom", map.touchZoom.enabled());
-
+    if (!container.current) return;
+    const abort = new AbortController();
+    const map = L.map(container.current, {
+      minZoom: -3, maxZoom: 18, zoomSnap: 0.5, zoomDelta: 1,
+      scrollWheelZoom: false, keyboard: true, attributionControl: true,
+    });
     mapRef.current = map;
-    // Resize map after container size stable
-    setTimeout(() => {
-      map.invalidateSize();
-    }, 500);
-    // ===============================
-    // 2. Tile Layer (OSM / Esri) (Optional)
-    // ===============================
-    /*L.tileLayer(
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
-      {
-        maxZoom: 14,
-      },
-    ).addTo(map);*/
-
-    // ===============================
-    // 3. Layer Groups
-    // ===============================
-    const areasGroup = L.layerGroup();
-    const tinhLayer = L.layerGroup();
-    const xaLayer = L.layerGroup();
-    const tinhLabelLayer = L.layerGroup();
-    const xaLabelLayer = L.layerGroup();
-    const annotationLayer = L.layerGroup();
-
-    // ===============================
-    // 4. Utils
-    // ===============================
-    const visitedTinh = [
-      // Todo: Thay cái này bằng Gọi API
-      "TP. Hồ Chí Minh",
-      "Gia Lai",
-      "Đắk Lắk",
-      "Vĩnh Long",
-    ];
-
-    const getColor = (tenTinh?: string) =>
-      visitedTinh.includes(tenTinh ?? "") ? "#FF632A" : "#FFF2C9";
-
-    const getOpacity = (tenXa?: string) => (tenXa ? 1 : 1);
-
-    const hoverStyle = (): L.PathOptions => ({
-      weight: 2,
-      color: "#FFBA4A",
-      fillOpacity: 0.6,
+    markerLayer.current = L.layerGroup().addTo(map);
+    map.fitBounds(countryBounds, { padding: [12, 12] });
+    map.attributionControl.setPrefix(false);
+    map.attributionControl.addAttribution('<a href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noopener noreferrer">Natural Earth</a>');
+    const resize = new ResizeObserver(() => {
+      map.invalidateSize({ pan: false });
+      map.fitBounds(viewBounds.current, { padding: [24, 24], maxZoom: 9, animate: false });
     });
-
-    // ===============================
-    // 5. Arrow Marker
-    // ===============================
-    const normalIcon = L.icon({
-      iconUrl: "/map-element/map-pin-flower.svg",
-      iconSize: [30, 30],
-      iconAnchor: [15, 15],
+    resize.observe(container.current);
+    setBoundaryState('loading');
+    void loadMapBoundary(abort.signal).then(data => {
+      if (abort.signal.aborted) return;
+      L.geoJSON(data, { interactive: false, style: { fillColor: '#FFF2C9', color: '#FFBA4A', weight: 1.5, fillOpacity: 0.8 } }).addTo(map);
+      setBoundaryState('ready');
+    }).catch(() => {
+      if (!abort.signal.aborted) setBoundaryState('error');
     });
-
-    const hoverIcon = L.icon({
-      iconUrl: "/map-element/map-pin-flower.svg",
-      iconSize: [42, 42],      // phóng to
-      iconAnchor: [21, 21],    // giữ đúng tâm
-    });
-    
-    const createArrowIcon = () => normalIcon
-
-    // ===============================
-    // 6. Load Annotations
-    // ===============================
-    fetch("/data/annotations.geojson")
-      .then((res) => res.json())
-      .then((data) => {
-        L.geoJSON(data, {
-          pointToLayer: (_feature, latlng) =>
-            L.marker(latlng, {
-              icon: createArrowIcon(),
-            }),
-          onEachFeature: (feature, layer) => {
-            layer.on("click", (e) => {
-              console.log("Annotation:", feature.properties);
-              L.DomEvent.stopPropagation(e);
-              onMarkerClick(feature.properties); // Todo : Thay '1' bằng dữ liệu thực tế của bạn
-            });
-
-            layer.on("mouseover", (e: LeafletMouseEvent) => {
-              const marker = e.target as L.Marker;
-              marker.setIcon(hoverIcon);
-              onMarkerHover({
-                title: feature.properties.title,
-                x: e.originalEvent.clientX,
-                y: e.originalEvent.clientY,
-                // Bạn có thể lấy tọa độ chuột để hiển thị BasicInfo ngay tại con trỏ
-              });
-            });
-
-            // 3. Sự kiện RỜI CHUỘT (Mouse Out)
-            layer.on("mouseout", (e: LeafletMouseEvent) => {
-              const marker = e.target as L.Marker;
-              marker.setIcon(normalIcon);
-              onMarkerHover(null); // Xóa dữ liệu hover để ẩn Component đi
-            });
-          },
-        }).addTo(annotationLayer);
-      });
-
-    annotationLayer.addTo(map);
-    // ===============================
-    // 7. Load GeoJSON Areas
-    // ===============================
-    const canvasRenderer = L.canvas();
-
-    const loadGeoJSONFile = async (fileName: string) => {
-      try {
-        const res = await fetch(`/data/${fileName}`);
-        const data: GeoJSON.FeatureCollection = await res.json();
-
-        if (!data.features || data.features.length === 0) {
-          console.warn("Empty geojson:", fileName);
-          return;
-        }
-
-        // ===== Base style (1 nơi duy nhất) =====
-        const baseStyle: L.PathOptions = {
-          fillColor: getColor(data.features[0].properties?.ten_tinh),
-          weight: 1,
-          fillOpacity: getOpacity(data.features[0].properties?.ten_xa),
-          color: "#FFBA4A",
-          className: "area-layer",
-        };
-
-        // ===== Tạo GeoJSON layer =====
-        const geoJsonLayer = L.geoJSON(data, {
-          style: baseStyle,
-          renderer: canvasRenderer,
-          onEachFeature: (feature, featureLayer) => {
-            const layer = featureLayer as L.Path;
-            const polygonLayer = featureLayer as L.Polygon | L.Polyline;
-
-            // ===== Add vào layer phù hợp =====
-            let labelMarker: L.Marker | null = null;
-            if (feature.properties?.ten_xa === undefined) {
-              tinhLayer.addLayer(featureLayer);
-
-              const bounds = polygonLayer.getBounds();
-              const center = bounds.getCenter();
-              labelMarker = L.marker(center, {
-                interactive: false, // không chặn event
-                icon: L.divIcon({
-                  className: "area-label area-tinh",
-                  html: feature.properties.ten_tinh,
-                }),
-              });
-
-              tinhLabelLayer.addLayer(labelMarker);
-            } else {
-              xaLayer.addLayer(featureLayer);
-
-              const bounds = polygonLayer.getBounds();
-              const center = bounds.getCenter();
-              labelMarker = L.marker(center, {
-                interactive: false, // không chặn event
-                icon: L.divIcon({
-                  className: "area-label area-xa",
-                  html: feature.properties.ten_xa,
-                }),
-              });
-
-              xaLabelLayer.addLayer(labelMarker);
-            }
-
-            layer.__labelMarker = labelMarker;
-            // ===== Hover (KHÔNG dùng resetStyle) =====
-            featureLayer.on({
-              mouseover: () => {
-                layer.setStyle(hoverStyle());
-                layer.bringToFront();
-                highlightLabel(labelMarker);
-              },
-              mouseout: () => {
-                layer.setStyle(baseStyle);
-                resetLabel(labelMarker);
-              },
-            });
-          },
-        });
-
-        // ===== Add vào map (QUAN TRỌNG) =====
-        geoJsonLayer.addTo(areasGroup);
-
-        console.log("Loaded geojson:", fileName);
-      } catch (err) {
-        console.error("Failed to load geojson:", fileName, err);
-      }
-    };
-
-    // ===============================
-    // 8. Load index.json
-    // ===============================
-    fetch("/data/index.json")
-      .then((res) => res.json())
-      .then(async (files: string[]) => {
-        for (const file of files) {
-          await loadGeoJSONFile(file);
-        }
-      });
-
-    // ===============================
-    // 9. Zoom Control
-    // ===============================
-    const updateByZoom = () => {
-      console.log("updateByZoom");
-      const z = map.getZoom();
-
-      map.removeLayer(xaLayer);
-      map.removeLayer(xaLabelLayer);
-      map.removeLayer(tinhLayer);
-      map.removeLayer(tinhLabelLayer);
-
-      if (z >= 12) {
-        map.addLayer(xaLayer);
-        map.addLayer(xaLabelLayer);
-      } else if (z >= 8) {
-        map.addLayer(xaLayer);
-      }
-      if (z < 12) {
-        map.addLayer(tinhLayer);
-        if (z >= 8) {
-          map.addLayer(tinhLabelLayer);
-        }
-      }
-    };
-
-    map.on("zoomend", updateByZoom);
-    map.on("zoom", () => {
-      console.log("zoom event", map.getZoom());
-    });
-
-    map.on("zoomend", () => {
-      console.log("zoomend event", map.getZoom());
-    });
-    map.whenReady(updateByZoom);
-    // ===============================
-    // Cleanup
-    // ===============================
     return () => {
-      //isMountedRef.current = false;
-      //map.off();
-      areasGroup.clearLayers();
-      tinhLayer.clearLayers();
-      xaLayer.clearLayers();
-      tinhLabelLayer.clearLayers();
-      xaLabelLayer.clearLayers();
-      annotationLayer.clearLayers();
-
-      //map.remove();
+      abort.abort();
+      resize.disconnect();
+      map.remove();
+      mapRef.current = null;
+      markerLayer.current = null;
     };
-  }, [onMarkerClick, onMarkerHover]);
+  }, [attempt]);
 
-  return <div id="map" style={{ width: "80vw", height: "80vh" , zIndex: 22, isolation: "isolate"}} />;
-};
+  useEffect(() => {
+    const map = mapRef.current, layer = markerLayer.current;
+    if (!map || !layer) return;
+    layer.clearLayers();
+    const located = getMapPosts(posts, campaignId);
+    const points: L.LatLngTuple[] = [];
+    for (const post of located) {
+      const point = post.coordinates!;
+      const position: L.LatLngTuple = [point.latitude, point.longitude];
+      points.push(position);
+      const label = `Mở bài đăng: ${post.title}`;
+      const marker = L.marker(position, { icon: flowerIcon, title: label, alt: label, keyboard: true, riseOnHover: true });
+      const tooltip = document.createElement('span');
+      tooltip.textContent = post.title;
+      marker.bindTooltip(tooltip);
+      marker.on('click', () => onMarkerClick(post));
+      marker.on('add', () => {
+        marker.getElement()?.addEventListener('keydown', event => {
+          if (event.key === ' ' || event.key === 'Enter') {
+            event.preventDefault();
+            event.stopPropagation();
+            if (!event.repeat) onMarkerClick(post);
+          }
+        });
+      });
+      marker.addTo(layer);
+    }
+    const bounds = L.latLngBounds(countryBounds.getSouthWest(), countryBounds.getNorthEast());
+    for (const point of points) bounds.extend(point);
+    viewBounds.current = bounds;
+    map.fitBounds(bounds, { padding: [24, 24], maxZoom: 9, animate: false });
+  }, [posts, campaignId, onMarkerClick, attempt]);
 
-export default MapView;
+  return <div className="w-full flex flex-col min-w-0">
+    <div className="h-60 sm:h-[380px] lg:h-[450px] shrink-0">
+      <div ref={container} role="region" aria-label="Bản đồ hoạt động" className="volunteer-map w-full h-full isolate" />
+    </div>
+    {boundaryState === 'loading' && <p role="status" className="text-xs bg-[#FFF2C9] p-1">Đang tải nền bản đồ…</p>}
+    {boundaryState === 'error' && <div role="alert" className="text-xs bg-[#FFF2C9] p-2">
+      Không thể tải nền bản đồ. Bạn vẫn có thể chọn điểm bài đăng hoặc xem danh sách hoạt động.
+      <button className="block underline min-h-11" onClick={() => setAttempt(value => value + 1)}>Thử tải lại nền bản đồ</button>
+    </div>}
+  </div>;
+}

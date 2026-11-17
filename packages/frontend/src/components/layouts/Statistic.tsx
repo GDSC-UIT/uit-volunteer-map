@@ -30,33 +30,34 @@ const useCountUp = (end: number, duration: number = 2000) => {
   return count;
 };
 
-const StatItem = ({ num, label }: { num: string; label: string }) => {
-  const animatedNum = useCountUp(parseInt(num), 2000);
+const StatItem = ({ num, label }: { num: number | undefined; label: string }) => {
+  const animatedNum = useCountUp(num ?? 0, 2000);
 
   return (
     <div className="flex items-center">
       {/* CỘT SỐ: Cố định độ rộng và ép nội dung sang phải */}
-      <div className="flex justify-end w-30 mr-6">
-        <span className="stats-number text-[80px] b">{animatedNum}</span>
+      <div className="flex justify-end w-24 shrink-0 mr-4">
+        <span className="stats-number text-6xl lg:text-[80px] b">{num === undefined ? '—' : animatedNum}</span>
       </div>
 
       {/* CỘT CHỮ: Căn lề trái tự nhiên */}
       <div className="flex-1">
-        <span className="stats-label text-[35px] uppercase">{label}</span>
+        <span className="stats-label text-2xl lg:text-[35px] uppercase">{label}</span>
       </div>
     </div>
   );
 };
 
-const Statistic = () => {
+interface Props { postCount?: number; teamCount?: number; mappedCount?: number; }
+const Statistic = ({ postCount, teamCount, mappedCount }: Props) => {
   const stats = [
-    { num: "268", label: "Chiến sĩ" },
-    { num: "9", label: "Đội hình" },
-    { num: "4", label: "Địa bàn" },
+    { num: postCount, label: "Bài đăng" },
+    { num: teamCount, label: "Đội hình" },
+    { num: mappedCount, label: "Điểm bài đăng" },
   ];
 
   return (
-    <div className="flex flex-col gap-2 pl-12 justify-center">
+    <div role="group" aria-label="Thống kê chiến dịch" className="flex flex-col gap-2 w-full max-w-sm justify-center">
       {stats.map((item, index) => (
         <StatItem key={index} num={item.num} label={item.label} />
       ))}
