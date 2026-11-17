@@ -1,0 +1,1018 @@
+{
+  "results": [
+    {
+      "width": 375,
+      "height": 900,
+      "passed": true,
+      "accId": 901,
+      "userId": 91,
+      "teamId": 521,
+      "ownTeamBefore": 200,
+      "ownTeamAfter": 401,
+      "check": "real provision/profile edit/password reset -> User-ID assignment -> isolated Leader login -> deactivate/release -> old session 401 and login denied; retained profile and reachable controls"
+    },
+    {
+      "width": 768,
+      "height": 900,
+      "passed": true,
+      "accId": 902,
+      "userId": 92,
+      "teamId": 522,
+      "ownTeamBefore": 200,
+      "ownTeamAfter": 401,
+      "check": "real provision/profile edit/password reset -> User-ID assignment -> isolated Leader login -> deactivate/release -> old session 401 and login denied; retained profile and reachable controls"
+    },
+    {
+      "width": 1024,
+      "height": 900,
+      "passed": true,
+      "accId": 903,
+      "userId": 93,
+      "teamId": 523,
+      "ownTeamBefore": 200,
+      "ownTeamAfter": 401,
+      "check": "real provision/profile edit/password reset -> User-ID assignment -> isolated Leader login -> deactivate/release -> old session 401 and login denied; retained profile and reachable controls"
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "passed": true,
+      "accId": 904,
+      "userId": 94,
+      "teamId": 524,
+      "ownTeamBefore": 200,
+      "ownTeamAfter": 401,
+      "check": "real provision/profile edit/password reset -> User-ID assignment -> isolated Leader login -> deactivate/release -> old session 401 and login denied; retained profile and reachable controls"
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "passed": true,
+      "accId": 905,
+      "userId": 95,
+      "teamId": 525,
+      "ownTeamBefore": 200,
+      "ownTeamAfter": 401,
+      "check": "real provision/profile edit/password reset -> User-ID assignment -> isolated Leader login -> deactivate/release -> old session 401 and login denied; retained profile and reachable controls"
+    },
+    {
+      "passed": true,
+      "check": "legacy missing profile repaired without assigning a team or resetting password; inactive history remains listed"
+    }
+  ],
+  "expectedFailures": [
+    {
+      "actor": "admin",
+      "status": 409,
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "leader",
+      "status": 401,
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "leader",
+      "status": 401,
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "actor": "leader",
+      "status": 401,
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "admin",
+      "status": 409,
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "leader",
+      "status": 401,
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "leader",
+      "status": 401,
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "actor": "leader",
+      "status": 401,
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "admin",
+      "status": 409,
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "leader",
+      "status": 401,
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "leader",
+      "status": 401,
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "actor": "leader",
+      "status": 401,
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "admin",
+      "status": 409,
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "leader",
+      "status": 401,
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "leader",
+      "status": 401,
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "actor": "leader",
+      "status": 401,
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "admin",
+      "status": 409,
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "leader",
+      "status": 401,
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "leader",
+      "status": 401,
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "actor": "leader",
+      "status": 401,
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    }
+  ],
+  "uncaughtAppErrors": [],
+  "requests": [
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/accounts/901"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=501"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/teams"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "leader",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "leader",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "leader",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "actor": "admin",
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/accounts/901"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "leader",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "actor": "leader",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/teams/521"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=521&campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/teams/521"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/accounts/902"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=501"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/teams"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "leader",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "leader",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "leader",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "actor": "admin",
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/accounts/902"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "leader",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "actor": "leader",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/teams/522"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=522&campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/teams/522"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/accounts/903"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=501"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/teams"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "leader",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "leader",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "leader",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "actor": "admin",
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/accounts/903"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "leader",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "actor": "leader",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/teams/523"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=523&campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/teams/523"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/accounts/904"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=501"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/teams"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "leader",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "leader",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "leader",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "actor": "admin",
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/accounts/904"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "leader",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "actor": "leader",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/teams/524"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=524&campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/teams/524"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/accounts/905"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=501"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/teams"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "leader",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "leader",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "leader",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "actor": "admin",
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/accounts/905"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "leader",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "actor": "leader",
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/teams/525"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=525&campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/teams/525"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/campaigns"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/teams?campaignId=503"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/admin/team-leaders"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    },
+    {
+      "actor": "admin",
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/accounts/700"
+    },
+    {
+      "actor": "admin",
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/accounts"
+    }
+  ]
+}
