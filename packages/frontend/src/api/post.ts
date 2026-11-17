@@ -1,21 +1,7 @@
-import { PostData, mockPosts } from "@/mocks/post.mock";
-
-// Simulated API delay
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
+import { API_ROUTES, type PostSummaryDto, type PostDetailDto, type PostReadFilters } from '@uit-volunteer-map/shared';
+import { readData } from './read';
 export const postApi = {
-  getAll: async (): Promise<PostData[]> => {
-    await delay(5000);
-    return mockPosts;
-  },
-
-  getById: async (id: number): Promise<PostData | undefined> => {
-    await delay(1000);
-    return mockPosts.find((post) => post.postId === id);
-  },
-
-  getByTeam: async (teamId: number): Promise<PostData[]> => {
-    await delay(3000);
-    return mockPosts.filter((post) => post.teamId === teamId);
-  },
+  getAll: (filters: PostReadFilters = {}, signal?: AbortSignal) => readData<PostSummaryDto[]>(API_ROUTES.POSTS, { params: filters, signal }),
+  getById: (id: number, signal?: AbortSignal) => readData<PostDetailDto>(`${API_ROUTES.POSTS}/${id}`, { signal }),
+  getByTeam: (teamId: number, campaignId?: number, signal?: AbortSignal): Promise<PostSummaryDto[]> => postApi.getAll({ teamId, campaignId }, signal),
 };

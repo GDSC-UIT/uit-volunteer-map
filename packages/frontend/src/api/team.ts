@@ -1,20 +1,7 @@
-import { TeamData, mockTeams } from "@/mocks/team.mock";
-
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
+import { API_ROUTES, type TeamReadDto, type TeamReadFilters } from '@uit-volunteer-map/shared';
+import { readData } from './read';
 export const teamApi = {
-  getAll: async (): Promise<TeamData[]> => {
-    await delay(2000);
-    return mockTeams;
-  },
-
-  getById: async (id: number): Promise<TeamData | undefined> => {
-    await delay(1000);
-    return mockTeams.find((team) => team.teamId === id);
-  },
-
-  getByCampaign: async (campaignId: number): Promise<TeamData[]> => {
-    await delay(1500);
-    return mockTeams.filter((team) => team.campaignId === campaignId);
-  }
+  getAll: (filters: TeamReadFilters = {}, signal?: AbortSignal) => readData<TeamReadDto[]>(API_ROUTES.TEAMS, { params: filters, signal }),
+  getById: (id: number, signal?: AbortSignal) => readData<TeamReadDto>(`${API_ROUTES.TEAMS}/${id}`, { signal }),
+  getByCampaign: (campaignId: number, signal?: AbortSignal): Promise<TeamReadDto[]> => teamApi.getAll({ campaignId }, signal),
 };

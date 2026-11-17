@@ -44,13 +44,13 @@ export default function Footer() {
               </Link>
 
               <Link
-                to="/campaign/xuan-tinh-nguyen"
+                to="/#campaigns"
                 className="text-sm text-white/80 hover:text-white"
               >
-                Xuân Tình Nguyện
+                Các chiến dịch tình nguyện
               </Link>
 
-              <span className="text-sm text-white/80">Mùa Hè Xanh</span>
+
             </div>
           </div>
           <div className="min-w-0 flex flex-col">

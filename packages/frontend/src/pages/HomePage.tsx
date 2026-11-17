@@ -3,11 +3,12 @@ import { Link } from "react-router";
 import PublicHeader from "@/components/layouts/PublicHeader";
 import Footer from "@/components/layouts/Footer";
 
-import mhx from "@/assets/icons/mhx.png";
-import xtn from "@/assets/icons/xtn.png";
-import bndHover from "@/assets/icons/bnd-ko-logo-1.png";
+import { useCampaigns } from '@/hooks/useCampaigns';
+import ReadState from '@/components/ui/ReadState';
 
 export default function HomePage() {
+  const query = useCampaigns();
+  const campaigns = query.data ?? [];
   const allImages = [
     "https://res.cloudinary.com/duallvqjh/image/upload/v1770283331/image-container_hvd34y.jpg",
     "https://res.cloudinary.com/duallvqjh/image/upload/v1770283324/image-container-2_seyjmk.jpg",
@@ -134,42 +135,14 @@ export default function HomePage() {
             Chiến Dịch
           </h2>
 
-          <div className="max-w-4xl mx-auto grid grid-cols-2 gap-24 place-items-center">
-            <div className="relative group flex flex-col items-center gap-6">
-              <Link to="/campaign/xtn">
-                <img
-                  src={xtn}
-                  className="w-40 h-40 object-contain cursor-pointer"
-                  alt="Xuân Tình Nguyện"
-                />
-              </Link>
-
-              <div
-                className="absolute -top-6 left-1/2 -translate-x-1/2
-                            flex gap-3 bg-white/95 p-2 rounded-xl shadow-lg
-                            opacity-0 scale-95 pointer-events-none
-                            transition-all duration-300
-                            group-hover:opacity-100
-                            group-hover:scale-100
-                            group-hover:pointer-events-auto"
-              >
-                {[2026].map((y) => (
-                  <Link key={y} to={`/campaign/xtn`} className="w-16 h-16">
-                    <img
-                      src={bndHover}
-                      className="w-full h-full object-contain"
-                      alt={`XTN ${y}`}
-                    />
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            <div
-              className="flex flex-col items-center gap-6"
-              title="Chiến dịch chưa diễn ra"
-            >
-              <img src={mhx} className="w-40 h-40 object-contain opacity-50" />
+          <div id="campaigns" className="max-w-4xl mx-auto px-4">
+            <ReadState pending={query.isPending} error={query.error} label="chiến dịch" empty={campaigns.length===0} onRetry={query.refetch} />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 place-items-center">
+              {campaigns.map(campaign=><Link key={campaign.campaignId} to={`/campaign/${campaign.campaignId}`} className="flex flex-col items-center gap-4 text-center">
+                <img src={campaign.attachments[0]?.imageUrl ?? '/Homepage_Logo.svg'} alt="" className="w-40 h-40 object-contain" />
+                <h3 className="font-bold text-xl">{campaign.campaignName}</h3>
+                <p>{campaign.startDate} — {campaign.endDate}</p>
+              </Link>)}
             </div>
           </div>
         </section>

@@ -9,6 +9,7 @@ import NotFoundPage from "@/pages/NotFoundPage";
 import { RoleEnum } from "@uit-volunteer-map/shared";
 import LeaderLayout from "@/components/layouts/LeaderLayout";
 import CampaignPage from "@/pages/CampaignPage";
+import PostPage from "@/pages/PostPage";
 import TeamPage from "@/pages/TeamPage";
 import MyTeamPage from "@/pages/leader/MyTeamPage";
 import CampaignManagementPage from "@/pages/admin/CampaignManagementPage";
@@ -28,6 +29,8 @@ export const router = createBrowserRouter([
         element: <CampaignLayout />,
         children: [
           { index: true, element: <CampaignPage /> },
+          { path: "post/:postId", element: <PostPage /> },
+          { path: "team/:teamId/post/:postId", element: <PostPage /> },
           {
             path: "team/:teamId",
             element: <TeamPage />,

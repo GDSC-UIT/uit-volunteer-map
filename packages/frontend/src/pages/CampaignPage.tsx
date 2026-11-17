@@ -1,28 +1,32 @@
 import { useState } from "react";
-import MapView, { MarkerData } from "@/components/layouts/MapView";
+import { Link, useParams, useLocation } from "react-router";
+import { useCampaign } from "@/hooks/useCampaigns";
+import ReadState from "@/components/ui/ReadState";
+import { routeId } from "@/hooks/readState";
+import MapView from "@/components/layouts/MapView";
 import Statistic from "@/components/layouts/Statistic";
-import GuestPostOverPlay from "@/components/ui/popups/post/GuestPostOverPlay";
 import TimeSelect from "@/components/layouts/TimeSelect";
-import EventCard from "@/components/ui/popups/post/EventCard";
 import TeamItem from "@/components/ui/TeamItem";
 
-import { useTeams } from "@/hooks/useTeams";
-import { usePosts } from "@/hooks/usePosts";
+import { useTeamsByCampaign } from "@/hooks/useTeams";
+import { usePostsByCampaign } from "@/hooks/usePosts";
 
 import bndLogo from "@/assets/icons/bnd.png";
 import bgTop from "@/assets/background/background_top-01.svg";
 import { PostItem } from "@/components/ui/PostItem";
 
 export default function CampaignPage() {
-  const [selectedEvent, setSelectedEvent] = useState<MarkerData | null>(null);
-  const [hoverData, setHoverData] = useState<MarkerData | null>(null);
-
-  const { data: teams = [] } = useTeams();
-  const { data: posts = [] } = usePosts();
-
-  const handleClose = () => {
-    setSelectedEvent(null);
-  };
+  const { campaignId } = useParams();
+  const id = routeId(campaignId);
+  const location = useLocation();
+  const campaign = useCampaign(id);
+  const teamsQuery = useTeamsByCampaign(id);
+  const postsQuery = usePostsByCampaign(id);
+  const teams = teamsQuery.data ?? [];
+  const posts = postsQuery.data ?? [];
+  const [mapNotice, setMapNotice] = useState('Bản đồ chưa kết nối bài đăng. Vui lòng xem danh sách hoạt động bên dưới.');
+  if(!id) return <p role="alert" className="p-8">Không tìm thấy chiến dịch.</p>;
+  if(!campaign.data || campaign.isError) return <ReadState pending={campaign.isPending} error={campaign.error} label="chiến dịch" onRetry={campaign.refetch} />;
 
   return (
     <div className="z-25">
@@ -36,11 +40,8 @@ export default function CampaignPage() {
           <img src={bndLogo} className="h-16 object-contain" alt="BND Logo" />
         </div>
       </section>
-      {hoverData && <EventCard visible={true} data={null} />}
-      {selectedEvent && (
-        <GuestPostOverPlay post={posts[0]} onClose={handleClose} />
-      )}
       <main className="flex-1">
+        <h1 className="text-center text-3xl font-bold p-4">{campaign.data.campaignName}</h1>
         <section id="mapSection" className="max-w-6xl mx-auto px-4">
           <div className="p-3 rounded-md flex">
             <div
@@ -52,8 +53,8 @@ export default function CampaignPage() {
                 style={{ width: 580, height: 450, zIndex: 1 }}
               >
                 <MapView
-                  onMarkerClick={(data) => setSelectedEvent(data)}
-                  onMarkerHover={(data) => setHoverData(data)}
+                  onMarkerClick={() => setMapNotice("Thông tin bản đồ chưa được kết nối. Chọn bài đăng trong danh sách hoạt động.")}
+                  onMarkerHover={() => {}}
                 />
               </div>
               <img
@@ -65,6 +66,8 @@ export default function CampaignPage() {
             <Statistic />
           </div>
           <TimeSelect />
+          <p role="status" className="p-3 text-center">{mapNotice}</p>
+          <p className="text-center text-sm">Năm và số liệu trên bản đồ là minh họa, chưa kết nối dữ liệu.</p>
         </section>
 
         <section id="info" className="max-w-6xl mx-auto mt-16 px-6">
@@ -73,17 +76,9 @@ export default function CampaignPage() {
           </h2>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <p className="text-black text-2xl font-bold leading-relaxed">
-              Chiến dịch Xuân Tình Nguyện – Trường Đại học Công nghệ Thông tin,
-              ĐHQG-HCM là hoạt động tình nguyện ý nghĩa được tổ chức thường niên
-              với sự tham gia của hàng trăm sinh viên thuộc nhiều đội hình khác
-              nhau, với sứ mệnh mang không khí và hơi ấm ngày Tết đến với những
-              hoàn cảnh, địa phương còn khó khăn.
+              {campaign.data.description || 'Chưa có mô tả chiến dịch.'}
             </p>
-            <img
-              src="https://res.cloudinary.com/duallvqjh/image/upload/v1770284139/XTN_info_nce2w5.jpg"
-              className="rounded-3xl shadow-xl w-full"
-              alt="Volunteer"
-            />
+            {campaign.data.attachments[0] && <img src={campaign.data.attachments[0].imageUrl} className="rounded-3xl shadow-xl w-full" alt={campaign.data.campaignName} />}
           </div>
         </section>
 
@@ -97,6 +92,7 @@ export default function CampaignPage() {
           {/* Vertical line */}
           <div className="absolute left-25 top-40 bottom-0 w-2 bg-green-600 z-1 rounded-lg" />
 
+          <ReadState pending={teamsQuery.isPending} error={teamsQuery.error} label="đội hình" empty={teams.length===0} onRetry={teamsQuery.refetch} />
           {/* Teams list */}
           <div className="relative z-2 mt-16 space-y-24">
             {teams.map((team, index) => {
@@ -124,10 +120,9 @@ export default function CampaignPage() {
           <h2 className="text-center font-black text-5xl mb-16 text-black tracking-widest">
             HOẠT ĐỘNG
           </h2>
+          <ReadState pending={postsQuery.isPending} error={postsQuery.error} label="bài đăng" empty={posts.length===0} onRetry={postsQuery.refetch} />
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-            {posts.map((post, i) => (
-              <PostItem key={i} post={post} />
-            ))}
+            {posts.map(post=><Link key={post.postId} to={`post/${post.postId}`} state={{from:location.pathname}} aria-label={`Xem bài đăng: ${post.title}`}><PostItem post={post} /></Link>)}
           </div>
         </section>
       </main>

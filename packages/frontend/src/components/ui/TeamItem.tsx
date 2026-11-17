@@ -1,10 +1,10 @@
 import { Link } from "react-router";
 import { useEffect, useRef, useState } from "react";
 import banhChungPin from "@/assets/icons/Formation-pin-slider.png";
-import { TeamData } from "@/mocks/team.mock";
+import type { TeamReadDto } from "@uit-volunteer-map/shared";
 
 interface TeamItemProps {
-  team: TeamData;
+  team: TeamReadDto;
 }
 
 const TeamItem = ({ team }: TeamItemProps) => {
@@ -61,40 +61,32 @@ const TeamItem = ({ team }: TeamItemProps) => {
       <div className="w-35 mr-10 shrink-0 flex justify-center relative z-10">
         <img
           src={banhChungPin}
-          alt="pin"
+          alt=""
           className="w-27.5 h-auto drop-shadow-lg transition-transform duration-500 hover:scale-110 hover:rotate-[5deg]"
         />
       </div>
 
       {/* Content */}
-      <div className="grow pt-2">
-        <h3 className="text-[3.5rem] font-black text-red-700 mb-2 leading-none">
+      <div className="min-w-0 grow pt-2">
+        <h3 className="text-3xl lg:text-[3.5rem] font-black text-red-700 mb-2 leading-tight wrap-anywhere">
           {team.teamName}
         </h3>
-        <div className="flex gap-10 text-2xl text-black mb-6">
-          <span>
-            <span className="font-bold">Đội trưởng:</span>{" "}
-            <span className="font-normal">{team.leader.name}</span>
-          </span>
-
-          <span>
-            <span className="font-bold">Đội phó:</span>{" "}
-            <span className="font-normal">{team.vice[0].name}</span>
-          </span>
-        </div>
+        <p className="text-lg lg:text-2xl text-black mb-6 wrap-anywhere">
+          <strong>Ban chỉ huy:</strong> {team.leaders.map(leader=>leader.fullName).join(', ') || 'Chưa có thông tin'}
+        </p>
         <div className="flex gap-10 items-center">
           {/* Image */}
           <div className="flex-7 rounded-[35px] overflow-hidden shadow-2xl group">
-            <img
-              src={team.images[0]}
+            {(team.imageUrl || team.attachments[0]?.imageUrl) ? <img
+              src={team.imageUrl ?? team.attachments[0]?.imageUrl}
               alt={team.teamName}
               className="w-full block transition-transform duration-500 group-hover:scale-[1.08]"
-            />
+            /> : <p className="p-8 bg-white/60">Chưa có ảnh đội hình</p>}
           </div>
           {/* Button */}
           <div className="flex-3">
             <Link
-              to={`team/${team.teamId}`}
+              to={`/campaign/${team.campaignId}/team/${team.teamId}`}
               className="inline-block bg-red-700 text-white text-2xl font-extrabold py-5 px-16 rounded-full shadow-[0_15px_35px_rgba(185,28,28,0.4)] transition-all duration-300 hover:bg-rose-600 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(185,28,28,0.5)] whitespace-nowrap"
             >
               Xem thêm
