@@ -1,0 +1,16 @@
+[
+  {
+    "role": "admin",
+    "check": "logout with failed API; protected Back/refresh denied; storage cleared",
+    "passed": true
+  },
+  {
+    "role": "leader",
+    "check": "logout with failed API; protected Back/refresh denied; storage cleared",
+    "passed": true
+  },
+  {
+    "check": "403 retains valid session; protected 401 expires session and preserves HTTP status/message",
+    "passed": true
+  }
+]
