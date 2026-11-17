@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { RoleEnum, AUTH_ERRORS, HTTP_STATUS, type JwtPayload } from '@uit-volunteer-map/shared';
+import { AUTH_ERRORS, HTTP_STATUS, type JwtPayload } from '@uit-volunteer-map/shared';
+export { authorizeRoles, requireRole, ROLE_PERMISSIONS } from './authorization.js';
 
 declare global {
   namespace Express {
@@ -34,14 +35,4 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
     }
     return res.status(HTTP_STATUS.FORBIDDEN).json({ success: false, error: AUTH_ERRORS.TOKEN_INVALID });
   }
-};
-
-export const requireRole = (roles: RoleEnum[]) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    const user = req.user;
-    if (!user || !roles.includes(user.role as RoleEnum)) {
-      return res.status(HTTP_STATUS.FORBIDDEN).json({ success: false, error: AUTH_ERRORS.PERMISSION_DENIED });
-    }
-    next();
-  };
 };

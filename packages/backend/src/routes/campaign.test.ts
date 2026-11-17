@@ -12,7 +12,7 @@ import { Team } from '../entities/Team.js';
 import { Post } from '../entities/Post.js';
 import { Photo } from '../entities/Photo.js';
 import { Attachment } from '../entities/Attachment.js';
-import { RoleEnum, CAMPAIGN_ERRORS, HTTP_STATUS } from '@uit-volunteer-map/shared';
+import { RoleEnum, CAMPAIGN_ERRORS, HTTP_STATUS, AUTH_ERRORS } from '@uit-volunteer-map/shared';
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
@@ -108,11 +108,11 @@ describe('Campaign CRUD Routes', () => {
       expect(res.body.data).toHaveLength(2);
     });
 
-    it('should return 401 without token', async () => {
+    it('should allow public access without token', async () => {
       const res = await request(app).get('/api/campaigns');
 
-      expect(res.status).toBe(HTTP_STATUS.UNAUTHORIZED);
-      expect(res.body.success).toBe(false);
+      expect(res.status).toBe(HTTP_STATUS.OK);
+      expect(res.body.success).toBe(true);
     });
 
     it('should allow leader to access campaigns', async () => {
@@ -216,7 +216,7 @@ describe('Campaign CRUD Routes', () => {
       expect(res.body.error).toBe(CAMPAIGN_ERRORS.ALREADY_EXISTS);
     });
 
-    it('should allow leader to create campaign', async () => {
+    it('should return 403 when leader creates campaign', async () => {
       const res = await request(app)
         .post('/api/campaigns')
         .set('Authorization', `Bearer ${leaderToken}`)
@@ -226,8 +226,9 @@ describe('Campaign CRUD Routes', () => {
           endDate: '2024-04-30',
         });
 
-      expect(res.status).toBe(HTTP_STATUS.CREATED);
-      expect(res.body.success).toBe(true);
+      expect(res.status).toBe(HTTP_STATUS.FORBIDDEN);
+      expect(res.body.success).toBe(false);
+      expect(res.body.error).toBe(AUTH_ERRORS.PERMISSION_DENIED);
     });
   });
 
@@ -339,17 +340,30 @@ describe('Campaign CRUD Routes', () => {
   });
 
   describe('Authentication & Authorization', () => {
-    it('should reject requests without token', async () => {
-      const res = await request(app).get('/api/campaigns');
+    it('should reject write requests without token', async () => {
+      const res = await request(app).post('/api/campaigns').send({
+        campaignName: 'Unauthorized Campaign',
+        startDate: '2024-05-01',
+        endDate: '2024-05-31',
+      });
+
       expect(res.status).toBe(HTTP_STATUS.UNAUTHORIZED);
+      expect(res.body.success).toBe(false);
+      expect(res.body.error).toBe(AUTH_ERRORS.TOKEN_REQUIRED);
     });
 
-    it('should reject requests with invalid token', async () => {
+    it('should reject write requests with invalid token', async () => {
       const res = await request(app)
-        .get('/api/campaigns')
-        .set('Authorization', 'Bearer invalid-token');
+        .post('/api/campaigns')
+        .set('Authorization', 'Bearer invalid-token')
+        .send({
+          campaignName: 'Invalid Token Campaign',
+          startDate: '2024-06-01',
+          endDate: '2024-06-30',
+        });
 
-      expect([HTTP_STATUS.UNAUTHORIZED, HTTP_STATUS.FORBIDDEN]).toContain(res.status);
+      expect(res.status).toBe(HTTP_STATUS.FORBIDDEN);
+      expect(res.body.success).toBe(false);
     });
 
     it('should reject expired tokens', async () => {
@@ -360,8 +374,13 @@ describe('Campaign CRUD Routes', () => {
       );
 
       const res = await request(app)
-        .get('/api/campaigns')
-        .set('Authorization', `Bearer ${expiredToken}`);
+        .post('/api/campaigns')
+        .set('Authorization', `Bearer ${expiredToken}`)
+        .send({
+          campaignName: 'Expired Token Campaign',
+          startDate: '2024-07-01',
+          endDate: '2024-07-31',
+        });
 
       expect(res.status).toBe(HTTP_STATUS.UNAUTHORIZED);
       expect(res.body.success).toBe(false);

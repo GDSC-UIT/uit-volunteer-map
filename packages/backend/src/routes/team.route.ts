@@ -2,10 +2,10 @@ import { Router } from "express";
 import { TeamService } from "../service/teamService.js";
 import { validate } from "../middleware/validate.js";
 import { createTeamSchema, updateTeamSchema, addTeamAttachmentsSchema } from "../schemas/team.js";
-import { authenticateToken, requireRole } from "../middleware/auth.js";
+import { authenticateToken } from "../middleware/auth.js";
+import { authorizeRoles, ROLE_PERMISSIONS } from "../middleware/authorization.js";
 import { HttpError } from "../errors/HttpError.js";
 import {
-  RoleEnum,
   HTTP_STATUS,
   ERROR_MESSAGES,
   TEAM_ERRORS,
@@ -60,7 +60,7 @@ router.get("/:id", async (req, res) => {
 router.post(
   "/",
   authenticateToken,
-  requireRole([RoleEnum.ADMIN]),
+  authorizeRoles(ROLE_PERMISSIONS.team.create),
   validate(createTeamSchema),
   async (req, res) => {
     try {
@@ -87,7 +87,7 @@ router.post(
 router.put(
   "/:id",
   authenticateToken,
-  requireRole([RoleEnum.ADMIN, RoleEnum.LEADER]),
+  authorizeRoles(ROLE_PERMISSIONS.team.update),
   validate(updateTeamSchema),
   async (req, res) => {
     try {
@@ -122,7 +122,7 @@ router.put(
 router.delete(
   "/:id",
   authenticateToken,
-  requireRole([RoleEnum.ADMIN]),
+  authorizeRoles(ROLE_PERMISSIONS.team.delete),
   async (req, res) => {
     try {
       const id = Number(req.params.id);
@@ -154,7 +154,7 @@ router.delete(
 router.post(
   "/:id/attachments",
   authenticateToken,
-  requireRole([RoleEnum.ADMIN, RoleEnum.LEADER]),
+  authorizeRoles(ROLE_PERMISSIONS.team.addAttachments),
   validate(addTeamAttachmentsSchema),
   async (req, res) => {
     try {
