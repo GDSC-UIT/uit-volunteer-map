@@ -77,12 +77,12 @@ describe('Auth Middleware', () => {
       expect(res.body.error).toBe(AUTH_ERRORS.TOKEN_REQUIRED);
     });
 
-    it('should return 403 when token is invalid', async () => {
+    it('should return 401 when token is invalid', async () => {
       const res = await request(app)
         .get('/api/admin/admin-only')
         .set('Authorization', 'Bearer invalid-token');
 
-      expect(res.status).toBe(HTTP_STATUS.FORBIDDEN);
+      expect(res.status).toBe(HTTP_STATUS.UNAUTHORIZED);
       expect(res.body.error).toBe(AUTH_ERRORS.TOKEN_INVALID);
     });
 

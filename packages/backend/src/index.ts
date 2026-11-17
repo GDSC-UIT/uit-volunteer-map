@@ -1,4 +1,5 @@
 import app from './app.js';
+import { jwtExpirySeconds } from './config/jwt.js';
 import { AppDataSource, DATABASE_PATH, ensureDatabaseDirectory } from './db/data-source.js';
 
 function validateStartupEnv(): { port: number; databasePath: string } {
@@ -13,6 +14,8 @@ function validateStartupEnv(): { port: number; databasePath: string } {
   if (!jwtSecret) {
     throw new Error('Missing required environment variable: JWT_SECRET');
   }
+
+  jwtExpirySeconds();
 
   if (!DATABASE_PATH) {
     throw new Error('Invalid database configuration: resolved DB_PATH is empty');

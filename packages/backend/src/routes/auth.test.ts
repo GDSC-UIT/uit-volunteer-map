@@ -90,6 +90,15 @@ describe('POST /api/auth/login', () => {
     expect(res.body.error).toBe(AUTH_ERRORS.INVALID_CREDENTIALS);
   });
 
+  it('denies soft-deleted account login with the same credential error', async () => {
+    const repo = AppDataSource.getRepository(Account);
+    const account = await repo.findOneByOrFail({ username: 'leader' });
+    await repo.update(account.accId, { isDeleted: true });
+    const res = await request(app).post('/api/auth/login').send({ username: 'leader', password: 'leader123' });
+    expect(res.status).toBe(401); expect(res.body.error).toBe(AUTH_ERRORS.INVALID_CREDENTIALS);
+    await repo.update(account.accId, { isDeleted: false });
+  });
+
   it('should reject empty username', async () => {
     const res = await request(app)
       .post('/api/auth/login')

@@ -156,8 +156,11 @@ describe("User Profile Routes", () => {
     });
 
     it("should return 404 when user associated with account does not exist", async () => {
+      const orphan = await AppDataSource.getRepository(Account).save({
+        username: `orphan-${Date.now()}`, password: 'unused', roleId: adminAccount.roleId,
+      });
       const fakeToken = jwt.sign(
-        { accId: 9999, role: RoleEnum.ADMIN },
+        { accId: orphan.accId, role: RoleEnum.ADMIN },
         JWT_SECRET,
         { expiresIn: "1h" },
       );
@@ -296,8 +299,11 @@ describe("User Profile Routes", () => {
     });
 
     it("should return 404 when user does not exist", async () => {
+      const orphan = await AppDataSource.getRepository(Account).save({
+        username: `orphan-${Date.now()}`, password: 'unused', roleId: adminAccount.roleId,
+      });
       const fakeToken = jwt.sign(
-        { accId: 9999, role: RoleEnum.ADMIN },
+        { accId: orphan.accId, role: RoleEnum.ADMIN },
         JWT_SECRET,
         { expiresIn: "1h" },
       );

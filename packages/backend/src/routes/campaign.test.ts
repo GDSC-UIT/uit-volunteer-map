@@ -108,11 +108,11 @@ describe('Campaign CRUD Routes', () => {
       expect(res.body.data).toHaveLength(2);
     });
 
-    it('should return 401 without token', async () => {
+    it('should allow anonymous campaign reads', async () => {
       const res = await request(app).get('/api/campaigns');
 
-      expect(res.status).toBe(HTTP_STATUS.UNAUTHORIZED);
-      expect(res.body.success).toBe(false);
+      expect(res.status).toBe(HTTP_STATUS.OK);
+      expect(res.body.success).toBe(true);
     });
 
     it('should allow leader to access campaigns', async () => {
@@ -216,7 +216,7 @@ describe('Campaign CRUD Routes', () => {
       expect(res.body.error).toBe(CAMPAIGN_ERRORS.ALREADY_EXISTS);
     });
 
-    it('should allow leader to create campaign', async () => {
+    it('should deny leader campaign creation', async () => {
       const res = await request(app)
         .post('/api/campaigns')
         .set('Authorization', `Bearer ${leaderToken}`)
@@ -226,8 +226,8 @@ describe('Campaign CRUD Routes', () => {
           endDate: '2024-04-30',
         });
 
-      expect(res.status).toBe(HTTP_STATUS.CREATED);
-      expect(res.body.success).toBe(true);
+      expect(res.status).toBe(HTTP_STATUS.FORBIDDEN);
+      expect(await AppDataSource.getRepository(Campaign).count()).toBe(0);
     });
   });
 
@@ -340,13 +340,13 @@ describe('Campaign CRUD Routes', () => {
 
   describe('Authentication & Authorization', () => {
     it('should reject requests without token', async () => {
-      const res = await request(app).get('/api/campaigns');
+      const res = await request(app).post('/api/campaigns').send({});
       expect(res.status).toBe(HTTP_STATUS.UNAUTHORIZED);
     });
 
     it('should reject requests with invalid token', async () => {
       const res = await request(app)
-        .get('/api/campaigns')
+        .post('/api/campaigns')
         .set('Authorization', 'Bearer invalid-token');
 
       expect([HTTP_STATUS.UNAUTHORIZED, HTTP_STATUS.FORBIDDEN]).toContain(res.status);
@@ -360,11 +360,59 @@ describe('Campaign CRUD Routes', () => {
       );
 
       const res = await request(app)
-        .get('/api/campaigns')
+        .post('/api/campaigns')
         .set('Authorization', `Bearer ${expiredToken}`);
 
       expect(res.status).toBe(HTTP_STATUS.UNAUTHORIZED);
       expect(res.body.success).toBe(false);
     });
   });
+  it('allows anonymous list/detail even with an irrelevant invalid token', async () => {
+    const row = await AppDataSource.getRepository(Campaign).save({ campaignName: 'Public', startDate: '2026-01-01', endDate: '2026-02-01' });
+    expect((await request(app).get('/api/campaigns')).status).toBe(200);
+    const detail = await request(app).get(`/api/campaigns/${row.campaignId}`).set('Authorization', 'Bearer invalid');
+    expect(detail.status).toBe(200); expect(detail.body.data.campaignId).toBe(row.campaignId);
+    expect((await request(app).get('/api/campaigns/999999')).status).toBe(404);
+  });
+  it('denies missing-token and Leader update/delete without changing stored rows', async () => {
+    const repo = AppDataSource.getRepository(Campaign);
+    const row = await repo.save({ campaignName: 'Protected', startDate: '2026-01-01', endDate: '2026-02-01' });
+    for (const token of [null, leaderToken]) {
+      for (const method of ['put', 'delete'] as const) {
+        const req = request(app)[method](`/api/campaigns/${row.campaignId}`);
+        if (token) req.set('Authorization', `Bearer ${token}`);
+        const res = await req.send({ campaignName: 'Unauthorized' });
+        expect(res.status).toBe(token ? 403 : 401);
+        expect((await repo.findOneByOrFail({ campaignId: row.campaignId })).campaignName).toBe('Protected');
+      }
+    }
+  });
+  it('uses current account validity and role for old tokens, including verify endpoint', async () => {
+    const repo = AppDataSource.getRepository(Account);
+    const roles = AppDataSource.getRepository(Role);
+    const admin = await roles.findOneByOrFail({ roleName: RoleEnum.ADMIN });
+    const leader = await roles.findOneByOrFail({ roleName: RoleEnum.LEADER });
+    const account = await repo.save({ username: 'lifecycle', password: 'unused', roleId: admin.roleId });
+    const token = jwt.sign({ accId: account.accId, role: RoleEnum.ADMIN }, JWT_SECRET, { expiresIn: '1h' });
+    await repo.update(account.accId, { roleId: leader.roleId });
+    expect((await request(app).get('/api/admin/admin-only').set('Authorization', `Bearer ${token}`)).status).toBe(403);
+    expect((await request(app).get('/api/leader/leader-only').set('Authorization', `Bearer ${token}`)).status).toBe(200);
+    await repo.update(account.accId, { isDeleted: true });
+    for (const path of ['/api/verify', '/api/admin/admin-only']) {
+      expect((await request(app).get(path).set('Authorization', `Bearer ${token}`)).status).toBe(401);
+    }
+    const denied = await request(app).post('/api/campaigns').set('Authorization', `Bearer ${token}`).send({ campaignName: 'Denied', startDate: '2026-01-01', endDate: '2026-02-01' });
+    expect(denied.status).toBe(401); expect(await AppDataSource.getRepository(Campaign).count()).toBe(0);
+    await repo.delete(account.accId);
+    expect((await request(app).get('/api/verify').set('Authorization', `Bearer ${token}`)).status).toBe(401);
+  });
+  it.each([{}, { accId: '1' }, { accId: -1 }, { accId: 1.5 }])('rejects malformed signed identity %j', async payload => {
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
+    expect((await request(app).get('/api/verify').set('Authorization', `Bearer ${token}`)).status).toBe(401);
+  });
+  it('rejects tokens without expiration', async () => {
+    const token = jwt.sign({ accId: 1 }, JWT_SECRET);
+    expect((await request(app).get('/api/verify').set('Authorization', `Bearer ${token}`)).status).toBe(401);
+  });
+
 });

@@ -4,6 +4,7 @@ import { LoginInput } from '../schemas/auth.js';
 import { AUTH_ERRORS, HTTP_STATUS, type LoginResponse, type UserRole } from '@uit-volunteer-map/shared';
 import { HttpError } from '../errors/HttpError.js';
 import bcrypt from 'bcrypt';
+import { jwtExpirySeconds } from '../config/jwt.js';
 import jwt, { SignOptions } from 'jsonwebtoken';
 
 export class AuthService {
@@ -11,7 +12,7 @@ export class AuthService {
 
   async login(data: LoginInput): Promise<LoginResponse> {
     const account = await this.accountRepo.findOne({
-      where: { username: data.username },
+      where: { username: data.username, isDeleted: false },
       relations: ['role'],
     });
 
@@ -33,14 +34,13 @@ export class AuthService {
     }
 
     const JWT_SECRET = process.env.JWT_SECRET;
-    const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN;
 
     if (!JWT_SECRET) {
       throw new HttpError(AUTH_ERRORS.JWT_SECRET_MISSING, HTTP_STATUS.INTERNAL_SERVER_ERROR);
     }
 
     const options: SignOptions = {
-      expiresIn: JWT_EXPIRES_IN as SignOptions['expiresIn'],
+      expiresIn: jwtExpirySeconds(),
     };
 
     const token = jwt.sign(

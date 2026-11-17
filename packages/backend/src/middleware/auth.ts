@@ -1,18 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { AppDataSource } from '../db/data-source.js';
+import { Account } from '../entities/Account.js';
 import { RoleEnum, AUTH_ERRORS, HTTP_STATUS, type JwtPayload } from '@uit-volunteer-map/shared';
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: JwtPayload;
-    }
+declare module 'express-serve-static-core' {
+  interface Request {
+    user?: JwtPayload;
   }
 }
 
-export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
+export const authenticateToken = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
-  const token = authHeader?.split(' ')[1];
+  const token = authHeader?.match(/^Bearer ([^\s]+)$/i)?.[1];
 
   if (!token) {
     return res.status(HTTP_STATUS.UNAUTHORIZED).json({ success: false, error: AUTH_ERRORS.TOKEN_REQUIRED });
@@ -24,15 +24,32 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
     return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ success: false, error: AUTH_ERRORS.JWT_SECRET_MISSING });
   }
 
+  let accId: number;
   try {
-    const payload = jwt.verify(token, JWT_SECRET) as JwtPayload;
-    req.user = payload;
-    next();
+    const payload = jwt.verify(token, JWT_SECRET, { algorithms: ['HS256'] });
+    if (typeof payload === 'string' || !Number.isSafeInteger(payload.accId) || payload.accId <= 0 ||
+        !Number.isFinite(payload.exp)) {
+      return res.status(HTTP_STATUS.UNAUTHORIZED).json({ success: false, error: AUTH_ERRORS.TOKEN_INVALID });
+    }
+    accId = payload.accId;
   } catch (error: unknown) {
     if (error instanceof Error && error.name === 'TokenExpiredError') {
       return res.status(HTTP_STATUS.UNAUTHORIZED).json({ success: false, error: AUTH_ERRORS.TOKEN_EXPIRED });
     }
-    return res.status(HTTP_STATUS.FORBIDDEN).json({ success: false, error: AUTH_ERRORS.TOKEN_INVALID });
+    return res.status(HTTP_STATUS.UNAUTHORIZED).json({ success: false, error: AUTH_ERRORS.TOKEN_INVALID });
+  }
+  try {
+    const account = await AppDataSource.getRepository(Account).findOne({
+      where: { accId, isDeleted: false }, relations: ['role'],
+    });
+    const role = account?.role?.roleName;
+    if (!account || (role !== RoleEnum.ADMIN && role !== RoleEnum.LEADER)) {
+      return res.status(HTTP_STATUS.UNAUTHORIZED).json({ success: false, error: AUTH_ERRORS.TOKEN_INVALID });
+    }
+    req.user = { accId: account.accId, role };
+    next();
+  } catch (error) {
+    next(error);
   }
 };
 

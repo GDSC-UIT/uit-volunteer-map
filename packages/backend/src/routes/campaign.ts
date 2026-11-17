@@ -15,8 +15,6 @@ import {
 const router = Router();
 const campaignService = new CampaignService();
 
-router.use(authenticateToken, requireRole([RoleEnum.ADMIN, RoleEnum.LEADER]));
-
 router.get('/', async (_req, res) => {
   try {
     const data = await campaignService.getAll();
@@ -53,6 +51,9 @@ router.get('/:id', async (req, res) => {
     });
   }
 });
+
+// Public reads above; all campaign mutations require a current Admin.
+router.use(authenticateToken, requireRole([RoleEnum.ADMIN]));
 
 router.post('/', validate(createCampaignSchema), async (req, res) => {
   try {
