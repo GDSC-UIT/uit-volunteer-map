@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { STORAGE_KEYS } from "@uit-volunteer-map/shared";
+import { useAuth } from "@/hooks/useAuth";
 import LogoutConfirmPopup from "@/components/ui/popups/LogoutConfirmPopup";
 
 export default function LeaderDropdown() {
@@ -9,11 +9,11 @@ export default function LeaderDropdown() {
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
-    localStorage.removeItem(STORAGE_KEYS.AUTH_USER);
-    navigate("/login");
+    void logout();
+    navigate("/login", { replace: true });
   };
 
   useEffect(() => {

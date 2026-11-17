@@ -1,4 +1,5 @@
-import { Outlet, NavLink } from "react-router";
+import { useAuth } from "@/hooks/useAuth";
+import { Outlet, NavLink, useNavigate } from "react-router";
 
 const menu = [
   { label: "Bảng điều khiển", to: "/admin/dashboard" },
@@ -8,6 +9,8 @@ const menu = [
 ];
 
 export default function AdminLayout() {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-[#BFB8B8] p-4 lg:p-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:gap-6 lg:h-[calc(100vh-48px)]">
@@ -35,7 +38,7 @@ export default function AdminLayout() {
             </nav>
           </div>
 
-          <button className="mt-4 lg:mt-0 min-h-11 lg:min-h-0 border rounded px-3 py-1 text-sm hover:bg-gray-100 text-black">
+          <button onClick={() => { void logout(); navigate("/login", { replace: true }); }} className="mt-4 lg:mt-0 min-h-11 lg:min-h-0 border rounded px-3 py-1 text-sm hover:bg-gray-100 text-black">
             Đăng xuất
           </button>
         </aside>

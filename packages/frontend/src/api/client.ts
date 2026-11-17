@@ -24,13 +24,26 @@ apiClient.interceptors.request.use((config) => {
   return config;
 });
 
-// Response interceptor: unwrap data and handle errors
+type SessionListener = (token: string) => void;
+const sessionListeners = new Set<SessionListener>();
+export function onUnauthorized(listener: SessionListener) {
+  sessionListeners.add(listener);
+  return () => { sessionListeners.delete(listener); };
+}
+
+// Keep Axios status/config available to callers while preserving the server message.
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     const message =
       error.response?.data?.error || error.message || "An error occurred";
-    return Promise.reject(new Error(message));
+    error.message = message;
+    const authorization = error.config?.headers?.Authorization;
+    const failedToken = typeof authorization === 'string' ? authorization.replace(/^Bearer /, '') : null;
+    if (error.response?.status === 401 && failedToken && !error.config?.url?.startsWith('/auth/')) {
+      sessionListeners.forEach(listener => listener(failedToken));
+    }
+    return Promise.reject(error);
   },
 );
 
