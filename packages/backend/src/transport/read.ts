@@ -1,5 +1,5 @@
 import type { AttachmentReadDto, CampaignReadDto, TeamReadDto, PhotoReadDto, PostSummaryDto, PostDetailDto, UserSummaryDto } from '@uit-volunteer-map/shared';
-import { RoleEnum } from '@uit-volunteer-map/shared';
+import { RoleEnum, isPostCoordinates } from '@uit-volunteer-map/shared';
 import type { Attachment } from '../entities/Attachment.js';
 import type { Campaign } from '../entities/Campaign.js';
 import type { Team } from '../entities/Team.js';
@@ -31,7 +31,9 @@ export function photosDto(items: Photo[] = []): PhotoReadDto[] {
     .map(photo => ({ photoId: photo.photoId, title: photo.title ?? null, imageUrl: photo.imageUrl, uploadedAt: photo.uploadedAt, isFirstImage: photo.isFirstImage === 1 }));
 }
 export function postSummaryDto(post: Post): PostSummaryDto {
+  const point = { latitude: post.latitude, longitude: post.longitude };
   return { postId: post.postId, title: post.title, content: post.content, createdAt: post.createdAt, updatedAt: post.updatedAt,
+    coordinates: isPostCoordinates(point) ? point : null,
     team: { teamId: post.team.teamId, teamName: post.team.teamName, campaignId: post.team.campaign.campaignId },
     author: post.author && post.author.isDeleted === 0 ? userDto(post.author) : null,
     thumbnail: photosDto(post.photos)[0] ?? null };

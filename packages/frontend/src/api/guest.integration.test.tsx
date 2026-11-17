@@ -25,7 +25,7 @@ function respond(config:InternalAxiosRequestConfig,status:number,data:unknown) {
 }
 beforeEach(()=>{
  calls=[];campaignFailures=0;
- posts=[100,101,200].map((id,index)=>({postId:id,title:`Post ${id}`,content:`Body ${id}`,createdAt:'2026-01-01',updatedAt:'2026-01-01',team:{teamId:index<2?10:20,teamName:index<2?'Team 10':'Team 20',campaignId:index<2?1:2},author:null,thumbnail:null,photos:[]}));
+ posts=[100,101,200].map((id,index)=>({postId:id,coordinates:null,title:`Post ${id}`,content:`Body ${id}`,createdAt:'2026-01-01',updatedAt:'2026-01-01',team:{teamId:index<2?10:20,teamName:index<2?'Team 10':'Team 20',campaignId:index<2?1:2},author:null,thumbnail:null,photos:[]}));
  apiClient.defaults.adapter=async config=>{
   calls.push(config);const url=config.url!;
   if(url==='/campaigns') {if(campaignFailures-->0)return respond(config,500,null);return respond(config,200,campaigns);}

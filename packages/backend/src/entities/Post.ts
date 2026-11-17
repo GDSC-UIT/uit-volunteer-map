@@ -1,5 +1,6 @@
 import {
   Column,
+  Check,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -12,6 +13,7 @@ import type { Photo } from "./Photo.js";
 import type { Team } from "./Team.js";
 
 @Entity("Post")
+@Check('CHK_Post_Coordinates', '("Latitude" IS NULL AND "Longitude" IS NULL) OR ("Latitude" IS NOT NULL AND "Longitude" IS NOT NULL AND "Latitude" BETWEEN -90 AND 90 AND "Longitude" BETWEEN -180 AND 180)')
 export class Post {
   @PrimaryGeneratedColumn({ name: "PostId" })
   postId!: number;
@@ -21,6 +23,12 @@ export class Post {
 
   @Column("text", { name: "Content", nullable: false })
   content!: string;
+
+  @Column('real', { name: 'Latitude', nullable: true })
+  latitude!: number | null;
+
+  @Column('real', { name: 'Longitude', nullable: true })
+  longitude!: number | null;
 
   @Column("integer", { name: "IsDeleted", nullable: false, default: 0 })
   isDeleted!: number;

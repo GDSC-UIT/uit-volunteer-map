@@ -23,6 +23,7 @@ const teamA = {
 } satisfies TeamReadDto;
 const campaignA = {campaignId:1,campaignName:'Campaign A',startDate:'2026-01-01',endDate:'2026-02-01',description:null,attachments:[]} satisfies CampaignReadDto;
 const detailA = {postId:1001,title:'Post A',content:'A',createdAt:'2026-01-01',updatedAt:'2026-01-01',
+  coordinates:null,
   team:{teamId:10,teamName:'Team A',campaignId:1},author:{userId:11,fullName:'Leader A',avatarUrl:null},
   thumbnail:photoDto(10,true),photos:[photoDto(10,true),photoDto(30,true),photoDto(40)],
 } satisfies PostDetailDto;

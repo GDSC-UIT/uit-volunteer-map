@@ -86,6 +86,8 @@ export class PostService {
     const newPost = this.postRepo.create({
       title: data.title,
       content: data.content,
+      latitude: data.coordinates?.latitude ?? null,
+      longitude: data.coordinates?.longitude ?? null,
       team: { teamId: team.teamId },
       author: { userId: author.userId },
       isDeleted: 0,
@@ -118,6 +120,10 @@ export class PostService {
     const post = await this.getWritablePost(id, actor);
     if (data.title !== undefined) post.title = data.title;
     if (data.content !== undefined) post.content = data.content;
+    if (data.coordinates !== undefined) {
+      post.latitude = data.coordinates?.latitude ?? null;
+      post.longitude = data.coordinates?.longitude ?? null;
+    }
     post.updatedAt = new Date().toISOString();
     return await this.postRepo.save(post);
   }

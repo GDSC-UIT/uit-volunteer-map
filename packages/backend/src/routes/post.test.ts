@@ -167,4 +167,38 @@ describe('Post actor identity and team authorization', () => {
     expect((await request(app).get('/api/posts')).status).toBe(200);
     expect((await request(app).get('/api/posts/1001')).status).toBe(200);
   });
+
+  it.each([{latitude:0,longitude:0},{latitude:90,longitude:180},{latitude:-90,longitude:-180},{latitude:10.8231,longitude:106.6296}])('persists a complete WGS84 coordinate pair %j', async coordinates => {
+    const res = await mutate('create', leaderToken, 1001, { ...body, coordinates });
+    expect(res.status).toBe(200);
+    const detail = await request(app).get(`/api/posts/${res.body.data.postId}`);
+    expect(detail.body.data.coordinates).toEqual(coordinates);
+    const list = await request(app).get('/api/posts?campaignId=1');
+    expect(list.body.data.find((post: {postId:number}) => post.postId === res.body.data.postId).coordinates).toEqual(coordinates);
+  });
+  it('keeps legacy posts unlocated, retains on unrelated edits, replaces and clears the pair', async () => {
+    expect((await request(app).get('/api/posts/1001')).body.data.coordinates).toBeNull();
+    const coordinates = {latitude:10.8231,longitude:106.6296};
+    expect((await mutate('update',leaderToken,1001,{coordinates})).status).toBe(200);
+    await mutate('update',leaderToken,1001,{title:'Coordinate retained'});
+    expect((await request(app).get('/api/posts/1001')).body.data.coordinates).toEqual(coordinates);
+    await mutate('update',leaderToken,1001,{coordinates:null});
+    expect((await request(app).get('/api/posts/1001')).body.data.coordinates).toBeNull();
+    expect((await mutate('create',leaderToken,1001,body)).body.data.latitude).toBeNull();
+  });
+  it.each([{}, {latitude:10}, {longitude:106}, {latitude:null,longitude:null}, {latitude:'10',longitude:106}, {latitude:91,longitude:106}, {latitude:-91,longitude:106}, {latitude:10,longitude:181}, {latitude:10,longitude:-181}, {latitude:10,longitude:106,extra:true}, [10,106]])('rejects invalid coordinate input without writes %j', async coordinates => {
+    await assertDenied('create',leaderToken,400,1001,{...body,coordinates});
+    await assertDenied('update',leaderToken,400,1001,{coordinates});
+  });
+  it('applies existing team authorization to coordinate edits', async () => {
+    const coordinates = {latitude:12.2,longitude:109.1};
+    await assertDenied('update',leaderToken,403,2001,{coordinates});
+    expect((await mutate('update',adminToken,2001,{coordinates})).status).toBe(200);
+    expect((await request(app).get('/api/posts/2001')).body.data.coordinates).toEqual(coordinates);
+  });
+  it('enforces paired and bounded coordinates at the database layer', async () => {
+    await expect(db.query('UPDATE Post SET Latitude = 10 WHERE PostId = 1001')).rejects.toThrow();
+    await expect(db.query('UPDATE Post SET Latitude = 91, Longitude = 106 WHERE PostId = 1001')).rejects.toThrow();
+    expect((await request(app).get('/api/posts/1001')).body.data.coordinates).toBeNull();
+  });
 });

@@ -1,3 +1,4 @@
+import type { PostCoordinates } from './coordinates.js';
 /** Public transport contracts. These are not TypeORM entities or write payloads. */
 export interface AttachmentReadDto {
   attachmentId: number;
@@ -36,6 +37,7 @@ export interface PhotoReadDto {
 }
 export interface PostSummaryDto {
   postId: number;
+  coordinates: PostCoordinates | null;
   title: string;
   content: string;
   createdAt: string;
