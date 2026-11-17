@@ -2,6 +2,7 @@ import { isAxiosError } from 'axios';
 import type { ApiResponse, CampaignReadDto, CampaignWriteDto, TeamCreateDto, TeamWriteDto, AdminTeamReadDto, TeamLeaderOptionDto } from '@uit-volunteer-map/shared';
 import apiClient from './client';
 import { readData } from './read';
+import type { LeaderAccountReadDto, CreateLeaderAccountDto, UpdateLeaderAccountDto } from '@uit-volunteer-map/shared';
 
 async function write<T>(method:'post'|'put'|'delete',url:string,data?:unknown):Promise<T> {
   const response=await apiClient.request<ApiResponse<T>>({method,url,data});
@@ -9,6 +10,10 @@ async function write<T>(method:'post'|'put'|'delete',url:string,data?:unknown):P
   return response.data.data as T;
 }
 export const managementApi={
+  accounts:(signal?:AbortSignal)=>readData<LeaderAccountReadDto[]>('/accounts',{signal}),
+  createAccount:(data:CreateLeaderAccountDto)=>write<LeaderAccountReadDto>('post','/accounts',data),
+  updateAccount:(id:number,data:UpdateLeaderAccountDto)=>write<LeaderAccountReadDto>('put',`/accounts/${id}`,data),
+  deactivateAccount:(id:number)=>write<LeaderAccountReadDto>('delete',`/accounts/${id}`),
   teams:(campaignId:number,signal?:AbortSignal)=>readData<AdminTeamReadDto[]>('/admin/teams',{params:{campaignId},signal}),
   leaders:(signal?:AbortSignal)=>readData<TeamLeaderOptionDto[]>('/admin/team-leaders',{signal}),
   createCampaign:(data:CampaignWriteDto)=>write<CampaignReadDto>('post','/campaigns',data),
