@@ -1,0 +1,4 @@
+{
+  "passed": true,
+  "check": "cold campaign anchor waits for API content, then scrolls section below sticky header"
+}

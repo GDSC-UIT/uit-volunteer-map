@@ -1,0 +1,26 @@
+[
+  {
+    "name": "campaign",
+    "width": 375,
+    "height": 667,
+    "documentWidth": 375
+  },
+  {
+    "name": "team",
+    "width": 375,
+    "height": 667,
+    "documentWidth": 375
+  },
+  {
+    "name": "campaign",
+    "width": 1440,
+    "height": 900,
+    "documentWidth": 1440
+  },
+  {
+    "name": "team",
+    "width": 1440,
+    "height": 900,
+    "documentWidth": 1440
+  }
+]
