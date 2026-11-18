@@ -1,14 +1,9 @@
 import { isAxiosError } from 'axios';
-import type { ApiResponse, CampaignReadDto, CampaignWriteDto, TeamCreateDto, TeamWriteDto, AdminTeamReadDto, TeamLeaderOptionDto } from '@uit-volunteer-map/shared';
-import apiClient from './client';
+import type { CampaignReadDto, CampaignWriteDto, TeamCreateDto, TeamWriteDto, AdminTeamReadDto, TeamLeaderOptionDto } from '@uit-volunteer-map/shared';
+import { writeData as write } from './write';
 import { readData } from './read';
 import type { LeaderAccountReadDto, CreateLeaderAccountDto, UpdateLeaderAccountDto } from '@uit-volunteer-map/shared';
 
-async function write<T>(method:'post'|'put'|'delete',url:string,data?:unknown):Promise<T> {
-  const response=await apiClient.request<ApiResponse<T>>({method,url,data});
-  if(!response.data.success)throw new Error(response.data.error || 'Không thể lưu dữ liệu.');
-  return response.data.data as T;
-}
 export const managementApi={
   accounts:(signal?:AbortSignal)=>readData<LeaderAccountReadDto[]>('/accounts',{signal}),
   createAccount:(data:CreateLeaderAccountDto)=>write<LeaderAccountReadDto>('post','/accounts',data),

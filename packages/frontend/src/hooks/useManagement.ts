@@ -3,6 +3,7 @@ import { isAxiosError } from 'axios';
 import { managementApi } from '@/api/management';
 import { campaignKeys, teamKeys, postKeys } from '@/api/queryKeys';
 import { readRetry } from './readState';
+import { ownTeamKey } from './useOwnTeam';
 
 export const adminTeamKeys={all:['admin-teams'] as const,list:(id:number)=>['admin-teams',{campaignId:id}] as const};
 export const leaderOptionKeys={all:['team-leader-options'] as const};
@@ -13,7 +14,8 @@ export function useLeaderOptions() { return useQuery({queryKey:leaderOptionKeys.
 export function useManagementMutation<T,R>(mutationFn:(input:T)=>Promise<R>) {
   const client=useQueryClient();
   return useMutation({mutationFn,
-    onSuccess:async()=>{await Promise.all([campaignKeys.all,teamKeys.all,postKeys.all,adminTeamKeys.all,leaderOptionKeys.all,leaderAccountKeys.all].map(queryKey=>client.invalidateQueries({queryKey})));},
+    retry: false,
+    onSuccess:async()=>{await Promise.all([campaignKeys.all,teamKeys.all,postKeys.all,adminTeamKeys.all,leaderOptionKeys.all,leaderAccountKeys.all,ownTeamKey].map(queryKey=>client.invalidateQueries({queryKey})));},
     onError:async error=>{if(isAxiosError(error)&&error.response?.status===409)await Promise.all([adminTeamKeys.all,leaderOptionKeys.all,leaderAccountKeys.all].map(queryKey=>client.invalidateQueries({queryKey})));},
   });
 }
