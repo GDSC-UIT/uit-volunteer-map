@@ -1,0 +1,116 @@
+{
+  "note": "Read-only local metadata and disposable fixtures only; no deployed DB accessed.",
+  "fresh": {
+    "applied": 15,
+    "pending": false,
+    "fk": [],
+    "schemaDrift": [],
+    "postFK": [
+      {
+        "id": 0,
+        "seq": 0,
+        "table": "User",
+        "from": "AuthorId",
+        "to": "UserId",
+        "on_update": "NO ACTION",
+        "on_delete": "NO ACTION",
+        "match": "NONE"
+      },
+      {
+        "id": 1,
+        "seq": 0,
+        "table": "Team",
+        "from": "TeamId",
+        "to": "TeamId",
+        "on_update": "NO ACTION",
+        "on_delete": "NO ACTION",
+        "match": "NONE"
+      }
+    ],
+    "postChecks": [
+      {
+        "name": "CHK_Post_Coordinates",
+        "expression": "((\"Latitude\" IS NULL AND \"Longitude\" IS NULL) OR (\"Latitude\" IS NOT NULL AND \"Longitude\" IS NOT NULL AND \"Latitude\" BETWEEN -90 AND 90 AND \"Longitude\" BETWEEN -180 AND 180))"
+      }
+    ]
+  },
+  "historical": {
+    "historyCount": 3,
+    "failure": "SQLITE_CONSTRAINT: NOT NULL constraint failed: temporary_Post.CreatedAt",
+    "postUnchanged": true
+  },
+  "localMetadata": {
+    "exists": true,
+    "mode": "OPEN_READONLY",
+    "history": [
+      {
+        "timestamp": 1769042239658,
+        "name": "Baseline1769042239658"
+      },
+      {
+        "timestamp": 1769042360738,
+        "name": "AddUserPhoneNumber1769042360738"
+      },
+      {
+        "timestamp": 1769078305873,
+        "name": "SeedInitialData1769078305873"
+      },
+      {
+        "timestamp": 1769193138220,
+        "name": "FixCampaignPhotoPostTeam1769193138220"
+      },
+      {
+        "timestamp": 1769194000000,
+        "name": "CreateUserRecords1769194000000"
+      },
+      {
+        "timestamp": 1769408788993,
+        "name": "RenameAccIdColumn1769408788993"
+      },
+      {
+        "timestamp": 1770034947542,
+        "name": "RemoveStatusFromPost1770034947542"
+      },
+      {
+        "timestamp": 1770043261836,
+        "name": "AddIsDeletedToAccount1770043261836"
+      },
+      {
+        "timestamp": 1770103330626,
+        "name": "AddAttachmentTable1770103330626"
+      },
+      {
+        "timestamp": 1770129007066,
+        "name": "AddImageUrlTeam1770129007066"
+      },
+      {
+        "timestamp": 1770200868280,
+        "name": "ChangeRelationPostCampaignToPostTeam1770200868280"
+      },
+      {
+        "timestamp": 1770202568128,
+        "name": "UpdatePhotoUserIsDeleted1770202568128"
+      }
+    ],
+    "postColumns": [
+      "PostId",
+      "Title",
+      "Content",
+      "IsDeleted",
+      "TeamId",
+      "AuthorId",
+      "CreatedAt",
+      "UpdatedAt"
+    ],
+    "photoColumns": [
+      "PhotoId",
+      "Title",
+      "ImageUrl",
+      "UploadedAt",
+      "PostID",
+      "isFirstImage",
+      "isDeleted"
+    ],
+    "unchanged": true
+  }
+}

@@ -100,6 +100,7 @@ try {
  assert.deepEqual(await historical.query('SELECT * FROM Post'),historicalRows);assert.equal((await historical.query('SELECT * FROM migrations')).length,3);await close(historical);
  const historicalBackup=join(directory,'historical.backup.sqlite');await backupDatabase(historicalPath,historicalBackup);
  const originalHash=fileHash(historicalPath),backupHash=fileHash(historicalBackup),timestamp='2026-01-01T00:00:00.000Z';
+ await assert.rejects(recoverLegacyDatabase(historicalBackup,join(directory,'partial-plan.sqlite'),{fallbackTimestamp:timestamp,postTeams:{}}),/exactly one reviewed team mapping/);
  const variantPath=join(directory,'manual-variant.sqlite');await backupDatabase(historicalBackup,variantPath);
  const variant=await open(variantPath,classes.slice(0,3));await variant.query('ALTER TABLE Post ADD COLUMN CustomField text');await close(variant);
  const variantHash=fileHash(variantPath);await assert.rejects(recoverLegacyDatabase(variantPath,join(directory,'variant-refused.sqlite'),{fallbackTimestamp:timestamp,postTeams:{700:70}}),/Unsupported historical columns/);assert.equal(fileHash(variantPath),variantHash);
