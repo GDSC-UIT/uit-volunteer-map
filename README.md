@@ -2,8 +2,7 @@
 
 A UIT volunteer-campaign map and publishing application. Guests browse campaigns,
 teams and activity posts; Admins provision Leader accounts and assignments;
-Leaders manage their own team and posts. This checkout contains the local R01–R14
-release work. It is not a claim of a deployed or approved v1 release.
+Leaders manage their own team and posts. This checkout contains the completed local R01–R15 MVP and bounded R16 route-loading work. See the [release-candidate handoff](docs/release-readiness.md) for executed acceptance and production promotion requirements. It is not a claim of a deployed or approved v1 release.
 
 ## Implemented scope
 
@@ -111,19 +110,23 @@ For headed local verification: `npm run test:journeys -- --headed`.
 The CI build job checks source and built map integrity, smoke-starts compiled JS,
 rehearses migrations/backup/recovery, installs matching Chromium/system libraries
 and runs the same browser journeys, including the focused mobile/keyboard checks. Artifacts are named with the tested Git SHA.
-Local results are recorded in the [R14 handoff](docs/handoffs/R14.md); no remote CI
+Local results are recorded in the [candidate handoff](docs/release-readiness.md); no remote CI
 pass is claimed for an unpushed branch.
 
 For compiled local backend runtime, keep the configured environment/database and
 run `npm start` after building. Vite's development proxy is not a production host.
 A deployed frontend needs its `/api` reverse proxy or configured `VITE_API_URL`,
-and history fallback for deep routes. Production backend requires explicit
+and history fallback for deep routes. `/api/health` returns 503 while the database is unavailable/uninitialized or its migration ledger is not current; only a ready database returns 200/healthy. The read-only probe never migrates or repairs a DB. Production backend requires explicit
 `CORS_ORIGINS`, a private JWT secret of at least 32 characters, an intentional
 `HOST` binding and a verified database migration/restore plan.
 
 ## Screenshots
 
 These are executed local browser checks using synthetic demo data, not a live site.
+
+| Current homepage, 375 px | Current native logout, 375 px |
+|---|---|
+| ![Homepage](output/playwright/release-candidate/core-homepage-375x667.png) | ![Native logout focus](output/playwright/release-candidate/core-logout-dialog-375x667.png) |
 
 | Guest: packaged demo, 375 px | Admin: real assignment, 1440 px |
 |---|---|
@@ -139,7 +142,7 @@ These are executed local browser checks using synthetic demo data, not a live si
 - The map is a generalized Natural Earth 1:110m outline, not current provincial/commune coverage or navigation-grade geography. Posts without valid coordinates have no marker.
 - The login budget is process-local and resets at restart. Proxy clients share a socket-IP budget with `trust proxy:false`; production scaling needs an explicit trusted proxy/shared throttling policy. Logout clears the client; it does not revoke already-issued JWTs server-side.
 - Existing database histories require operator inventory and a rehearsed supported upgrade/recovery path. No production DB or live media account was used in acceptance.
-- [R12](docs/handoffs/R12.md) records remaining dependency advisories and nonzero audit exits. R14 does not declare an audit-clean release. The existing frontend chunk-size warning remains.
+- [R12](docs/handoffs/R12.md) records retained dependency advisories and nonzero audit exits; no new audit-clean release is claimed. [R16](docs/handoffs/R16.md) reduced the initial JS entry by about 34% and removed the existing chunk-size warning with the default threshold.
 - Core mobile/keyboard acceptance and exact API-derived metrics passed locally in [R15](docs/handoffs/R15.md). The unused year selector is removed; dashboard links lead to implemented management workflows. Advanced analytics, ViceLeader, public registration, social features and editorial tooling remain deferred.
 
 ## Contributions and attribution

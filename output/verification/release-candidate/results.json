@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-19",
+  "branch": "feat/v1-release-candidate",
+  "sourceCommit": "5bbec46316ea31982f49c1dbbc66a0acc4ddcbc4",
+  "node": "24.22.3",
+  "npm": "11.19.1",
+  "backendTests": 318,
+  "frontendTests": 125,
+  "totalTests": 443,
+  "lint": "PASS",
+  "typecheck": "PASS",
+  "build": "PASS",
+  "assets": "PASS",
+  "compiledSmoke": "PASS",
+  "journeys": "PASS at 375x667 and 1440x900",
+  "readiness": {
+    "beforeInitialization": 503,
+    "beforeMigrations": 503,
+    "afterMigrations": 200,
+    "probeSchemaUnchanged": true
+  },
+  "chunkRecovery": "PASS",
+  "entryKB": 424.55,
+  "entryGzipKB": 138.6,
+  "entryReductionSinceR15Percent": 34.04,
+  "largeChunkWarning": false,
+  "developerDatabaseUnchanged": true,
+  "remoteCi": "not run; not published",
+  "productionApproval": false
+}

@@ -1,0 +1,37 @@
+
+> uit-volunteer-map@1.0.0 test
+> npm run build:shared && npm run test:run --workspaces --if-present
+
+
+> uit-volunteer-map@1.0.0 build:shared
+> npm run build -w @uit-volunteer-map/shared
+
+
+> @uit-volunteer-map/shared@1.0.0 build
+> tsc
+
+
+> @uit-volunteer-map/backend@1.0.0 test:run
+> vitest run
+
+
+ RUN  v4.1.12 D:/UIT/GDGoC_UIT/GDGoC 25-26/XTN_2026/uit-volunteer-map/packages/backend
+
+
+ Test Files  17 passed (17)
+      Tests  318 passed (318)
+   Start at  03:37:39
+   Duration  4.09s (transform 3.67s, setup 0ms, import 22.58s, tests 9.67s, environment 2ms)
+
+
+> @uit-volunteer-map/frontend@1.0.0 test:run
+> vitest run
+
+
+ RUN  v4.1.12 D:/UIT/GDGoC_UIT/GDGoC 25-26/XTN_2026/uit-volunteer-map/packages/frontend
+
+
+ Test Files  12 passed (12)
+      Tests  125 passed (125)
+   Start at  03:37:44
+   Duration  8.61s (transform 2.01s, setup 1.65s, import 5.76s, tests 16.80s, environment 9.46s)
