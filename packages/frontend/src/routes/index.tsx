@@ -1,28 +1,32 @@
+import { lazy } from 'react';
+import RouteErrorPage from '@/pages/RouteErrorPage';
 import { createBrowserRouter, Navigate } from "react-router";
 import RootLayout from "@/components/layouts/RootLayout";
 import ProtectedRoute from "@/routes/ProtectedRoute";
 import HomePage from "@/pages/HomePage";
-import LoginPage from "@/pages/LoginPage";
 import AdminLayout from "@/components/layouts/AdminLayout";
-import AdminDashboard from "@/pages/admin/AdminDashboard";
-import NotFoundPage from "@/pages/NotFoundPage";
 import { RoleEnum } from "@uit-volunteer-map/shared";
 import LeaderLayout from "@/components/layouts/LeaderLayout";
-import CampaignPage from "@/pages/CampaignPage";
-import PostPage from "@/pages/PostPage";
-import TeamPage from "@/pages/TeamPage";
-import MyTeamPage from "@/pages/leader/MyTeamPage";
-import LeaderPostPage from "@/pages/leader/LeaderPostPage";
-import PostEditorPage from "@/pages/leader/PostEditorPage";
-import CampaignManagementPage from "@/pages/admin/CampaignManagementPage";
-import TeamManagementPage from "@/pages/admin/TeamManagementPage";
-import AccountManagementPage from "@/pages/admin/AccountManagementPage";
 import CampaignLayout from "@/components/layouts/CampaignLayout";
+
+const LoginPage = lazy(() => import('@/pages/LoginPage'));
+const AdminDashboard = lazy(() => import('@/pages/admin/AdminDashboard'));
+const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
+const CampaignPage = lazy(() => import('@/pages/CampaignPage'));
+const PostPage = lazy(() => import('@/pages/PostPage'));
+const TeamPage = lazy(() => import('@/pages/TeamPage'));
+const MyTeamPage = lazy(() => import('@/pages/leader/MyTeamPage'));
+const LeaderPostPage = lazy(() => import('@/pages/leader/LeaderPostPage'));
+const PostEditorPage = lazy(() => import('@/pages/leader/PostEditorPage'));
+const CampaignManagementPage = lazy(() => import('@/pages/admin/CampaignManagementPage'));
+const TeamManagementPage = lazy(() => import('@/pages/admin/TeamManagementPage'));
+const AccountManagementPage = lazy(() => import('@/pages/admin/AccountManagementPage'));
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: <RouteErrorPage />,
     children: [
       { index: true, element: <HomePage /> },
       { path: "login", element: <LoginPage /> },
