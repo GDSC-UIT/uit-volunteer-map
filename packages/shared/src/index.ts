@@ -9,3 +9,4 @@ export * from './coordinates.js';
 export * from './management-dtos.js';
 export * from './leader-account-dtos.js';
 export * from './post-write-dtos.js';
+export * from './media.js';

@@ -1,8 +1,10 @@
 import { z } from "zod";
+import { MEDIA_LIMITS } from '@uit-volunteer-map/shared';
+import { imageUrlSchema } from './media.js';
 
 const photoInputSchema = z.object({
   title: z.string().optional().nullable(),
-  imageUrl: z.string().url("Invalid image URL"),
+  imageUrl: imageUrlSchema,
   isFirstImage: z.number().int().min(0).max(1).optional().nullable(),
 }).strict();
 
@@ -15,7 +17,7 @@ export const createPostSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   content: z.string().min(1, 'Content is required'),
   teamId: z.number().int().positive().max(Number.MAX_SAFE_INTEGER),
-  photos: z.array(photoInputSchema).optional(),
+  photos: z.array(photoInputSchema).max(MEDIA_LIMITS.maxImages).optional(),
   coordinates: coordinatesSchema,
 }).strict();
 

@@ -27,8 +27,8 @@ export function teamDto(team: Team): TeamReadDto {
 }
 export function photosDto(items: Photo[] = []): PhotoReadDto[] {
   return items.filter(photo => photo.isDeleted === 0)
-    .sort((a,b) => Number(b.isFirstImage === 1) - Number(a.isFirstImage === 1) || a.photoId - b.photoId)
-    .map(photo => ({ photoId: photo.photoId, title: photo.title ?? null, imageUrl: photo.imageUrl, uploadedAt: photo.uploadedAt, isFirstImage: photo.isFirstImage === 1 }));
+    .sort((a,b) => a.position - b.position || a.photoId - b.photoId)
+    .map((photo, index) => ({ photoId: photo.photoId, position: photo.position, title: photo.title ?? null, imageUrl: photo.imageUrl, uploadedAt: photo.uploadedAt, isFirstImage: index === 0 }));
 }
 export function postSummaryDto(post: Post): PostSummaryDto {
   const point = { latitude: post.latitude, longitude: post.longitude };

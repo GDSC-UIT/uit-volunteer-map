@@ -58,7 +58,7 @@ it('opens the selected second post, then closes to its team list',async()=>{
  expect(calls.some(item=>item.url==='/posts'&&item.params?.teamId===10&&item.params?.campaignId===1)).toBe(true);
 });
 it('loads a direct post URL with ordered gallery data and close fallback',async()=>{
- posts[1].photos=[{photoId:1,title:null,imageUrl:'/a.png',uploadedAt:'2026-01-01',isFirstImage:true},{photoId:2,title:null,imageUrl:'/b.png',uploadedAt:'2026-01-01',isFirstImage:false}];
+ posts[1].photos=[{photoId:1,position:0,title:null,imageUrl:'/a.png',uploadedAt:'2026-01-01',isFirstImage:true},{photoId:2,position:1,title:null,imageUrl:'/b.png',uploadedAt:'2026-01-01',isFirstImage:false}];
  mount('/campaign/1/post/101');await screen.findByRole('heading',{name:'Post 101'});expect(screen.getByRole('img',{name:'Post 101 — ảnh 1'})).toHaveAttribute('src','/a.png');
  await userEvent.setup().click(screen.getByRole('button',{name:'Ảnh tiếp theo'}));expect(screen.getByRole('img',{name:'Post 101 — ảnh 2'})).toHaveAttribute('src','/b.png');
  await userEvent.setup().click(screen.getByRole('button',{name:'Quay lại danh sách'}));await screen.findByRole('heading',{name:'Campaign 1'});

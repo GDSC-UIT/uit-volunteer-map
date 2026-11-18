@@ -44,7 +44,7 @@ beforeEach(() => {
     const data = typeof config.data === 'string' ? JSON.parse(config.data) : config.data;
     if (url === '/teams/10') { Object.assign(team, data); return respond(config, structuredClone(team)); }
     if (method === 'post' && url === '/posts') {
-      const photos = data.photos.map((photo: { imageUrl: string; isFirstImage: number }, i: number) => ({ photoId: i + 1, imageUrl: photo.imageUrl, title: null, uploadedAt: '2026-01-01', isFirstImage: photo.isFirstImage === 1 }));
+      const photos = data.photos.map((photo: { imageUrl: string; isFirstImage: number }, i: number) => ({ photoId: i + 1, position: i, imageUrl: photo.imageUrl, title: null, uploadedAt: '2026-01-01', isFirstImage: photo.isFirstImage === 1 }));
       const post: PostDetailDto = { ...posts[0], ...data, postId: 3, photos, thumbnail: photos[0] || null };
       posts.push(post); return respond(config, { postId: 3, rawEntityOnly: true });
     }

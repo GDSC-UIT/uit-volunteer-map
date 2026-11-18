@@ -14,7 +14,7 @@ import { Attachment } from '../entities/Attachment.js';
 import { RoleEnum, type CampaignReadDto, type TeamReadDto, type PostDetailDto, API_ROUTES } from '@uit-volunteer-map/shared';
 
 const token = (accId: number, role = RoleEnum.LEADER) => jwt.sign({accId, role}, process.env.JWT_SECRET!, {expiresIn:'1h'});
-const photoDto = (photoId: number, first = false) => ({photoId,title:null,imageUrl:`https://example.test/photo-${photoId}.png`,uploadedAt:'2026-01-01',isFirstImage:first});
+const photoDto = (photoId: number, first = false, position = 0) => ({photoId,position,title:null,imageUrl:`https://example.test/photo-${photoId}.png`,uploadedAt:'2026-01-01',isFirstImage:first});
 const teamA = {
   teamId:10,campaignId:1,teamName:'Team A',description:null,imageUrl:null,
   leaders:[{userId:11,fullName:'Leader A',avatarUrl:null,role:'leader'}],
@@ -25,7 +25,7 @@ const campaignA = {campaignId:1,campaignName:'Campaign A',startDate:'2026-01-01'
 const detailA = {postId:1001,title:'Post A',content:'A',createdAt:'2026-01-01',updatedAt:'2026-01-01',
   coordinates:null,
   team:{teamId:10,teamName:'Team A',campaignId:1},author:{userId:11,fullName:'Leader A',avatarUrl:null},
-  thumbnail:photoDto(10,true),photos:[photoDto(10,true),photoDto(30,true),photoDto(40)],
+  thumbnail:photoDto(10,true),photos:[photoDto(10,true),photoDto(30,false,1),photoDto(40,false,2)],
 } satisfies PostDetailDto;
 
 async function get(path: string) { return request(app).get('/api'+path); }
@@ -67,7 +67,7 @@ describe('Canonical scoped read contracts',()=>{
       {postId:2001,title:'Post B',content:'B',createdAt:'2026-01-01',updatedAt:'2026-01-01',team:{teamId:20},author:{userId:22}},
     ]);
     for(const [photoId,first,deleted,postId] of [[50,1,1,1001],[40,0,0,1001],[30,1,0,1001],[10,1,0,1001],[90,0,0,2001]]) {
-      await db.getRepository(Photo).save({photoId,imageUrl:`https://example.test/photo-${photoId}.png`,uploadedAt:'2026-01-01',isFirstImage:first,isDeleted:deleted,post:{postId}});
+      await db.getRepository(Photo).save({photoId,position:photoId===30?1:photoId===40?2:0,imageUrl:`https://example.test/photo-${photoId}.png`,uploadedAt:'2026-01-01',isFirstImage:first,isDeleted:deleted,post:{postId}});
     }
     await db.getRepository(Attachment).save([
       {attachmentId:1,imageUrl:'https://example.test/attachment-1.png',uploadedAt:'2026-01-01',position:2,team:{teamId:10}},
@@ -98,7 +98,7 @@ describe('Canonical scoped read contracts',()=>{
     const list=(await get('/posts?teamId=10')).body.data;
     const {photos,...summary}=detailA;expect(photos).toHaveLength(3);expect(list[0]).toEqual(summary);
     expect((await get('/posts/1001')).body.data.photos).toEqual(detailA.photos);
-    const fallback=(await get('/posts/2001')).body.data;expect(fallback.thumbnail).toEqual(photoDto(90));
+    const fallback=(await get('/posts/2001')).body.data;expect(fallback.thumbnail).toEqual(photoDto(90,true));
   });
   it('represents empty photos and missing author explicitly',async()=>{
     const detail=(await get('/posts/1002')).body.data;expect(detail.photos).toEqual([]);expect(detail.thumbnail).toBeNull();expect(detail.author).toBeNull();

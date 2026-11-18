@@ -7,7 +7,7 @@ import { Campaign } from "../entities/Campaign.js";
 import { Attachment } from "../entities/Attachment.js";
 import { CreateTeamInput, UpdateTeamInput, type AttachmentInput } from "../schemas/team.js";
 import { HttpError } from "../errors/HttpError.js";
-import { HTTP_STATUS, TEAM_ERRORS, RoleEnum, type JwtPayload } from "@uit-volunteer-map/shared";
+import { HTTP_STATUS, TEAM_ERRORS, RoleEnum, MEDIA_LIMITS, type JwtPayload } from "@uit-volunteer-map/shared";
 import type { EntityManager } from 'typeorm';
 import { Post } from '../entities/Post.js';
 import { lifecycleTransaction } from './lifecycleTransaction.js';
@@ -16,7 +16,6 @@ export class TeamService {
   private teamRepo = AppDataSource.getRepository(Team);
   private userRepo = AppDataSource.getRepository(User);
   private campaignRepo = AppDataSource.getRepository(Campaign);
-  private attachmentRepo = AppDataSource.getRepository(Attachment);
   private readQuery(manager = AppDataSource.manager) {
     return manager.getRepository(Team).createQueryBuilder("team")
       .innerJoinAndSelect("team.campaign", "campaign")
@@ -72,19 +71,6 @@ export class TeamService {
     }
     await manager.createQueryBuilder().relation(Team,'leader').of(teamId).set(leaderId);
     if (leaderId !== null) await manager.createQueryBuilder().relation(User,'team').of(leaderId).set(teamId);
-  }
-
-  private async getTeamEntity(id: number) {
-    const team = await this.teamRepo.findOne({
-      where: { teamId: id, isDeleted: 0 },
-      relations: ["leader", "users", "users.account", "users.account.role"],
-    });
-
-    if (!team) {
-      throw new HttpError(TEAM_ERRORS.NOT_FOUND, HTTP_STATUS.NOT_FOUND);
-    }
-
-    return team;
   }
 
   async getOne(id: number) {
@@ -149,38 +135,21 @@ export class TeamService {
   }
 
   async addAttachments(teamId: number, attachments: AttachmentInput[], currentUser: JwtPayload) {
-    await this.getTeamEntity(teamId);
-
-    if (currentUser.role === RoleEnum.LEADER) {
-      const leaderUser = await this.userRepo.findOne({
-        where: { account: { accId: currentUser.accId }, isDeleted: 0 },
-        relations: ["team"],
-      });
-
-      if (!leaderUser || !leaderUser.team || leaderUser.team.teamId !== teamId) {
-        throw new HttpError(TEAM_ERRORS.FORBIDDEN_ACCESS, HTTP_STATUS.FORBIDDEN);
+    return lifecycleTransaction(async manager => {
+      const team = await manager.getRepository(Team).findOne({where:{teamId,isDeleted:0},relations:['campaign']});
+      if (!team?.campaign) throw new HttpError(TEAM_ERRORS.NOT_FOUND,404);
+      if (currentUser.role !== RoleEnum.ADMIN) {
+        const actor = await manager.getRepository(User).findOne({where:{account:{accId:currentUser.accId},isDeleted:0},relations:['team']});
+        if (currentUser.role !== RoleEnum.LEADER || actor?.team?.teamId !== teamId) throw new HttpError(TEAM_ERRORS.FORBIDDEN_ACCESS,403);
       }
-    }
-
-    const existingAttachments = await this.attachmentRepo.find({
-      where: { team: { teamId } },
-      order: { position: "DESC" },
+      const repo = manager.getRepository(Attachment);
+      const existing = await repo.find({where:{team:{teamId}}});
+      if (existing.length + attachments.length > MEDIA_LIMITS.maxImages) throw new HttpError('Đội hình đã đủ bốn ảnh đính kèm.',409);
+      const maxPosition = Math.max(-1,...existing.map(item => item.position ?? -1));
+      if (maxPosition > Number.MAX_SAFE_INTEGER - attachments.length) throw new HttpError('Thứ tự ảnh vượt giới hạn cho phép.',409);
+      return repo.save(attachments.map((item,index) => repo.create({imageUrl:item.imageUrl,
+        position:item.position ?? maxPosition + 1 + index,uploadedAt:new Date().toISOString(),team:{teamId}})));
     });
-    const maxPosition = existingAttachments.length > 0 
-      ? (existingAttachments[0].position ?? 0) 
-      : -1;
-
-    const attachmentsToCreate = attachments.map((attachment, index) =>
-      this.attachmentRepo.create({
-        imageUrl: attachment.imageUrl,
-        uploadedAt: new Date().toISOString(),
-        position: attachment.position ?? (maxPosition + 1 + index),
-        team: { teamId },
-      })
-    );
-
-    const savedAttachments = await this.attachmentRepo.save(attachmentsToCreate);
-    return savedAttachments;
   }
 
   async getTeamWithAttachments(teamId: number) {

@@ -30,6 +30,7 @@ export interface TeamReadDto {
 }
 export interface PhotoReadDto {
   photoId: number;
+  position: number;
   title: string | null;
   imageUrl: string;
   uploadedAt: string;

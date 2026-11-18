@@ -13,6 +13,9 @@ export class Photo {
   @PrimaryGeneratedColumn({ name: "PhotoId" })
   photoId!: number;
 
+  @Column('integer', { name: 'Position', default: 0 })
+  position!: number;
+
   @Column("text", { name: "Title", nullable: true })
   title?: string | null;
 
