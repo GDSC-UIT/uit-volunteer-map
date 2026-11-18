@@ -19,7 +19,8 @@
     "migration:revert:dist": "typeorm migration:revert -d dist/db/data-source.js",
     "migration:create": "npm run typeorm -- migration:create src/db/migrations",
     "seed": "npm run build -w @uit-volunteer-map/shared && tsx src/db/seeds/index.ts",
-    "seed:dist": "node dist/db/seeds/index.js"
+    "seed:dist": "node dist/db/seeds/index.js",
+    "db:tool": "node dist/db/manage.js"
   },
   "dependencies": {
     "@uit-volunteer-map/shared": "*",

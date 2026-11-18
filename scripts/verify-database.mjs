@@ -1,0 +1,137 @@
+import assert from 'node:assert/strict';
+import { createHash, randomBytes } from 'node:crypto';
+import { existsSync, readFileSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, resolve, relative, isAbsolute } from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { DataSource } from 'typeorm';
+
+const root=resolve(fileURLToPath(new URL('../',import.meta.url)));
+const dev=join(root,'packages/backend/src/data/database.sqlite');
+const fileHash=path=>existsSync(path)?createHash('sha256').update(readFileSync(path)).digest('hex'):null;
+const developerBefore=fileHash(dev),directory=mkdtempSync(join(tmpdir(),'uit-database-r11-'));
+const freshPath=join(directory,'fresh.sqlite');
+process.env.DB_PATH=freshPath;process.env.DATABASE_PATH=freshPath;process.env.NODE_ENV='test';
+const {AppDataSource:db}=await import('../packages/backend/dist/db/data-source.js');
+const {backupDatabase,inspectDatabase,upgradeDatabase,recoverLegacyDatabase}=await import('../packages/backend/dist/db/maintenance.js');
+const {PostService}=await import('../packages/backend/dist/service/postService.js');
+const {TeamService}=await import('../packages/backend/dist/service/teamService.js');
+const {Account}=await import('../packages/backend/dist/entities/Account.js');
+const {default:bcrypt}=await import('bcrypt');
+const results=[],opened=new Set([db]);
+let report;
+const tables=['Role','Account','User','Campaign','Team','Post','Photo','Attachment'];
+const rows=async connection=>Promise.all(tables.map(table=>connection.query(`SELECT * FROM "${table}" ORDER BY 1`)));
+const open=async(path,migrations)=>{const connection=new DataSource({...db.options,database:path,migrations:migrations||db.options.migrations});opened.add(connection);await connection.initialize();return connection;};
+const close=async connection=>{if(connection.isInitialized)await connection.destroy();opened.delete(connection);};
+function runSeed(demo=false) {
+ const adminPassword='fixture-'+randomBytes(12).toString('hex'),leaderPassword='fixture-'+randomBytes(12).toString('hex');
+ const env={...process.env,DEMO_ADMIN_PASSWORD:adminPassword,DEMO_LEADER_PASSWORD:leaderPassword};
+ const output=execFileSync(process.execPath,[join(root,'packages/backend/dist/db/seeds/index.js'),...(demo?['--demo']:[])],{env,windowsHide:true,timeout:30000,encoding:'utf8'});
+ assert(!output.includes(adminPassword)&&!output.includes(leaderPassword),'seed output must not expose credentials');
+ return {adminPassword,leaderPassword};
+}
+try {
+ await db.initialize();
+ const migrationName=item=>item.name||item.constructor.name;
+ const classes=[...db.migrations].sort((a,b)=>Number(migrationName(a).slice(-13))-Number(migrationName(b).slice(-13))).map(item=>item.constructor);
+ assert.equal((await db.runMigrations()).length,15);assert.equal((await db.runMigrations()).length,0);
+ const bootstrap=await rows(db);runSeed();runSeed();assert.deepEqual(await rows(db),bootstrap);
+ const credentials=runSeed(true),seeded=await rows(db);runSeed(true);assert.deepEqual(await rows(db),seeded);
+ const inspection=JSON.parse(execFileSync(process.execPath,[join(root,'packages/backend/dist/db/manage.js'),'inspect','--source',freshPath],{env:process.env,windowsHide:true,encoding:'utf8',timeout:30000}));
+ assert(inspection.success);assert.equal(inspection.result.history.length,15);assert(!JSON.stringify(inspection).includes(credentials.leaderPassword));
+ const account=await db.getRepository(Account).findOneOrFail({where:{username:'demo-leader'},relations:['role']});
+ assert(await bcrypt.compare(credentials.leaderPassword,account.password));
+ const own=await new TeamService().getOwnTeam({accId:account.accId,role:'leader'});
+ const posts=await new PostService().getAll({teamId:own.teamId});
+ assert.equal(posts.length,2);assert(posts.every(post=>post.coordinates&&post.thumbnail));
+ assert.equal((await new PostService().getOne(posts[0].postId)).photos[0].position,0);
+ assert.equal((await db.driver.createSchemaBuilder().log()).upQueries.length,0);assert.deepEqual(await db.query('PRAGMA foreign_key_check'),[]);
+ // CLI refuses demo setup without an explicit target database or in production.
+ for(const mode of ['no-path','production']) {
+  const env={...process.env,DEMO_ADMIN_PASSWORD:'synthetic-admin-password',DEMO_LEADER_PASSWORD:'synthetic-leader-password'};
+  if(mode==='no-path'){delete env.DB_PATH;delete env.DATABASE_PATH;}else env.NODE_ENV='production';
+  let rejected=false;try{execFileSync(process.execPath,[join(root,'packages/backend/dist/db/seeds/index.js'),'--demo'],{env,windowsHide:true,stdio:'pipe',timeout:30000});}catch{rejected=true;}
+  assert(rejected);
+ }
+ results.push({check:'15 fresh migrations, restart no-op, default seed twice, opt-in demo twice, hashed credential validity, own-team/two real posts, schema/FK integrity and unsafe CLI refusal',passed:true});
+ await close(db);
+ const backup=join(directory,'fresh.backup.sqlite'),restored=join(directory,'fresh.restored.sqlite');
+ await backupDatabase(freshPath,backup);await backupDatabase(backup,restored);
+ const restoredDb=await open(restored);assert.deepEqual(await rows(restoredDb),seeded);await close(restoredDb);
+ const beforeOverwrite=fileHash(freshPath);await assert.rejects(backupDatabase(backup,freshPath),/must not exist/);assert.equal(fileHash(freshPath),beforeOverwrite);
+ results.push({check:'SQLite backup and restore to new path preserve all rows, hashes, IDs and schema; overwrite refused',passed:true});
+ const walPath=join(directory,'wal.sqlite'),wal=new DataSource({type:'sqlite',database:walPath,enableWAL:true});
+ opened.add(wal);await wal.initialize();await wal.query('CREATE TABLE marker(value text)');await wal.query("INSERT INTO marker VALUES ('committed WAL record')");
+ assert(existsSync(walPath+'-wal'));const walBackup=join(directory,'wal.backup.sqlite');await backupDatabase(walPath,walBackup);
+ const walCopy=new DataSource({type:'sqlite',database:walBackup});opened.add(walCopy);await walCopy.initialize();
+ assert.deepEqual(await walCopy.query('SELECT * FROM marker'),[{value:'committed WAL record'}]);await close(walCopy);await close(wal);
+ results.push({check:'Backup API captures committed WAL records while source connection remains open',passed:true});
+ const modernPath=join(directory,'modern-12.sqlite'),modern=await open(modernPath,classes.slice(0,12));await modern.runMigrations();
+ await modern.query("INSERT INTO Campaign(CampaignId,CampaignName,StartDate,EndDate) VALUES(17,'Synthetic modern campaign','2026-01-01','2026-02-01')");
+ await modern.query("INSERT INTO Team(TeamId,TeamName,CampaignId,LeaderId) VALUES(170,'Synthetic modern team',17,2)");
+ await modern.query('UPDATE User SET TeamId=170 WHERE AccId=2');
+ const author=(await modern.query('SELECT UserId FROM User WHERE AccId=2'))[0].UserId;
+ await modern.query("INSERT INTO Post(PostId,Title,Content,TeamId,AuthorId,CreatedAt,UpdatedAt) VALUES(1700,'Modern post','Retain content',170,?,'2026-01-01','2026-01-02')",[author]);
+ await modern.query("INSERT INTO Photo(PhotoId,ImageUrl,UploadedAt,PostID,isFirstImage) VALUES(17000,'https://example.test/modern.png','2026-01-01',1700,1)");
+ const modernBefore=await modern.query('SELECT * FROM Post');await close(modern);
+ const upgraded=await upgradeDatabase(modernPath,join(directory,'modern-12.backup.sqlite'));assert.equal(upgraded.applied.length,3);
+ const upgradeDb=await open(modernPath);const after=await upgradeDb.query('SELECT * FROM Post');
+ for(const [key,value] of Object.entries(modernBefore[0]))assert.deepEqual(after[0][key],value);
+ assert.equal(after[0].Latitude,null);assert.equal((await upgradeDb.query('SELECT Position FROM Photo'))[0].Position,0);
+ await assert.rejects(upgradeDb.query('UPDATE Post SET Longitude=106 WHERE PostId=1700'),/CHK_Post_Coordinates/);
+ const beforeNormalizationReplay=await rows(upgradeDb);await upgradeDb.undoLastMigration();assert.equal((await upgradeDb.runMigrations()).length,1);assert.deepEqual(await rows(upgradeDb),beforeNormalizationReplay);
+ assert.deepEqual(await upgradeDb.query('PRAGMA foreign_key_check'),[]);await close(upgradeDb);
+ assert.equal((await upgradeDatabase(modernPath,join(directory,'modern-15.backup.sqlite'))).applied.length,0);
+ results.push({check:'Populated 12 -> 15 forward upgrade preserves linked records and adds null coordinates/order; repeat applies zero',passed:true});
+ const unknownPath=join(directory,'unknown-history.sqlite');await backupDatabase(modernPath,unknownPath);const unknown=await open(unknownPath);
+ await unknown.query("UPDATE migrations SET name='UnrecognizedHistoricalMigration' WHERE timestamp=1769042239658");await close(unknown);
+ const unknownHash=fileHash(unknownPath);await assert.rejects(upgradeDatabase(unknownPath,join(directory,'unused.backup.sqlite')),/exact known migration prefix/);assert.equal(fileHash(unknownPath),unknownHash);
+ results.push({check:'Unknown migration history fails closed without changing the source',passed:true});
+ const historicalPath=join(directory,'historical-3.sqlite'),historical=await open(historicalPath,classes.slice(0,3));await historical.runMigrations();
+ await historical.query("INSERT INTO User(UserId,FullName,Email,AccId) VALUES(101,'Historical admin','admin-historical@example.test',1),(102,'Historical leader','leader-historical@example.test',2)");
+ await historical.query("INSERT INTO Campaign(CampaignId,CampaignName,StartDate,EndDate,UserId) VALUES(7,'Historical campaign','2026-01-01','2026-02-01',101)");
+ await historical.query("INSERT INTO Team(TeamId,TeamName,CampaignId) VALUES(70,'Historical team',7)");await historical.query('UPDATE User SET TeamId=70 WHERE UserId=102');
+ await historical.query("INSERT INTO Post(PostId,Title,Content,CampaignId,AuthorId) VALUES(700,'Historical post','Preserve body',7,102)");
+ await historical.query("INSERT INTO Photo(PhotoId,ImageUrl,UploadedAt,PostID) VALUES(7000,'https://example.test/legacy.png','2026-01-01',700)");
+ const historicalRows=await historical.query('SELECT * FROM Post');historical.migrations=db.migrations;
+ await assert.rejects(historical.runMigrations(),/temporary_Post.CreatedAt/);
+ assert.deepEqual(await historical.query('SELECT * FROM Post'),historicalRows);assert.equal((await historical.query('SELECT * FROM migrations')).length,3);await close(historical);
+ const historicalBackup=join(directory,'historical.backup.sqlite');await backupDatabase(historicalPath,historicalBackup);
+ const originalHash=fileHash(historicalPath),backupHash=fileHash(historicalBackup),timestamp='2026-01-01T00:00:00.000Z';
+ const variantPath=join(directory,'manual-variant.sqlite');await backupDatabase(historicalBackup,variantPath);
+ const variant=await open(variantPath,classes.slice(0,3));await variant.query('ALTER TABLE Post ADD COLUMN CustomField text');await close(variant);
+ const variantHash=fileHash(variantPath);await assert.rejects(recoverLegacyDatabase(variantPath,join(directory,'variant-refused.sqlite'),{fallbackTimestamp:timestamp,postTeams:{700:70}}),/Unsupported historical columns/);assert.equal(fileHash(variantPath),variantHash);
+ await assert.rejects(recoverLegacyDatabase(historicalBackup,join(directory,'refused.sqlite'),{fallbackTimestamp:timestamp,postTeams:{700:7}}),/mapping/);
+ assert(!existsSync(join(directory,'refused.sqlite')));
+ const recoveredPath=join(directory,'recovered.sqlite');
+ const recovered=await recoverLegacyDatabase(historicalBackup,recoveredPath,{fallbackTimestamp:timestamp,postTeams:{700:70}});
+ assert(recovered.sourceUnchanged);assert.equal(fileHash(historicalPath),originalHash);assert.equal(fileHash(historicalBackup),backupHash);
+ const recoveredDb=await open(recoveredPath);
+ const post=(await recoveredDb.query('SELECT * FROM Post'))[0];assert.equal(post.TeamId,70);assert.equal(post.AuthorId,102);assert.equal(post.PostId,700);assert.equal(post.CreatedAt,timestamp);assert.equal(post.Content,'Preserve body');
+ assert.equal((await recoveredDb.query('SELECT PostID,Position FROM Photo'))[0].PostID,700);
+ assert.deepEqual(await recoveredDb.query('PRAGMA foreign_key_check'),[]);assert.equal((await recoveredDb.driver.createSchemaBuilder().log()).upQueries.length,0);await close(recoveredDb);
+ const archive=JSON.parse(readFileSync(recoveredPath+'.legacy.json','utf8'));assert.equal(archive.data.Post[0].Status,'draft');assert.equal(archive.data.Campaign[0].UserId,101);
+ const recoveredAccounts=await open(recoveredPath);
+ for(const original of archive.data.Account) {
+  const account=(await recoveredAccounts.query('SELECT * FROM Account WHERE AccId=?',[original.AccID]))[0];
+  assert.equal(account.Password,original.Password);assert.equal(account.RoleId,original.RoleId);
+ }
+ await close(recoveredAccounts);
+ await assert.rejects(recoverLegacyDatabase(historicalBackup,recoveredPath,{fallbackTimestamp:timestamp,postTeams:{700:70}}),/must not exist/);
+ results.push({check:'Historical populated third-migration failure reproduced/rolled back; reviewed Post 700 -> Team 70 recovery preserves hashes/IDs/content and archives removed columns; source untouched',passed:true});
+ const restoreLegacy=join(directory,'historical.restored.sqlite');await backupDatabase(historicalBackup,restoreLegacy);
+ assert.deepEqual(await inspectDatabase(restoreLegacy),await inspectDatabase(historicalBackup));
+ results.push({check:'Historical backup restore rehearsal preserves original three-migration schema and records',passed:true});
+ assert.equal(fileHash(dev),developerBefore);
+ report={results,developerDatabaseUnchanged:true,productionBaseline:'Deployed state requires operator inventory; no deployed database was accessed.',credentialsLogged:false,cleanup:'owned temporary directory removed in finally'};
+} finally {
+ for(const connection of opened)if(connection.isInitialized)await connection.destroy();
+ const deletionTarget=resolve(directory),tempRoot=resolve(tmpdir()),rel=relative(tempRoot,deletionTarget);
+ if(!rel||rel.startsWith('..')||isAbsolute(rel)||!rel.startsWith('uit-database-r11-'))throw new Error('Unsafe verification cleanup path');
+ rmSync(deletionTarget,{recursive:true,force:true});
+ assert.equal(fileHash(dev),developerBefore,'developer database must remain unchanged');
+}
+if(process.env.DATABASE_VERIFICATION_REPORT)writeFileSync(resolve(process.env.DATABASE_VERIFICATION_REPORT),JSON.stringify(report,null,2)+'\n');
+console.log(JSON.stringify(report,null,2));
