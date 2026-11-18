@@ -4,7 +4,7 @@ export default tseslint.config(
   { ignores: ['dist'] },
   {
     extends: [...tseslint.configs.recommended],
-    files: ['**/*.{ts}'],
+    files: ['**/*.ts'],
     languageOptions: {
       ecmaVersion: 2022,
     },

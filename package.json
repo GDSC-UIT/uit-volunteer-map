@@ -2,12 +2,13 @@
   "name": "uit-volunteer-map",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "npm@11.19.1",
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
     "dev": "npm run build:shared && npm run dev --workspaces --if-present",
-    "dev:frontend": "npm run build:shared && npm run dev -w @uit-volunteer-map/frontend",
+    "dev:frontend": "npm run build:shared && npm run dev -w @uit-volunteer-map/frontend --",
     "dev:backend": "npm run build:shared && npm run dev -w @uit-volunteer-map/backend",
     "dev:shared": "npm run watch -w @uit-volunteer-map/shared",
     "watch:shared": "npm run watch -w @uit-volunteer-map/shared",
@@ -30,6 +31,7 @@
     "clean": "rm -rf packages/*/dist packages/*/node_modules node_modules"
   },
   "engines": {
-    "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
+    "node": ">=24.22.3 <25",
+    "npm": ">=11.19.1 <12"
   }
 }
