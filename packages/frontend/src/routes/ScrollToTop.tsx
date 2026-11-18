@@ -2,8 +2,18 @@ import { useLayoutEffect } from 'react';
 import { useLocation } from 'react-router';
 
 export default function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
+  const homeAnchor = pathname === '/' && hash === '#campaigns';
   useLayoutEffect(() => {
+    if (!homeAnchor) return;
+    const target = document.getElementById('campaigns');
+    if (!target) return;
+    target.tabIndex = -1;
+    target.scrollIntoView({ block: 'start', behavior: 'instant' });
+    target.focus({ preventScroll: true });
+  }, [homeAnchor]);
+  useLayoutEffect(() => {
+    if (homeAnchor) return;
     window.scrollTo({ top: 0, behavior: 'instant' });
     const initialFocus = document.activeElement;
     let focused = false;
@@ -24,6 +34,6 @@ export default function ScrollToTop() {
     focusHeading();
     const timeout = setTimeout(() => observer.disconnect(), 15000);
     return () => { clearTimeout(timeout); observer.disconnect(); };
-  }, [pathname]);
+  }, [pathname, homeAnchor]);
   return null;
 }

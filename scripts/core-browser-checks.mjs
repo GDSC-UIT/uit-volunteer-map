@@ -35,6 +35,9 @@ export async function coreBrowserChecks({ context, origin, demo, width, height, 
     await insideViewport(next);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true, 'homepage horizontal overflow');
     await screenshot('homepage');
+    await page.getByRole('link', { name: 'Các chiến dịch tình nguyện', exact: true }).focus(); await page.keyboard.press('Enter');
+    await page.waitForURL('**/#campaigns');
+    await page.waitForFunction(() => document.activeElement?.id === 'campaigns');
     await page.getByRole('link', { name: /\[DEMO\] Chiến dịch tình nguyện UIT/ }).focus(); await page.keyboard.press('Enter');
     const campaignHeading = page.getByRole('heading', { name: '[DEMO] Chiến dịch tình nguyện UIT', exact: true });
     await campaignHeading.waitFor();
@@ -48,6 +51,8 @@ export async function coreBrowserChecks({ context, origin, demo, width, height, 
     const teamLink = page.getByRole('link', { name: 'Xem thêm', exact: true }).first();
     await teamLink.focus(); await insideViewport(teamLink); await screenshot('campaign-team-link');
     await page.keyboard.press('Enter'); await page.getByRole('heading', { name: '[DEMO] Đội hình kết nối cộng đồng', exact: true }).waitFor();
+    await page.getByRole('link', { name: 'Các chiến dịch tình nguyện', exact: true }).focus(); await page.keyboard.press('Enter');
+    await page.waitForURL('**/#campaigns'); await page.waitForFunction(() => document.activeElement?.id === 'campaigns');
     // Login credential rejection is real, expected, announced and retains the entered username.
     await page.goto(origin + '/login');
     const username = page.getByLabel('Tên đăng nhập', { exact: true }), password = page.getByLabel('Mật khẩu', { exact: true });

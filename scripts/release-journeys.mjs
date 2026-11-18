@@ -56,14 +56,21 @@ try {
     JWT_SECRET: 'r14-disposable-release-only', JWT_EXPIRES_IN: '1h', CORS_ORIGINS: webOrigin, LOGIN_RATE_LIMIT_MAX: '10', LOGIN_RATE_LIMIT_WINDOW_SECONDS: '900' });
   ({ AppDataSource: db } = await import('../packages/backend/dist/db/data-source.js'));
   assert.equal(db.options.synchronize, false);
+  const { default: app } = await import('../packages/backend/dist/app.js');
+  apiServer = createServer(app); const api = await listen(apiServer);
+  const health = () => fetch(api + '/api/health', { signal: AbortSignal.timeout(5000) });
+  assert.equal((await health()).status, 503);
   await db.initialize();
+  const schemaBeforeProbe = await db.query('SELECT name, sql FROM sqlite_master ORDER BY name');
+  assert.equal((await health()).status, 503);
+  assert.deepEqual(await db.query('SELECT name, sql FROM sqlite_master ORDER BY name'), schemaBeforeProbe);
   const applied = await db.runMigrations(); assert.equal(applied.length, 15);
   assert.equal((await db.runMigrations()).length, 0);
+  const ready = await health(); assert.equal(ready.status, 200); assert.equal((await ready.json()).data.status, 'healthy');
+  report.readiness = { beforeInitialization: 503, beforeMigrations: 503, afterMigrations: 200, probeSchemaUnchanged: true };
   const { seedDemo } = await import('../packages/backend/dist/db/seeds/demo.seed.js');
   const credentials = { adminPassword: 'r14-synthetic-admin', leaderPassword: 'r14-synthetic-leader' };
   const demo = await seedDemo(db, credentials); assert.equal((await seedDemo(db, credentials)).created, false);
-  const { default: app } = await import('../packages/backend/dist/app.js');
-  apiServer = createServer(app); const api = await listen(apiServer);
   const dist = join(root, 'packages/frontend/dist');
   const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json', '.geojson': 'application/geo+json', '.png': 'image/png', '.jpg': 'image/jpeg', '.ttf': 'font/ttf', '.woff2': 'font/woff2' };
   webServer = createServer((req, res) => {
