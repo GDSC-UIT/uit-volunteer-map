@@ -1,48 +1,29 @@
-interface Props {
-  onClose?: () => void;
-}
+import { useState } from 'react';
+import type { TeamReadDto } from '@uit-volunteer-map/shared';
+import { teamApi } from '@/api/team';
+import { managementError } from '@/api/management';
+import { useManagementMutation } from '@/hooks/useManagement';
+import EditorDialog from './EditorDialog';
 
-export default function FormationEditOverall({ onClose }: Props) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="w-[720px] h-[420px] rounded-xl overflow-hidden bg-[#E5E5E5] flex flex-col">
-        {/* Header */}
-        <div className="h-10 bg-[#C4161C] flex items-center px-3">
-          <button className="text-white text-lg">＋</button>
+export default function FormationEditOverall({ team, onClose }: { team: TeamReadDto; onClose: () => void }) {
+  const [name, setName] = useState(team.teamName);
+  const [description, setDescription] = useState(team.description || '');
+  const save = useManagementMutation(() => teamApi.updateOwn(team.teamId, { teamName: name.trim(), description: description.trim() || null }));
+  const cancel = () => {
+    if ((name === team.teamName && description === (team.description || '')) || window.confirm('Bỏ thay đổi đội hình đang soạn?')) onClose();
+  };
+  return <EditorDialog title="Chỉnh sửa đội hình" pending={save.isPending} onClose={cancel}>
+    <form className="p-5 space-y-4" onSubmit={event => { event.preventDefault(); save.mutate(undefined, { onSuccess: onClose }); }}>
+      <fieldset disabled={save.isPending} className="space-y-4">
+        <label className="block">Tên đội hình<input required minLength={3} maxLength={100} value={name} onChange={event => setName(event.target.value)} className="block min-h-11 w-full border rounded p-2 bg-white" /></label>
+        <label className="block">Mô tả<textarea value={description} onChange={event => setDescription(event.target.value)} className="block min-h-40 w-full border rounded p-2 bg-white" /></label>
+        <p className="text-sm">Ban chỉ huy được phân công bởi quản trị viên.</p>
+        {save.isError && <p role="alert">{managementError(save.error)}</p>}
+        <div className="flex justify-end gap-3">
+          <button type="button" onClick={cancel} className="min-h-11 px-4 border rounded">Hủy</button>
+          <button className="min-h-11 px-4 bg-[#F4B400] rounded font-bold">{save.isPending ? 'Đang lưu…' : 'Lưu đội hình'}</button>
         </div>
-
-        {/* Image area */}
-        <div className="bg-[#DCDCDC] px-6 py-4">
-          <div className="grid grid-cols-4 gap-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div
-                key={i}
-                className="aspect-square bg-[#EAEAEA] flex items-center justify-center border"
-              >
-                ✕
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Description */}
-        <div className="flex-1 bg-white p-4">
-          <textarea
-            placeholder="Nhập nội dung..."
-            className="w-full h-full resize-none outline-none text-sm"
-          />
-        </div>
-
-        {/* Footer */}
-        <div className="h-12 bg-[#C4161C] flex items-center justify-end px-4">
-          <button
-            onClick={onClose}
-            className="bg-[#F4B400] text-white text-sm font-bold px-4 py-1.5 rounded"
-          >
-            Hoàn tất
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+      </fieldset>
+    </form>
+  </EditorDialog>;
 }

@@ -1,52 +1,16 @@
-interface Props {
-  onConfirm: () => void;
-  onCancel: () => void;
-}
+import EditorDialog from './EditorDialog';
 
-export default function ConfirmDeletePopup({ onConfirm, onCancel }: Props) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-[#FFF8EB] rounded-2xl w-[420px] shadow-lg overflow-hidden">
-
-        {/* CONTENT */}
-        <div className="py-8 px-6 text-center">
-          <p className="font-bold text-lg">
-            Bạn có chắc muốn xóa không ?
-          </p>
-        </div>
-
-        {/* DIVIDER */}
-        <div className="border-t border-gray-300" />
-
-        {/* ACTIONS */}
-        <div className="flex justify-center gap-6 p-5">
-
-        <button
-            onClick={onConfirm}
-            className="
-            w-[140px] h-[42px]
-            bg-[#F2A900] text-black font-bold
-            rounded-lg
-            hover:scale-105 transition
-            "
-        >
-            Có
-        </button>
-
-        <button
-            onClick={onCancel}
-            className="
-            w-[140px] h-[42px]
-            bg-white text-black font-bold
-            rounded-lg
-            hover:scale-105 transition
-            "
-        >
-            Không
-        </button>
-
-        </div>
+export default function ConfirmDeletePopup({ onConfirm, onCancel, pending = false, error, title }: {
+  onConfirm: () => void; onCancel: () => void; pending?: boolean; error?: string; title: string;
+}) {
+  return <EditorDialog title="Xóa bài đăng" pending={pending} onClose={onCancel}>
+    <div className="p-6 space-y-4">
+      <p className="wrap-anywhere">Bạn có chắc muốn xóa bài đăng “{title}”?</p>
+      {error && <p role="alert">{error}</p>}
+      <div className="flex flex-wrap justify-end gap-3">
+        <button disabled={pending} onClick={onCancel} className="min-h-11 px-5 rounded border">Không, giữ lại</button>
+        <button disabled={pending} onClick={onConfirm} className="min-h-11 px-5 rounded bg-[#F4B400] font-bold">{pending ? 'Đang xóa…' : 'Có, xóa bài đăng'}</button>
       </div>
     </div>
-  );
+  </EditorDialog>;
 }

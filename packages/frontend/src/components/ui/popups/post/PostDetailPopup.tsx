@@ -1,67 +1,34 @@
-interface Props {
-  imageUrls?: string[];
-  onBack?: () => void;
-  onSubmit?: () => void;
-}
+import type { FormEvent, ReactNode } from 'react';
+import EditorDialog from '../EditorDialog';
 
-export default function PostDetailPopup({
-  imageUrls = [],
-  onBack,
-  onSubmit,
-}: Props) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="w-190 h-105 rounded-xl overflow-hidden bg-[#F5F5F5] flex">
-        {/* Preview */}
-        <div className="w-1/2 bg-[#E1E4E8] flex items-center justify-center">
-          {imageUrls.length > 0 ? (
-            <img
-              src={imageUrls[0]}
-              alt="Preview"
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <div className="w-64 h-64 bg-gray-300">Preview</div>
-          )}
-        </div>
-
-        {/* Form */}
-        <div className="w-1/2 bg-[#FFF5DA] p-5 flex flex-col">
-          <input
-            placeholder="Nhập tiêu đề..."
-            className="bg-transparent text-lg font-bold outline-none mb-2"
-          />
-
-          <textarea
-            placeholder="Nội dung bài viết..."
-            className="flex-1 resize-none bg-transparent outline-none text-sm"
-          />
-
-          <div className="text-right text-xs text-gray-500 mb-2">0 / 3000</div>
-
-          <div className="flex gap-2 mb-4">
-            <select className="border text-xs px-2 py-1 rounded">
-              <option>Tỉnh/Thành</option>
-            </select>
-            <select className="border text-xs px-2 py-1 rounded">
-              <option>Phường/Xã</option>
-            </select>
-          </div>
-
-          <div className="flex justify-end gap-2">
-            <button onClick={onBack} className="text-xs underline">
-              Quay lại
-            </button>
-
-            <button
-              onClick={onSubmit}
-              className="bg-[#F4B400] text-white text-sm px-4 py-1.5 rounded"
-            >
-              Đăng
-            </button>
-          </div>
-        </div>
+export interface PostDraft { title: string; content: string; latitude: string; longitude: string; }
+export default function PostDetailPopup({ draft, onChange, imageUrls, editing, pending, error, onBack, onClose, onSubmit, blocked, recovery }: {
+  draft: PostDraft; onChange: (draft: PostDraft) => void; imageUrls: string[]; editing: boolean;
+  pending: boolean; error?: string; blocked?: string; recovery?: ReactNode; onBack: () => void; onClose: () => void; onSubmit: (event: FormEvent) => void;
+}) {
+  return <EditorDialog title={editing ? 'Chỉnh sửa bài đăng' : 'Nội dung bài đăng'} pending={pending} onClose={onClose}>
+    <form onSubmit={onSubmit} className="grid md:grid-cols-2">
+      <div className="bg-[#E1E4E8] p-4 flex flex-col gap-3">
+        {imageUrls.length ? imageUrls.map((url, i) => <img key={url} src={url} alt={`Ảnh bài đăng ${i + 1}`} className="w-full max-h-64 object-contain rounded" />) : <p>Bài đăng không có ảnh.</p>}
+        {editing && <p className="text-sm">Ảnh hiện có được giữ nguyên.</p>}
       </div>
-    </div>
-  );
+      <fieldset disabled={pending} className="p-5 space-y-4 min-w-0">
+        <label className="block font-bold">Tiêu đề<input required value={draft.title} onChange={e => onChange({ ...draft, title: e.target.value })} className="block min-h-11 p-2 w-full rounded border bg-white" /></label>
+        <label className="block">Nội dung<textarea required value={draft.content} onChange={e => onChange({ ...draft, content: e.target.value })} className="block min-h-40 p-2 w-full rounded border bg-white" /></label>
+        <p className="text-xs text-right">{draft.content.length} ký tự</p>
+        <p className="text-sm">Tọa độ WGS84 (tùy chọn). Để trống cả hai nếu chưa có vị trí.</p>
+        <div className="grid grid-cols-2 gap-3">
+          <label>Vĩ độ<input type="number" step="any" min="-90" max="90" required={draft.longitude !== ''} value={draft.latitude} onChange={e => onChange({ ...draft, latitude: e.target.value })} className="block min-h-11 p-2 w-full rounded border bg-white" /></label>
+          <label>Kinh độ<input type="number" step="any" min="-180" max="180" required={draft.latitude !== ''} value={draft.longitude} onChange={e => onChange({ ...draft, longitude: e.target.value })} className="block min-h-11 p-2 w-full rounded border bg-white" /></label>
+        </div>
+        {blocked && <p role="alert">{blocked}</p>}
+        {error && <p role="alert" className="wrap-anywhere">{error}</p>}
+        {recovery}
+        <div className="flex flex-wrap justify-end gap-3">
+          {!editing && <button type="button" onClick={onBack} className="min-h-11 px-3 border rounded">Quay lại ảnh</button>}
+          <button disabled={!!blocked} className="min-h-11 px-4 rounded bg-[#F4B400] font-bold disabled:opacity-50">{pending ? 'Đang lưu…' : editing ? 'Lưu bài đăng' : 'Đăng bài'}</button>
+        </div>
+      </fieldset>
+    </form>
+  </EditorDialog>;
 }

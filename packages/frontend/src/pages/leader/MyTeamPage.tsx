@@ -1,272 +1,69 @@
-import { useParams, Link, useLocation } from "react-router";
-import editIcon from "@/assets/icons/edit.svg";
-import deleteIcon from "@/assets/icons/delete.svg";
-import { useState } from "react";
-import FormationEditOverall from "@/components/ui/popups/FormationEditOverall";
-import FormationEditRole from "@/components/ui/popups/FormationEditRole";
-import PostCreatePopup from "@/components/ui/popups/post/PostCreatePopup";
-import PostDetailPopup from "@/components/ui/popups/post/PostDetailPopup";
-import ConfirmDeletePopup from "@/components/ui/popups/ConfirmDeletePopup";
-
+import { Link } from 'react-router';
+import { useState } from 'react';
+import type { PostSummaryDto } from '@uit-volunteer-map/shared';
+import avatarFrame from '@/assets/background/avar_frame.svg';
+import { PostItem } from '@/components/ui/PostItem';
+import ReadState from '@/components/ui/ReadState';
+import FormationEditOverall from '@/components/ui/popups/FormationEditOverall';
+import ConfirmDeletePopup from '@/components/ui/popups/ConfirmDeletePopup';
+import { useOwnTeam } from '@/hooks/useOwnTeam';
+import { usePostsByTeam } from '@/hooks/usePosts';
+import { useManagementMutation } from '@/hooks/useManagement';
+import { postApi } from '@/api/post';
+import { managementError } from '@/api/management';
 
 export default function MyTeamPage() {
-  const { teamId } = useParams<{ teamId: string }>();
-  const location = useLocation();
-
-  const [showOverall, setShowOverall] = useState(false);
-  const [showRole, setShowRole] = useState(false);
-
-  const [postStep, setPostStep] = useState<"upload" | "publish" | null>(null);
-  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
-
-  const commanders = Array.from({ length: 3 });
-  const activities = Array.from({ length: 8 });
-
-  const [showDeletePopup, setShowDeletePopup] = useState(false);
-  const [selectedPost, setSelectedPost] = useState<number | null>(null);
-
-  
-
-
-  return (
-    <>
-      {/* ===== POPUPS ===== */}
-      {showOverall && (
-        <FormationEditOverall onClose={() => setShowOverall(false)} />
-      )}
-
-      {showRole && <FormationEditRole onClose={() => setShowRole(false)} />}
-
-      {/* ===== POST CREATE POPUPS ===== */}
-      {postStep === "upload" && (
-        <PostCreatePopup
-          maxFiles={4}
-          onComplete={(imageUrls) => {
-            setUploadedImageUrls(imageUrls);
-            setPostStep("publish");
-          }}
-          onClose={() => setPostStep(null)}
-        />
-      )}
-
-      {postStep === "publish" && (
-        <PostDetailPopup
-          imageUrls={uploadedImageUrls}
-          onBack={() => setPostStep("upload")}
-          onSubmit={() => {
-            setPostStep(null);
-            setUploadedImageUrls([]);
-          }}
-        />
-      )}
-
-        {showDeletePopup && (
-        <ConfirmDeletePopup
-          onConfirm={() => {
-            console.log("Delete post:", selectedPost);
-
-            // chỗ này sau này gọi API xóa thật
-            // handleDeletePost(selectedPost)
-
-            setShowDeletePopup(false);
-            setSelectedPost(null);
-          }}
-          onCancel={() => {
-            setShowDeletePopup(false);
-            setSelectedPost(null);
-          }}
-        />
-      )}
-
-
-      {/* ===== PAGE ===== */}
-      <div className="pt-8 pb-4">
-
-        {/* ===== HEADER ===== */}
-        <section className="max-w-4xl mx-auto px-4 mb-8">
-          <div className="flex items-center justify-center gap-2">
-            <h1 className="text-3xl font-black">
-              Tên đội hình {teamId}
-            </h1>
-          </div>
-        </section>
-
-
-        {/* ===== IMAGES GALLERY ===== */}
-        <section className="max-w-5xl mx-auto px-4 mb-12 flex flex-col items-center">
-
-          <div className="relative flex items-end justify-center">
-
-            {/* MAIN IMAGE */}
-            <div className="relative z-20 w-110 h-70 rounded-2xl overflow-hidden shadow-lg bg-white flex items-center justify-center">
-              <span className="text-gray-400 text-sm">Ảnh chính</span>
-            </div>
-
-            {/* LEFT IMAGE */}
-            <div className="
-              absolute -left-40 bottom-12.5
-              z-10 w-65 h-45
-              rounded-xl overflow-hidden shadow-md bg-white
-              flex items-center justify-center
-            ">
-              <span className="text-gray-400 text-sm">Ảnh phụ</span>
-            </div>
-
-            {/* RIGHT IMAGE */}
-            <div className="
-              absolute -right-40 bottom-12.5
-              z-10 w-65 h-45
-              rounded-xl overflow-hidden shadow-md bg-white
-              flex items-center justify-center
-            ">
-              <span className="text-gray-400 text-sm">Ảnh phụ</span>
-            </div>
-
-          </div>
-
-          {/* EDIT BUTTON */}
-          <div className="w-full max-w-240 flex justify-end mr-1">
-            <button
-              onClick={() => setShowOverall(true)}
-              className="flex items-center gap-1 text-xs font-bold text-gray-600 hover:scale-110 transition mr-20"
-            >
-              <img src={editIcon} className="w-7 h-7 opacity-70" />
-            </button>
-          </div>
-
-        </section>
-
-        {/* ===== DESCRIPTION ===== */}
-        <section className="max-w-3xl mx-auto px-4 text-center mb-12">
-          <p className="text-sm font-bold leading-relaxed text-black">
-            Mô tả đội hình
-          </p>
-        </section>
-
-        {/* ===== COMMANDERS ===== */}
-        <section className="max-w-4xl mx-auto px-4 mb-14 relative">
-          <h2 className="text-center font-black mb-6">Ban chỉ huy</h2>
-
-
-          <div className="grid grid-cols-3 gap-8">
-            {commanders.map((_, i) => (
-              <div key={i} className="text-center">
-                <div
-                  onClick={() => setShowRole(true)}
-                  className="cursor-pointer w-24 h-24 mx-auto rounded-full bg-white/70 backdrop-blur-sm flex items-center justify-center mb-4"
-                >
-                  <div className="w-8 h-8 rounded-full bg-white/60" />
-                </div>
-                <div className="text-xs font-black">Chức vụ</div>
-                <div className="text-xs font-bold text-gray-700">Họ và tên</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ===== POSTS ===== */}
-        <section className="max-w-4xl mx-auto px-4 mb-4">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="font-black">Hoạt động</h2>
-
-            <button
-              onClick={() => setPostStep("upload")}
-              className="text-xs font-bold underline"
-            >
-              + Tạo bài đăng
-            </button>
-          </div>
-
-          <div className="grid grid-cols-4 gap-6">
-            {activities.map((_, i) => (
-              <div key={i} className="relative group">
-
-                {/* POST THUMBNAIL */}
-                <Link
-                  to={`post/${i + 1}`}
-                  state={{ backgroundLocation: location }}
-                  className="bg-white/80 backdrop-blur-sm aspect-square flex items-center justify-center rounded-md hover:scale-105 transition"
-                >
-                  <div className="w-12 h-12 border-2 border-white rotate-45" />
-                </Link>
-
-                {/* ACTION BUTTONS (DELETE + EDIT) */}
-                <div
-                  className="
-                    absolute inset-0 
-                    opacity-0 group-hover:opacity-100 
-                    transition
-                    flex items-center justify-center
-                  "
-                >
-
-                  {/* CONTAINER chứa 2 nút + dấu gạch */}
-                  <div className="relative w-full h-full">
-
-                    {/* DELETE BUTTON */}
-                    <button
-                      onClick={() => {
-                        setSelectedPost(i);
-                        setShowDeletePopup(true);
-                      }}
-                      className="
-                        absolute
-                        top-[18%] left-[18%]
-                        w-14 h-14 rounded-full bg-red-400
-                        flex items-center justify-center
-                        hover:scale-110 transition
-                        shadow-lg z-20
-                      "
-                    >
-                      <img src={deleteIcon} className="w-6 h-6" />
-                    </button>
-
-                    {/* DẤU GẠCH CHÉO Ở GIỮA */}
-                <div
-                  className="
-                    absolute inset-0
-                    flex items-center justify-center
-                    pointer-events-none
-                  "
-                >
-                  <div
-                    className="
-                      w-[120px] h-[6px]
-                      bg-white
-                      -rotate-45
-                      rounded-full
-                      opacity-100
-                      shadow
-                    "
-                  />
-                </div>
-
-
-                    {/* EDIT BUTTON */}
-                    <Link
-                      to={`post/${i + 1}`}
-                      state={{ backgroundLocation: location }}
-                      className="
-                        absolute
-                        bottom-[18%] right-[18%]
-                        w-14 h-14 rounded-full bg-gray-400
-                        flex items-center justify-center
-                        hover:scale-110 transition
-                        shadow-lg z-20
-                      "
-                    >
-                      <img src={editIcon} className="w-6 h-6" />
-                    </Link>
-
-                  </div>
-                </div>
-
-              </div>
-            ))}
-          </div>
-        </section>
+  const own = useOwnTeam();
+  const team = own.data;
+  const posts = usePostsByTeam(team?.teamId || 0, team?.campaignId);
+  const [editing, setEditing] = useState(false);
+  const [deleting, setDeleting] = useState<PostSummaryDto | null>(null);
+  const remove = useManagementMutation((id: number) => postApi.delete(id));
+  if (!team) return <div className="p-8"><ReadState pending={own.isPending} error={own.error} label="đội hình được phân công" onRetry={own.refetch} /></div>;
+  const images = [...new Set([team.imageUrl, ...team.attachments.map(image => image.imageUrl)].filter((url): url is string => !!url))];
+  return <div className="max-w-5xl mx-auto px-4 py-8 space-y-10">
+    {own.isError && <ReadState pending={false} error={own.error} label="đội hình" onRetry={own.refetch} />}
+    <section>
+      <h1 className="text-center text-3xl font-black wrap-anywhere mb-5">{team.teamName}</h1>
+      <div className="flex flex-wrap justify-center gap-3">
+        <button disabled={own.isError} onClick={() => setEditing(true)} className="min-h-11 px-4 rounded bg-[#F4B400] font-bold disabled:opacity-50">Chỉnh sửa đội hình</button>
+        {!own.isError && <Link to="/leader/posts/new" className="min-h-11 px-4 py-3 rounded bg-[#C4161C] text-white font-bold">Tạo bài đăng</Link>}
+        <Link to={`/campaign/${team.campaignId}/team/${team.teamId}`} className="min-h-11 py-3 underline">Xem trang công khai</Link>
       </div>
-    </>
-    
-  );
+    </section>
+    <section aria-label="Ảnh đội hình" className="rounded-xl bg-[#E6E6E6] p-5 flex flex-wrap justify-center items-center gap-4">
+      {images.length ? images.map((url, index) => <img key={url} src={url} alt={`${team.teamName} — ảnh ${index + 1}`} className={index === 0 ? 'w-80 max-w-full rounded-xl' : 'w-40 max-w-full rounded-xl'} />) : <p>Chưa có ảnh đội hình.</p>}
+    </section>
+    <p className="whitespace-pre-line wrap-anywhere text-center font-bold">{team.description || 'Chưa có mô tả đội hình.'}</p>
+    <section>
+      <h2 className="font-black text-xl text-center mb-6">Ban chỉ huy</h2>
+      {!team.leaders.length && <p className="text-center">Chưa có thông tin ban chỉ huy.</p>}
+      <div className="flex flex-wrap justify-center gap-8">
+        {team.leaders.map(leader => <div key={leader.userId} className="text-center w-44 max-w-full">
+          <div className="relative w-28 h-40 mx-auto">
+            <div className="absolute inset-3 rounded-[9999px] overflow-hidden bg-[#DDE1E6] flex items-center justify-center">
+              {leader.avatarUrl ? <img src={leader.avatarUrl} alt={leader.fullName} className="w-full h-full object-cover" /> : <span className="text-xs">Chưa có ảnh</span>}
+            </div>
+            <img src={avatarFrame} alt="" className="absolute inset-0 w-full h-full pointer-events-none" />
+          </div>
+          <p className="font-bold wrap-anywhere">{leader.fullName}</p><p>Chỉ huy</p>
+        </div>)}
+      </div>
+    </section>
+    <section>
+      <h2 className="text-center text-xl font-black mb-6">Hoạt động</h2>
+      <ReadState pending={posts.isPending} error={posts.error} label="bài đăng" empty={posts.data?.length === 0} onRetry={posts.refetch} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {posts.data?.map(post => <article key={post.postId} className="min-w-0">
+          <Link to={`/leader/posts/${post.postId}`} aria-label={`Xem bài đăng: ${post.title}`} className="block rounded-3xl focus-visible:outline-4 focus-visible:outline-[#C4161C]"><PostItem post={post} /></Link>
+          <div className="flex flex-wrap gap-3 mt-3">
+            {!own.isError && <Link to={`/leader/posts/${post.postId}/edit`} aria-label={`Sửa bài đăng: ${post.title}`} className="min-h-11 px-4 py-3 rounded border bg-[#FFF5DA]">Sửa</Link>}
+            <button disabled={own.isError} onClick={() => { remove.reset(); setDeleting(post); }} aria-label={`Xóa bài đăng: ${post.title}`} className="min-h-11 px-4 rounded border bg-[#FFF5DA]">Xóa</button>
+          </div>
+        </article>)}
+      </div>
+    </section>
+    {editing && <FormationEditOverall team={team} onClose={() => setEditing(false)} />}
+    {deleting && <ConfirmDeletePopup title={deleting.title} pending={remove.isPending} error={remove.isError ? managementError(remove.error) : undefined} onCancel={() => setDeleting(null)} onConfirm={() => remove.mutate(deleting.postId, { onSuccess: () => setDeleting(null) })} />}
+  </div>;
 }

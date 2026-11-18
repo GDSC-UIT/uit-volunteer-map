@@ -12,6 +12,8 @@ import CampaignPage from "@/pages/CampaignPage";
 import PostPage from "@/pages/PostPage";
 import TeamPage from "@/pages/TeamPage";
 import MyTeamPage from "@/pages/leader/MyTeamPage";
+import LeaderPostPage from "@/pages/leader/LeaderPostPage";
+import PostEditorPage from "@/pages/leader/PostEditorPage";
 import CampaignManagementPage from "@/pages/admin/CampaignManagementPage";
 import TeamManagementPage from "@/pages/admin/TeamManagementPage";
 import AccountManagementPage from "@/pages/admin/AccountManagementPage";
@@ -62,7 +64,12 @@ export const router = createBrowserRouter([
         children: [
           {
             element: <LeaderLayout />,
-            children: [{ index: true, element: <MyTeamPage /> }],
+            children: [
+              { index: true, element: <MyTeamPage /> },
+              { path: "posts/new", element: <PostEditorPage /> },
+              { path: "posts/:postId", element: <LeaderPostPage /> },
+              { path: "posts/:postId/edit", element: <PostEditorPage editing /> },
+            ],
           },
         ],
       },
