@@ -1,0 +1,21 @@
+{
+  "date": "2026-11-19",
+  "base": "387740f",
+  "node": "24.22.3",
+  "npm": "11.19.1",
+  "playwright": "1.65.1",
+  "cleanInstall": "PASS; lock hash unchanged",
+  "backendTests": 310,
+  "frontendTests": 123,
+  "lint": "PASS",
+  "typecheck": "PASS",
+  "build": "PASS; existing chunk warning",
+  "mapSourceAndBuild": "PASS",
+  "compiledSmoke": "PASS",
+  "databaseRehearsal": "PASS",
+  "migratedApiAndBrowser": "PASS",
+  "workflowYaml": "parsed; 4 jobs",
+  "localDocumentationLinks": "PASS",
+  "remoteCi": "not run; branch not pushed",
+  "sourceCommit": "ba5365ba1382e715290d60aa06f39e28bc5f8ebb"
+}

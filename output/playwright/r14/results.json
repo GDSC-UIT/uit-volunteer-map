@@ -1,0 +1,57 @@
+{
+  "node": "v24.22.3",
+  "passed": true,
+  "checks": [
+    "15 fresh migrations; restart no-op; demo seed twice; source and built map hashes/provenance",
+    "Migrated schema: Admin provisions campaign/account/team; real Leader login and both assignment relations agree",
+    "Auth/filter/media: foreign Leader and spoofed author denied without writes; intersected filters; ordered gallery; real unique-photo conflict rolls back post and first photo",
+    "Persisted update/delete, expiry and current DB role override old JWT; deactivation denies old token/login and releases assignment"
+  ],
+  "browser": [
+    {
+      "width": 375,
+      "height": 667,
+      "passed": true,
+      "checks": [
+        "Guest demo gallery and two distinct map markers by keyboard",
+        "Admin creates campaign/account/assigned team in UI",
+        "Provisioned Leader logs in, creates and edits persisted post",
+        "Reload and logout isolate identity; anonymous Guest sees edited post and author",
+        "Leader deletes and Guest receives 404"
+      ],
+      "uncaughtErrors": [],
+      "apiFailures": [],
+      "externalRequests": [],
+      "blockedOptionalFontOrigins": [
+        "https://fonts.googleapis.com"
+      ]
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "passed": true,
+      "checks": [
+        "Guest demo gallery and two distinct map markers by keyboard",
+        "Admin creates campaign/account/assigned team in UI",
+        "Provisioned Leader logs in, creates and edits persisted post",
+        "Reload and logout isolate identity; anonymous Guest sees edited post and author",
+        "Leader deletes and Guest receives 404"
+      ],
+      "uncaughtErrors": [],
+      "apiFailures": [],
+      "externalRequests": [],
+      "blockedOptionalFontOrigins": [
+        "https://fonts.googleapis.com"
+      ]
+    }
+  ],
+  "cleanup": true,
+  "developerDatabaseUnchanged": true,
+  "sourceHashes": {
+    "scripts/release-journeys.mjs": "889afe92e9351964bbd68bd347097e920b3a637d64a2f5ac2463cef9747e8bf2",
+    "scripts/release-api-checks.mjs": "049c3b598dead6483ef7bf14e300629f74486491cb5a93af4ead614f57263fcc",
+    "scripts/release-browser-checks.mjs": "a3a9aa6d7750a97ad3dc7e58b1684b46dea66ff0bacecd7edcfee07df2548b23",
+    "scripts/verification-process.mjs": "ce1a0d2a7b23f2fb6751a3124a031c93572b5e87030e9a754f0379254d214209"
+  },
+  "sourceCommit": "ba5365ba1382e715290d60aa06f39e28bc5f8ebb"
+}

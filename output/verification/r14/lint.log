@@ -1,0 +1,11 @@
+
+> uit-volunteer-map@1.0.0 lint
+> npm run lint --workspaces --if-present
+
+
+> @uit-volunteer-map/backend@1.0.0 lint
+> eslint .
+
+
+> @uit-volunteer-map/frontend@1.0.0 lint
+> eslint .

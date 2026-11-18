@@ -1,0 +1,13 @@
+
+> uit-volunteer-map@1.0.0 test:smoke
+> node scripts/smoke-runtime.mjs
+
+Smoke workspace: C:\Users\Paul\AppData\Local\Temp\uit-volunteer-map-smoke-lxYKDs
+1. Building current shared/backend source...
+2. Running compiled migrations...
+   Applied 15 migrations.
+3. Running compiled seed...
+4. Backend PID 1520; health http://127.0.0.1:58640/api/health
+   Health responded HTTP 200 (healthy).
+5. Disposable workspace removed.
+Runtime smoke test PASS; child processes stopped; developer database unchanged.

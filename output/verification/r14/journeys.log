@@ -1,0 +1,6 @@
+
+> uit-volunteer-map@1.0.0 test:journeys
+> node scripts/release-journeys.mjs --built
+
+Migrated API invariants PASS; starting real browser journeys.
+Release journeys PASS: migrated API lifecycle, Guest/Admin/Leader browser at 375x667 and 1440x900; owned resources removed.

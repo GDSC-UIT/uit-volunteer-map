@@ -1,0 +1,6 @@
+
+> uit-volunteer-map@1.0.0 check:map
+> node scripts/check-map-assets.mjs && node scripts/check-map-assets.mjs packages/frontend/dist
+
+Map assets: 3 files, hashes, polygon coordinates and provenance verified.
+Map assets: 3 files, hashes, polygon coordinates and provenance verified.

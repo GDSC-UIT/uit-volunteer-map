@@ -1,0 +1,23 @@
+
+> uit-volunteer-map@1.0.0 typecheck
+> npm run build:shared && npm run typecheck --workspaces --if-present
+
+
+> uit-volunteer-map@1.0.0 build:shared
+> npm run build -w @uit-volunteer-map/shared
+
+
+> @uit-volunteer-map/shared@1.0.0 build
+> tsc
+
+
+> @uit-volunteer-map/backend@1.0.0 typecheck
+> tsc --noEmit
+
+
+> @uit-volunteer-map/frontend@1.0.0 typecheck
+> tsc --noEmit
+
+
+> @uit-volunteer-map/shared@1.0.0 typecheck
+> tsc --noEmit
