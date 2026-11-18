@@ -87,6 +87,8 @@ export async function coreBrowserChecks({ context, origin, demo, width, height, 
     await files.setInputFiles({ name: 'invalid-r15.txt', mimeType: 'text/plain', buffer: Buffer.from('Synthetic invalid image; no provider request') });
     await media.getByRole('alert').waitFor(); await insideViewport(media.getByRole('button', { name: 'Tiếp tục', exact: true }));
     await screenshot('media-validation'); await page.keyboard.press('Escape'); await page.waitForURL('**/leader');
+    await heading.waitFor();
+    await page.waitForFunction(() => document.activeElement?.tagName === 'H1');
     await page.getByRole('button', { name: 'Xin chào!', exact: true }).focus(); await page.keyboard.press('Enter');
     await page.waitForFunction(() => document.activeElement?.textContent?.trim() === 'Đăng xuất');
     await page.keyboard.press('Enter');

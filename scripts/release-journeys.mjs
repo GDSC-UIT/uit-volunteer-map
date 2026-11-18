@@ -10,6 +10,7 @@ import { startProcess, waitForProcess, stopProcess, availablePort } from './veri
 import { releaseApiChecks } from './release-api-checks.mjs';
 import { releaseBrowserChecks } from './release-browser-checks.mjs';
 import { coreBrowserChecks } from './core-browser-checks.mjs';
+import { chunkRecoveryCheck } from './chunk-recovery-check.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const output = resolve(root, process.env.RELEASE_EVIDENCE_DIR || 'output/playwright/r14');
@@ -97,6 +98,7 @@ try {
     }
     finally { await context.close(); }
   }
+  report.chunkRecovery = await chunkRecoveryCheck({ browser, origin: webOrigin, demo, output, dist });
   assert.deepEqual(await db.query('PRAGMA foreign_key_check'), []);
   report.passed = true;
 } catch (error) {
@@ -117,7 +119,7 @@ try {
   if (!report.developerDatabaseUnchanged) errors.push(Error('Developer database changed'));
   report.cleanup = true;
   report.passed = report.passed && errors.length === 0;
-  report.sourceHashes = Object.fromEntries(['scripts/release-journeys.mjs', 'scripts/release-api-checks.mjs', 'scripts/release-browser-checks.mjs', 'scripts/core-browser-checks.mjs', 'scripts/check-homepage-assets.mjs', 'scripts/verification-process.mjs'].map(path => [path, hash(join(root, path))]));
+  report.sourceHashes = Object.fromEntries(['scripts/release-journeys.mjs', 'scripts/release-api-checks.mjs', 'scripts/release-browser-checks.mjs', 'scripts/core-browser-checks.mjs', 'scripts/chunk-recovery-check.mjs', 'scripts/check-homepage-assets.mjs', 'scripts/verification-process.mjs'].map(path => [path, hash(join(root, path))]));
   writeFileSync(join(output, 'results.json'), JSON.stringify(report, null, 2) + '\n');
   process.removeListener('SIGINT', interrupted); process.removeListener('SIGTERM', interrupted);
 }
