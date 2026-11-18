@@ -1,10 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router';
 import { useAuth } from '@/hooks/useAuth';
-import { RoleEnum } from '@uit-volunteer-map/shared';
+import { RoleEnum, type UserRole } from '@uit-volunteer-map/shared';
 import FloatingInput from '@/components/ui/FloatingInput';
 import EyeIcon from '@/assets/icons/eye.svg';
 
+function isValidRedirectPath(path: unknown, role: UserRole): path is string {
+  if (typeof path !== 'string') return false;
+  if (!path.startsWith('/') || path.includes('://') || path.startsWith('//')) return false;
+  if (path === '/admin' || path.startsWith('/admin/')) return role === RoleEnum.ADMIN;
+  if (path === '/leader' || path.startsWith('/leader/')) return role === RoleEnum.LEADER;
+  return true;
+}
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
@@ -17,20 +24,13 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Validate redirect path to prevent open redirect attacks
-  const isValidRedirectPath = (path: unknown): path is string => {
-    if (typeof path !== 'string') return false;
-    // Must start with / and not contain :// or start with //
-    return path.startsWith('/') && !path.includes('://') && !path.startsWith('//');
-  };
-
   // Redirect if already logged in, with admin/leader specific redirects
   useEffect(() => {
     if (isAuthenticated && user) {
       // If redirected from a protected page, go back there (with validation)
       const redirectTo = location.state?.from?.pathname;
 
-      if (isValidRedirectPath(redirectTo)) {
+      if (isValidRedirectPath(redirectTo, user.role)) {
         navigate(redirectTo, { replace: true });
       } else {
         // Otherwise, redirect based on role
