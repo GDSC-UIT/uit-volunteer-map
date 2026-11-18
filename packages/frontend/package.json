@@ -18,12 +18,12 @@
     "@tanstack/react-query": "^5.90.20",
     "@types/leaflet": "^1.9.21",
     "@uit-volunteer-map/shared": "*",
-    "axios": "^1.13.4",
+    "axios": "^1.21.1",
     "clsx": "^2.1.1",
     "leaflet": "^1.9.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router": "^7.12.0"
+    "react-router": "^7.18.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",
@@ -44,7 +44,7 @@
     "tailwindcss": "^4.0.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.21.0",
-    "vite": "^6.0.7",
-    "vitest": "^4.0.17"
+    "vite": "^6.4.6",
+    "vitest": "^4.1.12"
   }
 }

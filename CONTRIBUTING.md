@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Node.js >= 18
+- Node.js 20.19+, 22.12+, or 24+ (matching the supported engine ranges; local validation uses 24.11.1)
 - npm >= 9
 - Git
 
