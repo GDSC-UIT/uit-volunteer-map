@@ -18,7 +18,7 @@ const apiClient = axios.create({
 // Request interceptor: attach auth token
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
-  if (token) {
+  if (token && !config.headers.Authorization) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
@@ -35,8 +35,8 @@ export function onUnauthorized(listener: SessionListener) {
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    const message =
-      error.response?.data?.error || error.message || "An error occurred";
+    const serverMessage = error.response?.data?.error;
+    const message = typeof serverMessage === 'string' ? serverMessage : error.message || "An error occurred";
     error.message = message;
     const authorization = error.config?.headers?.Authorization;
     const failedToken = typeof authorization === 'string' ? authorization.replace(/^Bearer /, '') : null;

@@ -11,11 +11,12 @@ import LeaderDropdown from '@/components/dropdown/LeaderDropdown';
 import AdminLayout from '@/components/layouts/AdminLayout';
 import ProtectedRoute from '@/routes/ProtectedRoute';
 import { authApi } from '@/api';
-vi.mock('@/api', () => ({ authApi: { logout: vi.fn(), login: vi.fn() } }));
+vi.mock('@/api', () => ({ authApi: { logout: vi.fn(), login: vi.fn(), verify: vi.fn() } }));
 const originalAdapter = apiClient.defaults.adapter;
-beforeEach(() => { localStorage.clear(); vi.mocked(authApi.logout).mockReset().mockResolvedValue(); });
+beforeEach(() => { localStorage.clear(); vi.mocked(authApi.logout).mockReset().mockResolvedValue();
+  vi.mocked(authApi.verify).mockReset().mockImplementation(async () => JSON.parse(localStorage.getItem('auth_user')!)); });
 afterEach(() => { cleanup(); apiClient.defaults.adapter = originalAdapter; localStorage.clear(); });
-function seed(role = 'admin', token = 'old-token') {
+function seed(role = 'admin', token = `eyJhbGciOiJIUzI1NiJ9.${btoa(JSON.stringify({ exp: Math.floor(Date.now() / 1000) + 3600 }))}.synthetic`) {
   localStorage.setItem('auth_token', token);
   localStorage.setItem('auth_user', JSON.stringify({ accId: 1, username: 'test', role }));
 }
