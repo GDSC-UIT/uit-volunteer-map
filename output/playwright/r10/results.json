@@ -1,0 +1,304 @@
+{
+  "results": [
+    {
+      "width": 375,
+      "height": 667,
+      "passed": true,
+      "postId": 5202,
+      "teamId": 510,
+      "providerStubUploads": 3,
+      "check": "real own-team metadata conflict/save/reload; two-photo create/detail/edit; zero coordinates; back preserves draft; keyboard modal/focus; sign-out/in persistence; confirmed delete and public 404"
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "passed": true,
+      "postId": 5203,
+      "teamId": 510,
+      "providerStubUploads": 3,
+      "check": "real own-team metadata conflict/save/reload; two-photo create/detail/edit; zero coordinates; back preserves draft; keyboard modal/focus; sign-out/in persistence; confirmed delete and public 404"
+    }
+  ],
+  "uncaughtAppErrors": [],
+  "expectedApiFailures": [
+    {
+      "status": 409,
+      "url": "http://127.0.0.1:5017/api/teams/510"
+    },
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:5017/api/posts/5202"
+    },
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:5017/api/posts/5202"
+    },
+    {
+      "status": 409,
+      "url": "http://127.0.0.1:5017/api/teams/510"
+    },
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:5017/api/posts/5203"
+    },
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:5017/api/posts/5203"
+    },
+    {
+      "status": 403,
+      "url": "http://127.0.0.1:5017/api/posts/5201"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=510&campaignId=501"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=510&campaignId=501"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/teams/510"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/teams/510"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=510&campaignId=501"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=510&campaignId=501"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/posts"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts/5202"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts/5202"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts/5202"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/posts/5202"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts/5202"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=510&campaignId=501"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/logout"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=510&campaignId=501"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/posts/5202"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=510&campaignId=501"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts/5202"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts/5202"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=510&campaignId=501"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/teams/510"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/teams/510"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=510&campaignId=501"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=510&campaignId=501"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/posts"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts/5203"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts/5203"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts/5203"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/posts/5203"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts/5203"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=510&campaignId=501"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/logout"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5017/api/auth/login"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=510&campaignId=501"
+    },
+    {
+      "method": "DELETE",
+      "url": "http://127.0.0.1:5017/api/posts/5203"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts?teamId=510&campaignId=501"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts/5203"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts/5203"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/leader/team"
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5017/api/posts/5201"
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5017/api/posts/5201"
+    }
+  ],
+  "provider": "Cloudinary network stub only; real application API, auth, migrated SQLite and photo metadata persistence"
+}
