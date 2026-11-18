@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { cloudinaryApi } from '@/api/cloudinary';
+import { cloudinaryApi, imageFileError } from '@/api/cloudinary';
+import { MEDIA_LIMITS } from '@uit-volunteer-map/shared';
 import EditorDialog from '../EditorDialog';
 
 interface ImageItem { id: number; file: File; preview: string; url?: string; }
-export default function PostCreatePopup({ open, onComplete, onClose, onDirty, maxFiles = 4 }: {
-  open: boolean; onComplete: (urls: string[]) => void; onClose: () => void; onDirty: (dirty: boolean) => void; maxFiles?: number;
+export default function PostCreatePopup({ open, onComplete, onClose, onDirty }: {
+  open: boolean; onComplete: (urls: string[]) => void; onClose: () => void; onDirty: (dirty: boolean) => void;
 }) {
   const [images, setImages] = useState<ImageItem[]>([]);
   const [pending, setPending] = useState(false);
@@ -12,6 +13,7 @@ export default function PostCreatePopup({ open, onComplete, onClose, onDirty, ma
   const [progress, setProgress] = useState('');
   const previews = useRef(new Set<string>());
   const nextId = useRef(0);
+  const maxFiles = MEDIA_LIMITS.maxImages;
   useEffect(() => onDirty(images.length > 0), [images.length, onDirty]);
   useEffect(() => {
     const urls = previews.current;
@@ -21,7 +23,8 @@ export default function PostCreatePopup({ open, onComplete, onClose, onDirty, ma
     if (!files) return;
     const selected = Array.from(files);
     if (images.length + selected.length > maxFiles) { setError(`Chọn tối đa ${maxFiles} ảnh.`); return; }
-    if (selected.some(file => !file.type.startsWith('image/'))) { setError('Vui lòng chọn tệp ảnh.'); return; }
+    const error = selected.map(imageFileError).find(Boolean);
+    if (error) { setError(error); return; }
     setImages(previous => [...previous, ...selected.map(file => {
       const preview = URL.createObjectURL(file);
       previews.current.add(preview);
@@ -46,16 +49,16 @@ export default function PostCreatePopup({ open, onComplete, onClose, onDirty, ma
         urls.push(url);
       }
       onComplete(urls);
-    } catch {
-      setError('Chưa thể tải ảnh. Các ảnh đã tải thành công được giữ lại; thử lại sẽ tiếp tục phần còn thiếu. Kiểm tra kết nối hoặc cấu hình Cloudinary.');
+    } catch (failure) {
+      setError(`Chưa thể tải ảnh. ${failure instanceof Error ? failure.message : ''} Các ảnh đã tải thành công được giữ lại; thử lại sẽ tiếp tục phần còn thiếu.`);
     } finally { setPending(false); setProgress(''); }
   };
   if (!open) return null;
   return <EditorDialog title="Ảnh bài đăng" pending={pending} onClose={onClose}>
     <div className="p-5 space-y-4">
-      <p>Chọn tối đa {maxFiles} ảnh. Ảnh đầu tiên là ảnh đại diện. Có thể đăng bài không có ảnh.</p>
+      <p>Chọn tối đa {maxFiles} ảnh JPEG, PNG, WebP hoặc GIF, mỗi ảnh tối đa 5 MiB. Ảnh đầu tiên là ảnh đại diện. Có thể đăng bài không có ảnh.</p>
       <fieldset disabled={pending} className="space-y-4">
-        <label className="block font-bold">Thêm ảnh<input type="file" accept="image/*" multiple onChange={e => { addFiles(e.target.files); e.target.value = ''; }} className="block w-full min-h-11 py-2" /></label>
+        <label className="block font-bold">Thêm ảnh<input type="file" accept={MEDIA_LIMITS.imageMimeTypes.join(',')} multiple onChange={e => { addFiles(e.target.files); e.target.value = ''; }} className="block w-full min-h-11 py-2" /></label>
         <ol className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {images.map((image, index) => <li key={image.id} className="border rounded p-3 min-w-0 bg-[#E1E4E8]">
             <img src={image.preview} alt={`Ảnh đã chọn ${index + 1}`} className="w-full h-36 object-contain" />
