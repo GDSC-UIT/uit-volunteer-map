@@ -1,0 +1,12 @@
+
+> uit-volunteer-map@1.0.0 check:assets
+> npm run check:map && node scripts/check-homepage-assets.mjs && node scripts/check-homepage-assets.mjs packages/frontend/dist
+
+
+> uit-volunteer-map@1.0.0 check:map
+> node scripts/check-map-assets.mjs && node scripts/check-map-assets.mjs packages/frontend/dist
+
+Map assets: 3 files, hashes, polygon coordinates and provenance verified.
+Map assets: 3 files, hashes, polygon coordinates and provenance verified.
+Homepage artwork: 3 existing image copies, JPEG headers, byte sizes and SHA-256 verified.
+Homepage artwork: 3 existing image copies, JPEG headers, byte sizes and SHA-256 verified.

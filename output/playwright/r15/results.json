@@ -1,0 +1,101 @@
+{
+  "node": "v24.22.3",
+  "passed": true,
+  "checks": [
+    "15 fresh migrations; restart no-op; demo seed twice; source and built map hashes/provenance",
+    "Migrated schema: Admin provisions campaign/account/team; real Leader login and both assignment relations agree",
+    "Auth/filter/media: foreign Leader and spoofed author denied without writes; intersected filters; ordered gallery; real unique-photo conflict rolls back post and first photo",
+    "Persisted update/delete, expiry and current DB role override old JWT; deactivation denies old token/login and releases assignment"
+  ],
+  "browser": [
+    {
+      "width": 375,
+      "height": 667,
+      "passed": true,
+      "checks": [
+        "Guest demo gallery and two distinct map markers by keyboard",
+        "Admin creates campaign/account/assigned team in UI",
+        "Provisioned Leader logs in, creates and edits persisted post",
+        "Reload and logout isolate identity; anonymous Guest sees edited post and author",
+        "Leader deletes and Guest receives 404"
+      ],
+      "uncaughtErrors": [],
+      "apiFailures": [],
+      "externalRequests": [],
+      "blockedOptionalFontOrigins": [
+        "https://fonts.googleapis.com"
+      ]
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "passed": true,
+      "checks": [
+        "Guest demo gallery and two distinct map markers by keyboard",
+        "Admin creates campaign/account/assigned team in UI",
+        "Provisioned Leader logs in, creates and edits persisted post",
+        "Reload and logout isolate identity; anonymous Guest sees edited post and author",
+        "Leader deletes and Guest receives 404"
+      ],
+      "uncaughtErrors": [],
+      "apiFailures": [],
+      "externalRequests": [],
+      "blockedOptionalFontOrigins": [
+        "https://fonts.googleapis.com"
+      ]
+    }
+  ],
+  "coreAcceptance": [
+    {
+      "width": 375,
+      "height": 667,
+      "passed": true,
+      "checks": [
+        "packaged homepage artwork, stationary carousel and keyboard controls",
+        "API counts 2 posts / 1 team / 2 map points; no year selector",
+        "route heading focus and real announced credential error",
+        "Leader disclosure Escape/focus, native logout safe focus/tab loop/return",
+        "team editor labels, Tab reach and Escape return",
+        "media file validation announced without upload; keyboard-only logout"
+      ],
+      "expectedApiErrors": [
+        {
+          "path": "/api/auth/login",
+          "status": 401
+        }
+      ],
+      "uncaughtErrors": []
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "passed": true,
+      "checks": [
+        "packaged homepage artwork, stationary carousel and keyboard controls",
+        "API counts 2 posts / 1 team / 2 map points; no year selector",
+        "route heading focus and real announced credential error",
+        "Leader disclosure Escape/focus, native logout safe focus/tab loop/return",
+        "team editor labels, Tab reach and Escape return",
+        "media file validation announced without upload; keyboard-only logout"
+      ],
+      "expectedApiErrors": [
+        {
+          "path": "/api/auth/login",
+          "status": 401
+        }
+      ],
+      "uncaughtErrors": []
+    }
+  ],
+  "cleanup": true,
+  "developerDatabaseUnchanged": true,
+  "sourceHashes": {
+    "scripts/release-journeys.mjs": "cdbbc55c029dcf705e9f37b7c5db94e8cfa60a78c0f6c2210a912fca61e1d003",
+    "scripts/release-api-checks.mjs": "049c3b598dead6483ef7bf14e300629f74486491cb5a93af4ead614f57263fcc",
+    "scripts/release-browser-checks.mjs": "a3a9aa6d7750a97ad3dc7e58b1684b46dea66ff0bacecd7edcfee07df2548b23",
+    "scripts/core-browser-checks.mjs": "4d6803521a142a2e6fd0d41678a6904a8bc82a8e027f8d5713bb68d3bc68d4c6",
+    "scripts/check-homepage-assets.mjs": "c5b1a80e36b01726f72f91735fa4127c42713bbdc54cff674a76b50279a4cb49",
+    "scripts/verification-process.mjs": "ce1a0d2a7b23f2fb6751a3124a031c93572b5e87030e9a754f0379254d214209"
+  },
+  "sourceCommit": "b8912a6194d4f5a139d0abeade8996aee58b3036"
+}

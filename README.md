@@ -7,7 +7,7 @@ release work. It is not a claim of a deployed or approved v1 release.
 
 ## Implemented scope
 
-- Public campaign/team/post reads, ordered galleries and reloadable links backed by SQLite APIs.
+- Public campaign/team/post reads, ordered galleries and reloadable links backed by SQLite APIs. Homepage photographs are packaged from the existing source URLs, with [separate provenance](packages/frontend/public/homepage/README.md), and the carousel starts paused.
 - A packaged Vietnam outline with markers bound to each post's persisted coordinates; keyboard marker selection opens that post.
 - Admin campaign/team management, Leader-account provisioning/deactivation and coherent team assignment.
 - Leader own-team resolution, team editing and persistent post create/edit/delete with server-derived authorship and cross-team write protection.
@@ -90,7 +90,7 @@ npm test
 npm run lint
 npm run typecheck
 npm run build
-npm run check:map
+npm run check:assets
 npm run test:smoke
 npm run test:database
 npx playwright install chromium
@@ -110,7 +110,7 @@ For headed local verification: `npm run test:journeys -- --headed`.
 
 The CI build job checks source and built map integrity, smoke-starts compiled JS,
 rehearses migrations/backup/recovery, installs matching Chromium/system libraries
-and runs the same browser journeys. Artifacts are named with the tested Git SHA.
+and runs the same browser journeys, including the focused mobile/keyboard checks. Artifacts are named with the tested Git SHA.
 Local results are recorded in the [R14 handoff](docs/handoffs/R14.md); no remote CI
 pass is claimed for an unpushed branch.
 
@@ -140,7 +140,7 @@ These are executed local browser checks using synthetic demo data, not a live si
 - The login budget is process-local and resets at restart. Proxy clients share a socket-IP budget with `trust proxy:false`; production scaling needs an explicit trusted proxy/shared throttling policy. Logout clears the client; it does not revoke already-issued JWTs server-side.
 - Existing database histories require operator inventory and a rehearsed supported upgrade/recovery path. No production DB or live media account was used in acceptance.
 - [R12](docs/handoffs/R12.md) records remaining dependency advisories and nonzero audit exits. R14 does not declare an audit-clean release. The existing frontend chunk-size warning remains.
-- Core mobile/keyboard acceptance, truthful statistics/year controls and inert/deferred UI are the next **R15** scope. Advanced analytics, ViceLeader, public registration, social features and editorial tooling remain deferred. Static dashboard figures must not be presented as measured live activity.
+- Core mobile/keyboard acceptance and exact API-derived metrics passed locally in [R15](docs/handoffs/R15.md). The unused year selector is removed; dashboard links lead to implemented management workflows. Advanced analytics, ViceLeader, public registration, social features and editorial tooling remain deferred.
 
 ## Contributions and attribution
 
