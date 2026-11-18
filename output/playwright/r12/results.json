@@ -1,0 +1,19 @@
+{
+  "results": [
+    {
+      "width": 375,
+      "height": 667,
+      "passed": true,
+      "check": "Guest reads packaged seed photos; demo Leader logs in, resolves team, creates a real post with server-derived profile and reloads it; demo Admin reads identified accounts/team; both log out"
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "passed": true,
+      "check": "Guest reads packaged seed photos; demo Leader logs in, resolves team, creates a real post with server-derived profile and reloads it; demo Admin reads identified accounts/team; both log out"
+    }
+  ],
+  "uncaughtAppErrors": [],
+  "apiFailures": [],
+  "fixture": "Actual 15 migrations and application demo.seed function; no app API/provider response mocks; synthetic credentials only"
+}

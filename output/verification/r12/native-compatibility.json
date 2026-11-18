@@ -1,0 +1,12 @@
+{
+  "node": "v24.11.1",
+  "platform": "win32",
+  "arch": "x64",
+  "typeorm": "0.3.31",
+  "typeormSqlitePeer": "^5.0.3 || ^6.0.0",
+  "sqlite3": "6.0.1",
+  "sqliteEngine": {
+    "node": ">=20.17.0"
+  },
+  "sqliteLibrary": "3.52.0"
+}

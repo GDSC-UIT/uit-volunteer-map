@@ -1,0 +1,265 @@
+{
+  "date": "2026-11-18",
+  "branch": "feat/r12-dependency-risk-reduction",
+  "lockfileSha256": "234d8018c013548bee224ed6c262a15bbe736dfdc861fb126e885c9e5d04d3d6",
+  "beforeAll": {
+    "info": 0,
+    "low": 4,
+    "moderate": 13,
+    "high": 28,
+    "critical": 6,
+    "total": 51
+  },
+  "beforeProduction": {
+    "info": 0,
+    "low": 2,
+    "moderate": 5,
+    "high": 14,
+    "critical": 3,
+    "total": 24
+  },
+  "afterAll": {
+    "info": 0,
+    "low": 0,
+    "moderate": 3,
+    "high": 13,
+    "critical": 0,
+    "total": 16
+  },
+  "afterProduction": {
+    "info": 0,
+    "low": 0,
+    "moderate": 3,
+    "high": 5,
+    "critical": 0,
+    "total": 8
+  },
+  "remainingPackageEntries": [
+    {
+      "package": "@typescript-eslint/eslint-plugin",
+      "severity": "high",
+      "production": false,
+      "via": [
+        "@typescript-eslint/parser",
+        "@typescript-eslint/type-utils",
+        "@typescript-eslint/utils"
+      ],
+      "nodes": [
+        "node_modules/@typescript-eslint/eslint-plugin"
+      ]
+    },
+    {
+      "package": "@typescript-eslint/parser",
+      "severity": "high",
+      "production": false,
+      "via": [
+        "@typescript-eslint/typescript-estree"
+      ],
+      "nodes": [
+        "node_modules/@typescript-eslint/parser"
+      ]
+    },
+    {
+      "package": "@typescript-eslint/type-utils",
+      "severity": "high",
+      "production": false,
+      "via": [
+        "@typescript-eslint/typescript-estree",
+        "@typescript-eslint/utils"
+      ],
+      "nodes": [
+        "node_modules/@typescript-eslint/type-utils"
+      ]
+    },
+    {
+      "package": "@typescript-eslint/typescript-estree",
+      "severity": "high",
+      "production": false,
+      "via": [
+        "tinyglobby"
+      ],
+      "nodes": [
+        "node_modules/@typescript-eslint/typescript-estree"
+      ]
+    },
+    {
+      "package": "@typescript-eslint/utils",
+      "severity": "high",
+      "production": false,
+      "via": [
+        "@typescript-eslint/typescript-estree"
+      ],
+      "nodes": [
+        "node_modules/@typescript-eslint/utils"
+      ]
+    },
+    {
+      "package": "fdir",
+      "severity": "high",
+      "production": true,
+      "via": [
+        "picomatch"
+      ],
+      "nodes": [
+        "node_modules/tinyglobby/node_modules/fdir",
+        "node_modules/vite/node_modules/fdir"
+      ]
+    },
+    {
+      "package": "glob",
+      "severity": "moderate",
+      "production": true,
+      "via": [
+        "https://github.com/advisories/GHSA-3g3m-2fjr-6pw4",
+        "minimatch"
+      ],
+      "nodes": [
+        "node_modules/typeorm/node_modules/glob"
+      ]
+    },
+    {
+      "package": "minimatch",
+      "severity": "moderate",
+      "production": true,
+      "via": [
+        "https://github.com/advisories/GHSA-g3hv-75wg-m249"
+      ],
+      "nodes": [
+        "node_modules/typeorm/node_modules/minimatch"
+      ]
+    },
+    {
+      "package": "node-gyp",
+      "severity": "high",
+      "production": true,
+      "via": [
+        "tinyglobby"
+      ],
+      "nodes": [
+        "node_modules/node-gyp"
+      ]
+    },
+    {
+      "package": "picomatch",
+      "severity": "high",
+      "production": true,
+      "via": [
+        "https://github.com/advisories/GHSA-fc5q-39xc-vjpf"
+      ],
+      "nodes": [
+        "node_modules/picomatch"
+      ]
+    },
+    {
+      "package": "sqlite3",
+      "severity": "high",
+      "production": true,
+      "via": [
+        "node-gyp"
+      ],
+      "nodes": [
+        "node_modules/sqlite3"
+      ]
+    },
+    {
+      "package": "tinyglobby",
+      "severity": "high",
+      "production": true,
+      "via": [
+        "fdir",
+        "picomatch"
+      ],
+      "nodes": [
+        "node_modules/tinyglobby"
+      ]
+    },
+    {
+      "package": "typeorm",
+      "severity": "moderate",
+      "production": true,
+      "via": [
+        "glob"
+      ],
+      "nodes": [
+        "node_modules/typeorm"
+      ]
+    },
+    {
+      "package": "typescript-eslint",
+      "severity": "high",
+      "production": false,
+      "via": [
+        "@typescript-eslint/eslint-plugin",
+        "@typescript-eslint/parser",
+        "@typescript-eslint/typescript-estree",
+        "@typescript-eslint/utils"
+      ],
+      "nodes": [
+        "node_modules/typescript-eslint"
+      ]
+    },
+    {
+      "package": "vite",
+      "severity": "high",
+      "production": false,
+      "via": [
+        "fdir",
+        "picomatch",
+        "tinyglobby"
+      ],
+      "nodes": [
+        "node_modules/vite"
+      ]
+    },
+    {
+      "package": "vitest",
+      "severity": "high",
+      "production": false,
+      "via": [
+        "picomatch",
+        "tinyglobby"
+      ],
+      "nodes": [
+        "node_modules/vitest"
+      ]
+    }
+  ],
+  "families": [
+    {
+      "package": "picomatch",
+      "severity": "high",
+      "advisory": "https://github.com/advisories/GHSA-fc5q-39xc-vjpf",
+      "patchedVersion": null,
+      "paths": [
+        "Vite/Vitest/typescript-eslint -> tinyglobby/fdir -> picomatch",
+        "sqlite3 -> optional node-gyp -> tinyglobby/fdir -> picomatch"
+      ],
+      "observedBoundary": "Not loaded by the compiled HTTP journey. Dev/test/include globs and node-gyp build/*.sln/build/*.mk patterns are checked-in/tool-owned, not request inputs.",
+      "decision": "No externally controlled matcher input identified in the current application; retain the audit finding and reassess when upstream publishes a patch or input boundaries change."
+    },
+    {
+      "package": "glob",
+      "severity": "moderate",
+      "advisory": "https://github.com/advisories/GHSA-3g3m-2fjr-6pw4",
+      "patchedVersion": "14.0.2",
+      "paths": [
+        "typeorm@0.3.31 -> glob@10.5.0"
+      ],
+      "observedBoundary": "Loaded at startup; TypeORM calls glob.sync with the fixed migrations directory pattern and no AbortSignal options.",
+      "decision": "Keep the supported ORM branch and record the static-pattern boundary; a major glob/ORM migration is separate work."
+    },
+    {
+      "package": "minimatch",
+      "severity": "moderate",
+      "advisory": "https://github.com/advisories/GHSA-g3hv-75wg-m249",
+      "patchedVersion": "11.0.1",
+      "paths": [
+        "typeorm@0.3.31 -> glob@10.5.0 -> minimatch@9.0.9"
+      ],
+      "observedBoundary": "Loaded through TypeORM for fixed trusted migration paths; application routes expose no glob/regex-pattern parameter.",
+      "decision": "Record the boundary without suppressing npm audit or overriding a parent to an incompatible major."
+    }
+  ],
+  "runtimeProbePassed": true,
+  "scope": "Current repository/configuration and observed real HTTP journey; no blanket security certification or production release waiver."
+}

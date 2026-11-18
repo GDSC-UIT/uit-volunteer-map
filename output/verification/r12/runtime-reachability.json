@@ -1,0 +1,61 @@
+{
+  "passed": true,
+  "appliedMigrations": 15,
+  "sqliteVersion": "3.52.0",
+  "statuses": [
+    {
+      "path": "/health",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/auth/login",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/leader/team",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/posts?teamId=1",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/posts",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/posts/3",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/posts/3",
+      "method": "DELETE",
+      "status": 200
+    },
+    {
+      "path": "/posts/3",
+      "method": "GET",
+      "status": 404
+    }
+  ],
+  "loadedPackages": {
+    "glob": true,
+    "minimatch": true,
+    "picomatch": false,
+    "fdir": false,
+    "tinyglobby": false,
+    "node-gyp": false,
+    "tar": false,
+    "mysql2": false,
+    "typeorm-model-generator": false
+  },
+  "scope": "Module-cache observation for compiled API startup, real auth, scoped read and post create/detail/delete; not a proof for arbitrary future code.",
+  "inputBoundary": "TypeORM migration globs come from the checked-in data-source configuration, not HTTP parameters. No request-supplied glob API exists.",
+  "developerDatabaseUnchanged": true
+}
