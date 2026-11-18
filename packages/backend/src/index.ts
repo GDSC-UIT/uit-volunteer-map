@@ -1,47 +1,25 @@
-import app from './app.js';
-import { jwtExpirySeconds } from './config/jwt.js';
+import { startupConfig } from './config/startup.js';
 import { AppDataSource, DATABASE_PATH, ensureDatabaseDirectory } from './db/data-source.js';
-
-function validateStartupEnv(): { port: number; databasePath: string } {
-  const rawPort = process.env.PORT?.trim();
-  const port = rawPort ? Number(rawPort) : 5000;
-
-  if (!Number.isInteger(port) || port < 1 || port > 65535) {
-    throw new Error(`Invalid PORT "${rawPort}". Expected an integer between 1 and 65535.`);
-  }
-
-  const jwtSecret = process.env.JWT_SECRET?.trim();
-  if (!jwtSecret) {
-    throw new Error('Missing required environment variable: JWT_SECRET');
-  }
-
-  jwtExpirySeconds();
-
-  if (!DATABASE_PATH) {
-    throw new Error('Invalid database configuration: resolved DB_PATH is empty');
-  }
-
-  return { port, databasePath: DATABASE_PATH };
-}
 
 const startServer = async (): Promise<void> => {
   try {
-    const { port, databasePath } = validateStartupEnv();
-    ensureDatabaseDirectory(databasePath);
+    const { port, host } = startupConfig();
+    const { default: app } = await import('./app.js');
+    ensureDatabaseDirectory(DATABASE_PATH);
 
     await AppDataSource.initialize();
-    console.log(`Database connected successfully (${databasePath})`);
-
-    app.listen(port, () => {
-      console.log(`Server is running on http://localhost:${port}`);
-      console.log(`Health check: http://localhost:${port}/api/health`);
+    await new Promise<void>((resolve, reject) => {
+      const server = app.listen(port, host, () => resolve());
+      server.once('error', reject);
     });
-  } catch (error: unknown) {
-    console.error('Error starting server:', error);
-    process.exit(1);
+    console.log(`Server is running on http://${host}:${port}`);
+    console.log(`Health check: http://${host}:${port}/api/health`);
+  } catch {
+    // Do not print raw configuration/driver errors containing credentials or SQL.
+    console.error('Server startup failed. Check HOST/PORT, JWT, CORS and database configuration.');
+    if (AppDataSource.isInitialized) await AppDataSource.destroy().catch(() => undefined);
+    process.exitCode = 1;
   }
 };
 
 void startServer();
-
-export default app;

@@ -2,11 +2,13 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { AppDataSource } from '../db/data-source.js';
 import { Account } from '../entities/Account.js';
-import { RoleEnum, AUTH_ERRORS, HTTP_STATUS, type JwtPayload } from '@uit-volunteer-map/shared';
+import { HttpError } from '../errors/HttpError.js';
+import { RoleEnum, AUTH_ERRORS, HTTP_STATUS, type JwtPayload, type AuthUser } from '@uit-volunteer-map/shared';
 
 declare module 'express-serve-static-core' {
   interface Request {
     user?: JwtPayload;
+    authUser?: AuthUser;
   }
 }
 
@@ -21,7 +23,8 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
   const JWT_SECRET = process.env.JWT_SECRET;
 
   if (!JWT_SECRET) {
-    return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ success: false, error: AUTH_ERRORS.JWT_SECRET_MISSING });
+    next(new HttpError(AUTH_ERRORS.JWT_SECRET_MISSING, HTTP_STATUS.INTERNAL_SERVER_ERROR));
+    return;
   }
 
   let accId: number;
@@ -47,6 +50,7 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
       return res.status(HTTP_STATUS.UNAUTHORIZED).json({ success: false, error: AUTH_ERRORS.TOKEN_INVALID });
     }
     req.user = { accId: account.accId, role };
+    req.authUser = { accId: account.accId, username: account.username, role };
     next();
   } catch (error) {
     next(error);

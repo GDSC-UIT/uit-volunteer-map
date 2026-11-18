@@ -70,6 +70,12 @@ describe('Auth Middleware', () => {
   });
 
   describe('authenticateToken', () => {
+    it('restores only current safe account identity through verify', async () => {
+      const response = await request(app).get('/api/verify').set('Authorization', `Bearer ${adminToken}`);
+      expect(response.status).toBe(200);
+      expect(response.body.data).toEqual({ isExpired: false, user: { accId: expect.any(Number), username: 'admin', role: 'admin' } });
+      expect(JSON.stringify(response.body)).not.toMatch(/password|roleId|isDeleted/);
+    });
     it('should return 401 when no token is provided', async () => {
       const res = await request(app).get('/api/admin/admin-only');
 

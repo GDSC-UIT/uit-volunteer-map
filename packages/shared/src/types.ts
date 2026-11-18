@@ -38,6 +38,12 @@ export interface AuthUser {
   role: UserRole;
 }
 
+/** Returned only after signature, expiry and current account/role validation. */
+export interface VerifySessionResponse {
+  isExpired: false;
+  user: AuthUser;
+}
+
 export interface JwtPayload {
   accId: number;
   role: UserRole;
