@@ -1,108 +1,18 @@
-import { spawn, execFile } from 'node:child_process';
+import { startProcess, waitForProcess, stopProcess, availablePort } from './verification-process.mjs';
 import { createHash } from 'node:crypto';
 import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
-import { createServer } from 'node:net';
 import { tmpdir } from 'node:os';
 import { basename, dirname, isAbsolute, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { promisify } from 'node:util';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const backendRoot = join(repoRoot, 'packages/backend');
 const devDbPath = join(backendRoot, 'src/data/database.sqlite');
-const execFileAsync = promisify(execFile);
 
 function databaseHash() {
   return existsSync(devDbPath)
     ? createHash('sha256').update(readFileSync(devDbPath)).digest('hex')
     : null;
-}
-
-// Unix children own a process group so timed-out npm commands can be stopped
-// along with their compiler/CLI children. Only this invocation's PIDs are used.
-function startProcess(args, { cwd, env }, processes) {
-  const child = spawn(process.execPath, args, {
-    cwd, env, shell: false, windowsHide: true,
-    detached: process.platform !== 'win32',
-    stdio: ['ignore', 'pipe', 'pipe'],
-  });
-  const record = { child, output: '', error: null, closed: false, completion: null };
-  const capture = (data) => { record.output = (record.output + data.toString()).slice(-65536); };
-  child.stdout.on('data', capture);
-  child.stderr.on('data', capture);
-  child.once('error', (error) => { record.error = error; });
-  record.completion = new Promise((done) => {
-    child.once('close', (code, signal) => {
-      record.closed = true;
-      processes.delete(record);
-      done({ code, signal });
-    });
-  });
-  processes.add(record);
-  return record;
-}
-
-async function waitForProcess(record, timeoutMs, signal) {
-  let timer;
-  let onAbort;
-  try {
-    signal?.throwIfAborted();
-    return await Promise.race([
-      record.completion,
-      new Promise((_, reject) => {
-        timer = setTimeout(() => reject(new Error('Process timed out after ' + timeoutMs + 'ms')), timeoutMs);
-        onAbort = () => reject(signal.reason);
-        signal?.addEventListener('abort', onAbort, { once: true });
-      }),
-    ]);
-  } finally {
-    clearTimeout(timer);
-    if (onAbort) signal?.removeEventListener('abort', onAbort);
-  }
-}
-
-async function stopProcess(record) {
-  if (record.closed) return;
-  const pid = record.child.pid;
-  if (!pid) {
-    await waitForProcess(record, 5000);
-    return;
-  }
-  if (process.platform === 'win32') {
-    const taskkill = join(process.env.SystemRoot || 'C:\\Windows', 'System32/taskkill.exe');
-    try {
-      await execFileAsync(taskkill, ['/PID', String(pid), '/T', '/F'], {
-        windowsHide: true, timeout: 5000,
-      });
-    } catch (error) {
-      if (!record.closed && record.child.exitCode === null && record.child.signalCode === null) throw error;
-    }
-  } else {
-    try { process.kill(-pid, 'SIGTERM'); } catch (error) {
-      if (error.code !== 'ESRCH') throw error;
-    }
-    try {
-      await waitForProcess(record, 2000);
-    } catch {
-      // Escalate below if the process did not finish during the grace period.
-    }
-    // Also stop surviving descendants if the process-group leader exited first.
-    try { process.kill(-pid, 'SIGKILL'); } catch (error) {
-      if (error.code !== 'ESRCH') throw error;
-    }
-  }
-  await waitForProcess(record, 5000);
-}
-
-async function availablePort() {
-  const server = createServer();
-  return new Promise((done, reject) => {
-    server.once('error', reject);
-    server.listen(0, () => {
-      const port = server.address().port;
-      server.close((error) => error ? reject(error) : done(port));
-    });
-  });
 }
 
 async function runSmokeTest() {
@@ -129,7 +39,7 @@ async function runSmokeTest() {
       ...process.env,
       DB_PATH: databasePath,
       DATABASE_PATH: databasePath,
-      NODE_ENV: 'test',
+      NODE_ENV: 'test', HOST: '127.0.0.1', CORS_ORIGINS: 'http://localhost:3001', JWT_EXPIRES_IN: '1h',
       JWT_SECRET: 'smoke-runtime-verification-secret',
     };
     const runNpm = async (args, timeoutMs = 30000) => {

@@ -28,10 +28,15 @@
     "test:backend": "npm run build:shared && npm run test -w @uit-volunteer-map/backend",
     "test:smoke": "node scripts/smoke-runtime.mjs",
     "test:database": "npm run build:backend && node scripts/verify-database.mjs",
-    "clean": "rm -rf packages/*/dist packages/*/node_modules node_modules"
+    "clean": "rm -rf packages/*/dist packages/*/node_modules node_modules",
+    "check:map": "node scripts/check-map-assets.mjs && node scripts/check-map-assets.mjs packages/frontend/dist",
+    "test:journeys": "node scripts/release-journeys.mjs"
   },
   "engines": {
     "node": ">=24.22.3 <25",
     "npm": ">=11.19.1 <12"
+  },
+  "devDependencies": {
+    "playwright": "1.65.1"
   }
 }
