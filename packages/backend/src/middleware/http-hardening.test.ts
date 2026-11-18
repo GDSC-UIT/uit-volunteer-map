@@ -20,7 +20,8 @@ describe('R13 HTTP policy and error boundary', () => {
     const rejected = await request(app).get('/api/health').set('Origin', 'https://untrusted.invalid');
     expect(rejected.status).toBe(403);
     expect(rejected.headers['access-control-allow-origin']).toBeUndefined();
-    expect((await request(app).get('/api/health')).status).toBe(200);
+    // Origin-less requests reach readiness; this isolated suite has no initialized DB.
+    expect((await request(app).get('/api/health')).status).toBe(503);
     expect(app.get('trust proxy')).toBe(false);
   });
   it('catches rejected auth work and sanitizes internal errors and logs', async () => {

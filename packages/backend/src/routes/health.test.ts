@@ -3,16 +3,15 @@ import { resolve } from 'node:path';
 import request from 'supertest';
 import app from '../app.js';
 import { BACKEND_ROOT, DEFAULT_DB_RELATIVE_PATH, resolveDatabasePath } from '../db/data-source.js';
-import { HTTP_STATUS, HEALTH_MESSAGES } from '@uit-volunteer-map/shared';
 
 describe('GET /api/health', () => {
-  it('should return healthy status', async () => {
+  it('returns not-ready while the configured datasource has not initialized', async () => {
     const res = await request(app).get('/api/health');
 
-    expect(res.status).toBe(HTTP_STATUS.OK);
-    expect(res.body.success).toBe(true);
-    expect(res.body.data.status).toBe(HEALTH_MESSAGES.STATUS_HEALTHY);
-    expect(res.body.message).toBe(HEALTH_MESSAGES.SERVER_RUNNING);
+    expect(res.status).toBe(503);
+    expect(res.body.success).toBe(false);
+    expect(res.body.data.status).toBe('not-ready');
+    expect(res.body.message).toBe('Database is not ready.');
   });
 
   it('should return timestamp and uptime', async () => {
