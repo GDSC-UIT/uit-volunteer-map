@@ -30,7 +30,8 @@
     "test:database": "npm run build:backend && node scripts/verify-database.mjs",
     "clean": "rm -rf packages/*/dist packages/*/node_modules node_modules",
     "check:map": "node scripts/check-map-assets.mjs && node scripts/check-map-assets.mjs packages/frontend/dist",
-    "test:journeys": "node scripts/release-journeys.mjs"
+    "test:journeys": "node scripts/release-journeys.mjs",
+    "check:assets": "npm run check:map && node scripts/check-homepage-assets.mjs && node scripts/check-homepage-assets.mjs packages/frontend/dist"
   },
   "engines": {
     "node": ">=24.22.3 <25",

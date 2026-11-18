@@ -94,8 +94,8 @@ jobs:
         env:
           VITE_API_URL: ''
 
-      - name: Check source and built map assets
-        run: npm run check:map
+      - name: Check source and built map and homepage assets
+        run: npm run check:assets
 
       - name: Smoke compiled migrations, seed and HTTP startup
         run: npm run test:smoke

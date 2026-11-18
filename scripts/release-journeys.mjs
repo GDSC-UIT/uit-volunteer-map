@@ -9,6 +9,7 @@ import { chromium } from 'playwright';
 import { startProcess, waitForProcess, stopProcess, availablePort } from './verification-process.mjs';
 import { releaseApiChecks } from './release-api-checks.mjs';
 import { releaseBrowserChecks } from './release-browser-checks.mjs';
+import { coreBrowserChecks } from './core-browser-checks.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const output = resolve(root, process.env.RELEASE_EVIDENCE_DIR || 'output/playwright/r14');
@@ -28,7 +29,7 @@ const interrupted = () => {
 process.once('SIGINT', interrupted); process.once('SIGTERM', interrupted);
 let db, apiServer, webServer, browser;
 const timeout = setTimeout(interrupted, 300000);
-const report = { node: process.version, passed: false, checks: [], browser: [], cleanup: false };
+const report = { node: process.version, passed: false, checks: [], browser: [], coreAcceptance: [], cleanup: false };
 async function runNode(args, env = process.env) {
   const child = startProcess(args, { cwd: root, env }, children);
   const result = await waitForProcess(child, 120000, controller.signal);
@@ -45,7 +46,10 @@ try {
     console.log('Building current shared/backend/frontend for an isolated same-origin API...');
     await runNode([process.env.npm_execpath, 'run', 'build'], { ...process.env, VITE_API_URL: '' });
   }
-  for (const target of ['packages/frontend/public', 'packages/frontend/dist']) await runNode(['scripts/check-map-assets.mjs', target]);
+  for (const target of ['packages/frontend/public', 'packages/frontend/dist']) {
+    await runNode(['scripts/check-map-assets.mjs', target]);
+    await runNode(['scripts/check-homepage-assets.mjs', target]);
+  }
   const webPort = await availablePort(), webOrigin = `http://127.0.0.1:${webPort}`;
   Object.assign(process.env, { DB_PATH: join(work, 'release.sqlite'), DATABASE_PATH: join(work, 'release.sqlite'), NODE_ENV: 'test',
     JWT_SECRET: 'r14-disposable-release-only', JWT_EXPIRES_IN: '1h', CORS_ORIGINS: webOrigin, LOGIN_RATE_LIMIT_MAX: '10', LOGIN_RATE_LIMIT_WINDOW_SECONDS: '900' });
@@ -60,7 +64,7 @@ try {
   const { default: app } = await import('../packages/backend/dist/app.js');
   apiServer = createServer(app); const api = await listen(apiServer);
   const dist = join(root, 'packages/frontend/dist');
-  const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json', '.geojson': 'application/geo+json', '.png': 'image/png', '.ttf': 'font/ttf', '.woff2': 'font/woff2' };
+  const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json', '.geojson': 'application/geo+json', '.png': 'image/png', '.jpg': 'image/jpeg', '.ttf': 'font/ttf', '.woff2': 'font/woff2' };
   webServer = createServer((req, res) => {
     if (req.url.startsWith('/api/')) {
       const upstream = proxyRequest(api + req.url, { method: req.method, headers: { ...req.headers, host: new URL(api).host } }, result => { res.writeHead(result.statusCode, result.headers); result.pipe(res); });
@@ -86,7 +90,11 @@ try {
   for (const [width, height] of [[375, 667], [1440, 900]]) {
     controller.signal.throwIfAborted();
     const context = await browser.newContext({ viewport: { width, height } });
-    try { report.browser.push(await releaseBrowserChecks({ context, origin: webOrigin, demo, width, height, output })); }
+    try {
+      const fixture = { context, origin: webOrigin, demo, width, height, output };
+      report.browser.push(await releaseBrowserChecks(fixture));
+      report.coreAcceptance.push(await coreBrowserChecks(fixture));
+    }
     finally { await context.close(); }
   }
   assert.deepEqual(await db.query('PRAGMA foreign_key_check'), []);
@@ -109,7 +117,7 @@ try {
   if (!report.developerDatabaseUnchanged) errors.push(Error('Developer database changed'));
   report.cleanup = true;
   report.passed = report.passed && errors.length === 0;
-  report.sourceHashes = Object.fromEntries(['scripts/release-journeys.mjs', 'scripts/release-api-checks.mjs', 'scripts/release-browser-checks.mjs', 'scripts/verification-process.mjs'].map(path => [path, hash(join(root, path))]));
+  report.sourceHashes = Object.fromEntries(['scripts/release-journeys.mjs', 'scripts/release-api-checks.mjs', 'scripts/release-browser-checks.mjs', 'scripts/core-browser-checks.mjs', 'scripts/check-homepage-assets.mjs', 'scripts/verification-process.mjs'].map(path => [path, hash(join(root, path))]));
   writeFileSync(join(output, 'results.json'), JSON.stringify(report, null, 2) + '\n');
   process.removeListener('SIGINT', interrupted); process.removeListener('SIGTERM', interrupted);
 }
