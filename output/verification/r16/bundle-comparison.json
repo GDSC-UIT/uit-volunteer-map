@@ -1,0 +1,14 @@
+{
+  "basis": "Vite initial JavaScript entry only; total lazy chunks and image bytes are separate",
+  "before": {
+    "entryKB": 643.61,
+    "gzipKB": 200.74
+  },
+  "after": {
+    "entryKB": 424.32,
+    "gzipKB": 138.53
+  },
+  "entryReductionPercent": 34.07,
+  "gzipReductionPercent": 30.99,
+  "largeChunkWarning": false
+}
