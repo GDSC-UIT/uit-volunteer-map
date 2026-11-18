@@ -78,7 +78,7 @@ export default function LoginPage() {
               UITVolunteer
             </div>
             <div className="text-[18px] sm:text-[24px] font-normal leading-[1.4] text-[#697077]">
-              xxxxxxxxxxx
+              Hoạt động tình nguyện UIT
             </div>
           </div>
         </div>
@@ -99,6 +99,9 @@ export default function LoginPage() {
         <div className="mt-8">
           <FloatingInput
             label="Tên đăng nhập"
+            name="username"
+            autoComplete="username"
+            required
             value={username}
             onChange={setUsername}
             disabled={isSubmitting}
@@ -109,6 +112,9 @@ export default function LoginPage() {
         <div className="relative mt-7.5">
           <FloatingInput
             label="Mật khẩu"
+            name="password"
+            autoComplete="current-password"
+            required
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={setPassword}

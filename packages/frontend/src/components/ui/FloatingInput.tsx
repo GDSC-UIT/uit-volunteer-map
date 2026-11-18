@@ -6,6 +6,9 @@ interface FloatingInputProps {
   value: string;
   type?: string;
   disabled?: boolean;
+  autoComplete?: string;
+  name?: string;
+  required?: boolean;
   onChange: (value: string) => void;
 }
 
@@ -14,6 +17,9 @@ export default function FloatingInput({
   value,
   type = 'text',
   disabled,
+  autoComplete,
+  name,
+  required,
   onChange,
 }: FloatingInputProps) {
 
@@ -29,6 +35,9 @@ export default function FloatingInput({
         type={type}
         value={value}
         disabled={disabled}
+        autoComplete={autoComplete}
+        name={name}
+        required={required}
         onChange={(e) => onChange(e.target.value)}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}

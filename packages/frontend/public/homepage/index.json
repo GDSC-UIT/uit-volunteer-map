@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "scope": "Byte-for-byte copies of the three existing HomePage Cloudinary artwork URLs; original repository artwork terms apply, no new license grant.",
+  "files": [
+    {
+      "path": "homepage/slide-01.jpg",
+      "source": "https://res.cloudinary.com/duallvqjh/image/upload/v1770283331/image-container_hvd34y.jpg",
+      "sha256": "5357657b03d58c036fd641746a0e8aebdcdf99b7e59ef0bc70d95ed5f0c36d01",
+      "bytes": 752563
+    },
+    {
+      "path": "homepage/slide-02.jpg",
+      "source": "https://res.cloudinary.com/duallvqjh/image/upload/v1770283324/image-container-2_seyjmk.jpg",
+      "sha256": "f6a22a983e48677e290f6c8b070a15dda4fa9138281d88d7d6954c5a617cd90b",
+      "bytes": 863747
+    },
+    {
+      "path": "homepage/slide-03.jpg",
+      "source": "https://res.cloudinary.com/duallvqjh/image/upload/v1770283302/image-container-1_cydeau.jpg",
+      "sha256": "92069605981dd904d10a4058965e5739721f080c7fcd7595d85feb949764111a",
+      "bytes": 716453
+    }
+  ]
+}

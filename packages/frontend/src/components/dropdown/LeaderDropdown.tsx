@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useId } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import LogoutConfirmPopup from "@/components/ui/popups/LogoutConfirmPopup";
@@ -8,6 +8,9 @@ export default function LeaderDropdown() {
   const [showPopup, setShowPopup] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const logoutRef = useRef<HTMLButtonElement>(null);
+  const panelId = useId();
   const navigate = useNavigate();
   const { logout } = useAuth();
 
@@ -15,6 +18,10 @@ export default function LeaderDropdown() {
     void logout();
     navigate("/login", { replace: true });
   };
+
+  useEffect(() => {
+    if (open) logoutRef.current?.focus();
+  }, [open]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -32,11 +39,16 @@ export default function LeaderDropdown() {
   }, []);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative" ref={dropdownRef} onKeyDown={event => {
+      if (event.key === 'Escape' && open) { event.stopPropagation(); setOpen(false); triggerRef.current?.focus(); }
+    }} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false); }}>
       {/* BUTTON */}
       <button
+        ref={triggerRef}
+        aria-expanded={open}
+        aria-controls={panelId}
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 font-semibold"
+        className="flex items-center gap-2 font-semibold min-h-11 rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
       >
         {/* Icon */}
         <div className="text-[#8B0000]">
@@ -73,6 +85,7 @@ export default function LeaderDropdown() {
       {/* DROPDOWN MENU */}
       {open && (
         <div
+          id={panelId}
           className="
             absolute right-0 mt-2 w-40 bg-white
             border-2 border-[#8B0000] rounded-lg
@@ -80,11 +93,13 @@ export default function LeaderDropdown() {
           "
         >
           <button
+            ref={logoutRef}
             onClick={() => {
               setOpen(false);
+              triggerRef.current?.focus();
               setShowPopup(true);
             }}
-            className="flex items-center justify-between w-full px-3 py-2 hover:bg-gray-100 rounded-md font-semibold"
+            className="flex items-center justify-between w-full min-h-11 px-3 py-2 hover:bg-gray-100 rounded-md font-semibold focus-visible:outline-2 focus-visible:outline-black"
           >
             <span>Đăng xuất</span>
 

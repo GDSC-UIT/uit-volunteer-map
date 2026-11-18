@@ -23,7 +23,7 @@ export default function ProtectedRoute({ requiredRoles }: ProtectedRouteProps) {
   } else if (requiredRoles && user && !requiredRoles.includes(user.role)) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-gray-500">Bạn không có quyền truy cập trang này.</div>
+        <div role="alert" className="text-gray-500">Bạn không có quyền truy cập trang này.</div>
       </div>
     );
   }

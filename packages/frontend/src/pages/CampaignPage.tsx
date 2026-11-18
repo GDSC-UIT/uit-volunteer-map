@@ -84,7 +84,7 @@ export default function CampaignPage() {
           </div>
         </section>
 
-        <section id="teams" className="max-w-7xl mx-auto mt-32 px-10 relative">
+        <section id="teams" className="max-w-7xl mx-auto mt-32 px-4 sm:px-6 lg:px-10 relative">
           <div className="mb-12">
             <h2 className="text-center font-black text-5xl text-black">
               ĐỘI HÌNH
@@ -92,7 +92,7 @@ export default function CampaignPage() {
           </div>
 
           {/* Vertical line */}
-          <div className="absolute left-25 top-40 bottom-0 w-2 bg-green-600 z-1 rounded-lg" />
+          <div className="absolute left-10 sm:left-18 lg:left-25 top-40 bottom-0 w-2 bg-green-600 z-1 rounded-lg" />
 
           <ReadState pending={teamsQuery.isPending} error={teamsQuery.error} label="đội hình" empty={teams.length===0} onRetry={teamsQuery.refetch} />
           {/* Teams list */}
