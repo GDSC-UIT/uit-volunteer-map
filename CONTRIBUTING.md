@@ -2,8 +2,8 @@
 
 ## Prerequisites
 
-- Node.js 20.19+, 22.12+, or 24+ (matching the supported engine ranges; local validation uses 24.11.1)
-- npm >= 9
+- Node.js 24.22.3 LTS (`.nvmrc`; supported range >=24.22.3 <25)
+- npm 11.19.1 (`packageManager`; supported range >=11.19.1 <12)
 - Git
 
 ## Git Workflow
@@ -82,7 +82,10 @@ docs: update API documentation
 ## Getting Started
 
 Create `packages/backend/.env` from `.env.example` if it does not already exist,
-and set a private `JWT_SECRET`. Preserve existing environment files and databases.
+and set a private `JWT_SECRET`. Create `packages/frontend/.env` from its `.env.example`
+if needed. Preserve existing environment files and databases. CI uses the exact
+Node/npm versions above; select them with your version manager before installing.
+Verify `node --version` and `npm --version` match, then use `npm ci`.
 
 ```bash
 # 1. Install dependencies
@@ -94,19 +97,39 @@ npm run seed
 
 # 3. Development Workflow
 
-# Multi-terminal development (recommended when modifying shared code):
-# Terminal 1: Watch & auto-rebuild shared package
-npm run dev:shared   # or npm run watch:shared
-
-# Terminal 2: Backend development server
+# Terminal 1: Backend development server (builds shared first)
 npm run dev:backend  # http://localhost:5000
 
-# Terminal 3: Frontend development server
+# Terminal 2: Frontend development server (builds shared first)
 npm run dev:frontend # http://localhost:3001
 
-# npm run dev executes workspace scripts sequentially. Use the terminals above
-# to run shared watch, backend and frontend together.
+# Optional terminal 3 when changing shared sources:
+npm run dev:shared
+
+# npm run dev executes workspace scripts sequentially. Use separate terminals.
 ```
+
+Backend binds to `127.0.0.1` by default; deployments exposing a container port
+must explicitly set `HOST=0.0.0.0` and protect that port in their deployment.
+Production requires a private random `JWT_SECRET` of at least 32 characters and
+explicit comma-separated `CORS_ORIGINS` containing exact frontend origins. No
+wildcards, paths or credentials. Development defaults allow ports 3001 on localhost
+and 127.0.0.1; update the list when choosing another frontend port.
+Origin-less clients still need the existing route authentication/authorization.
+
+Login defaults to 10 failed/in-flight attempts per socket IP per 15 minutes and
+returns HTTP 429 with `Retry-After`. Successful logins and server errors release
+their reserved attempt. The bounded in-memory budget resets at process restart;
+it is not shared across replicas. `trust proxy` remains false: reverse-proxied
+clients share their proxy's budget. Before multi-instance production, configure a
+trusted proxy topology and shared edge/application rate policy; do not blindly
+trust `X-Forwarded-For`. Settings are in the backend environment example.
+
+On refresh/Back/focus, the client verifies the current account through `/api/verify`.
+Cached user roles never grant access. An expired token clears session/query cache
+even when idle; logout does the same even offline. Initial restore fails closed
+on an unavailable API, while a transient refresh failure preserves an already
+verified session until expiry. Server authorization still runs on each request.
 
 ## Project Structure
 

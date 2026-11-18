@@ -1,0 +1,57 @@
+
+> uit-volunteer-map@1.0.0 test:database
+> npm run build:backend && node scripts/verify-database.mjs
+
+
+> uit-volunteer-map@1.0.0 build:backend
+> npm run build:shared && npm run build -w @uit-volunteer-map/backend
+
+
+> uit-volunteer-map@1.0.0 build:shared
+> npm run build -w @uit-volunteer-map/shared
+
+
+> @uit-volunteer-map/shared@1.0.0 build
+> tsc
+
+
+> @uit-volunteer-map/backend@1.0.0 build
+> tsc
+
+Migration "FixCampaignPhotoPostTeam1769193138220" failed, error: SQLITE_CONSTRAINT: NOT NULL constraint failed: temporary_Post.CreatedAt
+{
+  "results": [
+    {
+      "check": "15 fresh migrations, restart no-op, default seed twice, opt-in demo twice, hashed credential validity, own-team/two real posts, schema/FK integrity and unsafe CLI refusal",
+      "passed": true
+    },
+    {
+      "check": "SQLite backup and restore to new path preserve all rows, hashes, IDs and schema; overwrite refused",
+      "passed": true
+    },
+    {
+      "check": "Backup API captures committed WAL records while source connection remains open",
+      "passed": true
+    },
+    {
+      "check": "Populated 12 -> 15 forward upgrade preserves linked records and adds null coordinates/order; repeat applies zero",
+      "passed": true
+    },
+    {
+      "check": "Unknown migration history fails closed without changing the source",
+      "passed": true
+    },
+    {
+      "check": "Historical populated third-migration failure reproduced/rolled back; reviewed Post 700 -> Team 70 recovery preserves hashes/IDs/content and archives removed columns; source untouched",
+      "passed": true
+    },
+    {
+      "check": "Historical backup restore rehearsal preserves original three-migration schema and records",
+      "passed": true
+    }
+  ],
+  "developerDatabaseUnchanged": true,
+  "productionBaseline": "Deployed state requires operator inventory; no deployed database was accessed.",
+  "credentialsLogged": false,
+  "cleanup": "owned temporary directory removed in finally"
+}

@@ -1,0 +1,50 @@
+async page => {
+ const origin='http://127.0.0.1:3017', api='http://127.0.0.1:5019', results=[], errors=[];
+ const assert=(value,message)=>{if(!value)throw Error(message)};
+ page.on('pageerror',error=>errors.push(error.message));
+ async function submit(password) {
+  await page.getByLabel('Tên đăng nhập',{exact:true}).fill('demo-leader');
+  await page.getByLabel('Mật khẩu',{exact:true}).fill(password);
+  const response=page.waitForResponse(r=>r.url().endsWith('/api/auth/login')&&r.request().method()==='POST');
+  await page.getByRole('button',{name:'ĐĂNG NHẬP',exact:true}).click();
+  return await response;
+ }
+ for(const [width,height] of [[375,667],[1440,900]]) {
+  const label=width+'x'+height;
+  await page.setViewportSize({width,height}); await page.goto(origin+'/login');
+  assert((await submit('r13-synthetic-leader')).status()===200,'real demo login succeeds');
+  await page.waitForURL('**/leader');
+  await page.getByRole('heading',{name:'[DEMO] Đội hình kết nối cộng đồng',exact:true}).waitFor();
+  await page.evaluate(()=>{const user=JSON.parse(localStorage.getItem('auth_user'));user.role='admin';localStorage.setItem('auth_user',JSON.stringify(user));});
+  const verified=page.waitForResponse(r=>r.url().endsWith('/api/verify')&&r.status()===200);
+  await page.goto(origin+'/admin/accounts');
+  const identity=(await (await verified).json()).data.user;
+  assert(identity.role==='leader'&&!('password' in identity),'current safe server identity replaces forged cached admin');
+  await page.getByText('Bạn không có quyền truy cập trang này.',{exact:true}).waitFor();
+  assert(await page.getByRole('columnheader',{name:'Tên đăng nhập',exact:true}).count()===0,'no protected admin data exposed');
+  await page.goto(origin+'/leader');
+  await page.getByRole('heading',{name:'[DEMO] Đội hình kết nối cộng đồng',exact:true}).waitFor();
+  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'no horizontal overflow');
+  await page.screenshot({path:'output/playwright/r13/verified-leader-'+label+'.png',fullPage:true});
+  // No navigation or API request: the exp timer itself must remove the idle session.
+  await page.waitForURL('**/login',{timeout:16000});
+  await page.getByRole('heading',{name:'Đăng nhập',exact:true}).waitFor();
+  assert(await page.evaluate(()=>localStorage.getItem('auth_token')===null&&localStorage.getItem('auth_user')===null),'idle expiry clears stored identity');
+  await page.screenshot({path:'output/playwright/r13/expired-session-'+label+'.png',fullPage:true});
+  results.push({width,height,passed:true,checks:['real Leader login','server verify replaces forged cached role','Admin UI denied','idle exp redirects and clears identity','no overflow']});
+ }
+ const allowed=await page.evaluate(async api=>(await fetch(api+'/api/health')).status,api);
+ assert(allowed===200,'actual browser Origin is allowed');
+ const denied=await page.request.get(api+'/api/health',{headers:{Origin:'https://untrusted.invalid'}});
+ assert(denied.status()===403,'unconfigured Origin rejected');
+ await page.setViewportSize({width:375,height:667});
+ for(let attempt=0;attempt<2;attempt++) {const response=await submit('wrong-synthetic');assert(response.status()===401,'bad credentials preserve 401');}
+ const blocked=await submit('wrong-synthetic');
+ assert(blocked.status()===429&&Number(blocked.headers()['retry-after'])>0,'failed-login budget returns 429 and Retry-After');
+ await page.getByRole('alert').filter({hasText:'Đã thử đăng nhập quá nhiều lần.'}).waitFor();
+ await page.screenshot({path:'output/playwright/r13/rate-limited-375x667.png',fullPage:true});
+ assert(await page.getByRole('button',{name:'ĐĂNG NHẬP',exact:true}).isEnabled(),'form remains reachable after rejection');
+ assert(errors.length===0,'no uncaught application errors');
+ return {results,cors:{allowedBrowserOrigin:allowed,rejectedOrigin:denied.status()},rateLimit:{failedCredentials:401,blocked:429,retryAfter:true},uncaughtAppErrors:errors,
+  fixture:'Real React/provider/API; fresh 15-migration SQLite demo; no API or provider mocks. Test-only JWT 12s, limit 2 failures/5s. Query-cache cleanup and stale-response cases are covered in component tests.'};
+}

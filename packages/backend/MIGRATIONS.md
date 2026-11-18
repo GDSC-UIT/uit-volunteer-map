@@ -165,3 +165,5 @@ The recovery path accepts only the tested first-three ledger/schema generation. 
 `npm run test:database` builds current shared/backend and runs a disposable acceptance rehearsal: all 15 migrations/restart, default and opt-in seed twice, credential/own-team/post checks, zero FK/schema drift, overwrite refusal, WAL backup, restore, populated 12→15 upgrade/repeat, unknown-history refusal, reproduced historical timestamp failure, reviewed recovery and original-schema restoration. All temporary files are scoped/cleaned and the developer DB hash is checked before/after.
 
 `npm run test:smoke` additionally verifies compiled migration/seed/server startup and HTTP health. Run normal tests/lint/build after substantive changes. Detailed executed evidence and screenshots: [R11 handoff](../../docs/handoffs/R11.md).
+
+R13 replayed the database and compiled-runtime checks with the current supported Node 24.22.3 / npm 11.19.1 baseline. Use the pinned versions in the root setup guide; historical R11 validation versions above describe that earlier run. See [R13 evidence](../../docs/handoffs/R13.md).

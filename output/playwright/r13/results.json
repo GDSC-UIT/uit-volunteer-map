@@ -1,0 +1,39 @@
+{
+  "results": [
+    {
+      "width": 375,
+      "height": 667,
+      "passed": true,
+      "checks": [
+        "real Leader login",
+        "server verify replaces forged cached role",
+        "Admin UI denied",
+        "idle exp redirects and clears identity",
+        "no overflow"
+      ]
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "passed": true,
+      "checks": [
+        "real Leader login",
+        "server verify replaces forged cached role",
+        "Admin UI denied",
+        "idle exp redirects and clears identity",
+        "no overflow"
+      ]
+    }
+  ],
+  "cors": {
+    "allowedBrowserOrigin": 200,
+    "rejectedOrigin": 403
+  },
+  "rateLimit": {
+    "failedCredentials": 401,
+    "blocked": 429,
+    "retryAfter": true
+  },
+  "uncaughtAppErrors": [],
+  "fixture": "Real React/provider/API; fresh 15-migration SQLite demo; no API or provider mocks. Test-only JWT 12s, limit 2 failures/5s. Query-cache cleanup and stale-response cases are covered in component tests."
+}

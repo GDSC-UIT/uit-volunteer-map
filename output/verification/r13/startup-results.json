@@ -1,0 +1,30 @@
+{
+  "node": "v24.22.3",
+  "results": [
+    {
+      "name": "invalid port",
+      "exitCode": 1,
+      "sanitized": true,
+      "passed": true
+    },
+    {
+      "name": "missing JWT",
+      "exitCode": 1,
+      "sanitized": true,
+      "passed": true
+    },
+    {
+      "name": "production requires explicit origins",
+      "exitCode": 1,
+      "sanitized": true,
+      "passed": true
+    },
+    {
+      "name": "asynchronous port bind failure",
+      "exitCode": 1,
+      "sanitized": true,
+      "passed": true
+    }
+  ],
+  "database": ":memory:"
+}
