@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, develop, codex/render-neon-free]
+    branches: [main, develop, feat/render-neon]
   pull_request:
 
 jobs:
