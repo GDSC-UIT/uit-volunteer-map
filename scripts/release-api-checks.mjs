@@ -40,6 +40,7 @@ export async function releaseApiChecks({ base, webOrigin, db, demo }) {
   const post = await call('POST', '/posts', data, leader.token);
   assert.equal(post.author.userId, account.profile.userId);
   const detail = await call('GET', '/posts/' + post.postId);
+  assert.deepEqual(detail.coordinates, data.coordinates);
   assert.deepEqual(detail.photos.map(photo => photo.position), [0, 1]);
   assert.deepEqual(detail.photos.map(photo => photo.imageUrl), data.photos.map(photo => photo.imageUrl));
   assert.deepEqual((await call('GET', `/posts?campaignId=${campaign.campaignId}&teamId=${team.teamId}`)).map(item => item.postId), [post.postId]);
@@ -53,12 +54,12 @@ export async function releaseApiChecks({ base, webOrigin, db, demo }) {
   assert.equal((await call('GET', '/posts/' + post.postId)).title, '[R14] Edited persisted activity');
   const expired = jwt.sign({ accId: account.accId, role: 'leader' }, process.env.JWT_SECRET, { expiresIn: -1 });
   await unchanged('PUT', '/posts/' + post.postId, { title: 'expired' }, expired, 401);
-  const [{ RoleId: adminRole }] = await db.query("SELECT RoleId FROM Role WHERE RoleName = 'admin'");
-  const [{ RoleId: leaderRole }] = await db.query("SELECT RoleId FROM Role WHERE RoleName = 'leader'");
-  await db.query('UPDATE Account SET RoleId = ? WHERE AccId = ?', [adminRole, account.accId]);
+  const [{ RoleId: adminRole }] = await db.sql`SELECT "RoleId" FROM "Role" WHERE "RoleName" = 'admin'`;
+  const [{ RoleId: leaderRole }] = await db.sql`SELECT "RoleId" FROM "Role" WHERE "RoleName" = 'leader'`;
+  await db.sql`UPDATE "Account" SET "RoleId" = ${adminRole} WHERE "AccId" = ${account.accId}`;
   assert.equal((await call('GET', '/verify', undefined, leader.token)).user.role, 'admin');
   await call('GET', '/leader/team', undefined, leader.token, 403);
-  await db.query('UPDATE Account SET RoleId = ? WHERE AccId = ?', [leaderRole, account.accId]);
+  await db.sql`UPDATE "Account" SET "RoleId" = ${leaderRole} WHERE "AccId" = ${account.accId}`;
   await call('DELETE', '/posts/' + post.postId, undefined, leader.token);
   await call('GET', '/posts/' + post.postId, undefined, undefined, 404);
   await call('DELETE', '/accounts/' + account.accId, undefined, admin.token);
@@ -67,6 +68,6 @@ export async function releaseApiChecks({ base, webOrigin, db, demo }) {
   async function loginDenied() { await call('POST', '/auth/login', { username: 'r14-leader', password: 'r14-synthetic-provisioned' }, undefined, 401); }
   assert.equal((await call('GET', '/accounts/' + account.accId, undefined, admin.token)).team, null);
   checks.push('Persisted update/delete, expiry and current DB role override old JWT; deactivation denies old token/login and releases assignment');
-  assert.deepEqual(await db.query('PRAGMA foreign_key_check'), []);
+  if (db.options.type === 'sqlite') assert.deepEqual(await db.query('PRAGMA foreign_key_check'), []);
   return checks;
 }

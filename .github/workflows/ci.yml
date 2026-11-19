@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, codex/render-neon-free]
   pull_request:
 
 jobs:
@@ -74,6 +74,20 @@ jobs:
     runs-on: ubuntu-latest
     needs: [lint, typecheck, test]
     timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: uit-ci-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgresql://postgres:uit-ci-only@127.0.0.1:5432/postgres
     steps:
       - uses: actions/checkout@v4
 
@@ -106,15 +120,25 @@ jobs:
       - name: Install matching Chromium and system libraries
         run: npx playwright install --with-deps chromium
 
+      - name: Verify production boot and the XTN 2026 archive
+        run: npm run test:production
+
       - name: Verify migrated API and Guest Admin Leader browser journeys
         run: npm run test:journeys -- --built
         env:
           RELEASE_EVIDENCE_DIR: output/playwright/r14-ci
+
+      - name: Repeat migrated API and browser journeys on PostgreSQL
+        run: npm run test:journeys -- --built --postgres
+        env:
+          RELEASE_EVIDENCE_DIR: output/playwright/postgres-ci
 
       - name: Retain browser results and screenshots
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: release-journeys-${{ github.sha }}
-          path: output/playwright/r14-ci
+          path: |
+            output/playwright/r14-ci
+            output/playwright/postgres-ci
           if-no-files-found: warn

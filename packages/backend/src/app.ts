@@ -18,16 +18,27 @@ import { verifyTokenRouter } from './routes/verify-token.js';
 import { httpPolicy } from './config/http.js';
 import { HttpError } from './errors/HttpError.js';
 import { loginLimit } from './middleware/loginLimit.js';
+import { mountFrontend } from './config/frontend.js';
 
 dotenv.config({ path: fileURLToPath(new URL('../.env', import.meta.url)) });
 
 const app = express();
 const policy = httpPolicy();
+const servingFrontend = process.env.SERVE_FRONTEND === 'true';
 app.set('trust proxy', false);
 app.disable('x-powered-by');
 
 // Middleware
-app.use(helmet());
+app.use(helmet(servingFrontend ? {
+  contentSecurityPolicy: {
+    directives: {
+      'img-src': ["'self'", 'data:', 'blob:', 'https:'],
+      'style-src': ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+      'connect-src': ["'self'", 'https://api.cloudinary.com'],
+      'upgrade-insecure-requests': process.env.NODE_ENV === 'production' ? [] : null,
+    },
+  },
+} : undefined));
 app.use((req, _res, next) => {
   const origin = req.headers.origin;
   if (origin && !policy.origins.includes(origin)) { next(new HttpError('Origin is not allowed.', 403)); return; }
@@ -49,6 +60,8 @@ app.use('/api/posts', postRouter);
 app.use('/api/teams', teamRouter);
 app.use('/api/accounts', accountRouter);
 app.use('/api', verifyTokenRouter);
+
+if (servingFrontend) mountFrontend(app);
 
 // Error handling
 app.use(errorHandler);

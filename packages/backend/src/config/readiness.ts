@@ -1,4 +1,3 @@
-import { AppDataSource } from '../db/data-source.js';
 interface DatabaseProbe {
   isInitialized: boolean;
   migrations: readonly { name?: string; constructor: { name: string } }[];
@@ -6,7 +5,7 @@ interface DatabaseProbe {
   query(sql: string): Promise<unknown>;
 }
 /** Read-only readiness. Never creates a migration ledger or applies a migration. */
-export async function databaseReady(source: DatabaseProbe = AppDataSource): Promise<boolean> {
+export async function databaseReady(source: DatabaseProbe): Promise<boolean> {
   if (!source.isInitialized || source.migrations.length === 0) return false;
   try {
     await source.query('SELECT 1');

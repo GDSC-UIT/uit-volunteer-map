@@ -31,6 +31,7 @@
     "clean": "rm -rf packages/*/dist packages/*/node_modules node_modules",
     "check:map": "node scripts/check-map-assets.mjs && node scripts/check-map-assets.mjs packages/frontend/dist",
     "test:journeys": "node scripts/release-journeys.mjs",
+    "test:production": "node scripts/verify-production.mjs",
     "check:assets": "npm run check:map && node scripts/check-homepage-assets.mjs && node scripts/check-homepage-assets.mjs packages/frontend/dist"
   },
   "engines": {

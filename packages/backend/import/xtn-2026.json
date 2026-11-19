@@ -1,0 +1,452 @@
+{
+  "campaign": {
+    "key": "xtn-2026",
+    "name": "Xuân Tình Nguyện 2026",
+    "startDate": "2026-01-17",
+    "endDate": "2026-02-07",
+    "description": "Chiến dịch Xuân Tình Nguyện 2026 của Trường Đại học Công nghệ Thông tin, ĐHQG-HCM có tám đội hình được UIT giới thiệu. Bản lưu cũng có hai bài viết của nhóm Gu Xuân. Các bài viết ghi lại các hoạt động giáo dục, công nghệ, văn hóa và hỗ trợ cộng đồng. Theo lịch công bố, chiến dịch bắt đầu ngày 17/01/2026 và khép lại tại Lễ Hội quân ngày 07/02/2026.",
+    "cover": "le-hoi-quan-1.jpg"
+  },
+  "teams": [
+    {
+      "id": "XTN26-T01",
+      "name": "Truyền thông",
+      "description": "Ghi nhận và truyền thông hoạt động, đồng thời lưu các bản tin chung của chiến dịch và tin hoạt động cấp trường.",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/gioi-thieu-cac-doi-hinh-xuan-tinh-nguyen-2026-cua-uit"
+    },
+    {
+      "id": "XTN26-T02",
+      "name": "Sự kiện",
+      "description": "Tổ chức các hoạt động lễ và sự kiện.",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/gioi-thieu-cac-doi-hinh-xuan-tinh-nguyen-2026-cua-uit"
+    },
+    {
+      "id": "XTN26-T03",
+      "name": "Vị Xuân",
+      "description": "Trao quà, thăm hỏi và hoạt động xã hội.",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/gioi-thieu-cac-doi-hinh-xuan-tinh-nguyen-2026-cua-uit"
+    },
+    {
+      "id": "XTN26-T04",
+      "name": "Máy tính cũ – Tri thức mới",
+      "description": "Tái sử dụng, trao máy tính.",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/gioi-thieu-cac-doi-hinh-xuan-tinh-nguyen-2026-cua-uit"
+    },
+    {
+      "id": "XTN26-T05",
+      "name": "Vì Đàn Em",
+      "description": "Hoạt động giáo dục và hỗ trợ trẻ em.",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/gioi-thieu-cac-doi-hinh-xuan-tinh-nguyen-2026-cua-uit"
+    },
+    {
+      "id": "XTN26-T06",
+      "name": "Văn nghệ Xung kích",
+      "description": "Văn nghệ và hoạt động biểu diễn.",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/gioi-thieu-cac-doi-hinh-xuan-tinh-nguyen-2026-cua-uit"
+    },
+    {
+      "id": "XTN26-T07",
+      "name": "Xuân Công nghệ",
+      "description": "Phổ cập công nghệ và truyền thông an toàn số.",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/gioi-thieu-cac-doi-hinh-xuan-tinh-nguyen-2026-cua-uit"
+    },
+    {
+      "id": "XTN26-T08",
+      "name": "Nhịp Xuân – Tết ở đôi tay bạn",
+      "description": "Hoạt động nghệ thuật và văn hóa Tết.",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/gioi-thieu-cac-doi-hinh-xuan-tinh-nguyen-2026-cua-uit"
+    },
+    {
+      "id": "XTN26-X01",
+      "name": "Gu Xuân",
+      "description": "Nhóm tham gia hoạt động công nghệ và truyền thông trong chiến dịch. Các bài viết của nhóm ghi lại buổi gặp mặt và quá trình làm việc theo tuần.",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg4?page=75"
+    }
+  ],
+  "posts": [
+    {
+      "id": "XTN26-E01",
+      "relatedPostId": "PUB-026",
+      "teamId": "XTN26-T03",
+      "title": "Trao quà Tết cho gia đình khó khăn và người già neo đơn",
+      "summary": "Đội hình Vị Xuân trao quà Tết cho các gia đình có hoàn cảnh khó khăn và người cao tuổi neo đơn tại phường Thới An, TP.HCM.",
+      "status": "confirmed_activity",
+      "eventDate": "2026-01-24",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/xuan-tinh-nguyen-2026-vi-xuan-7-tet-se-chia-trao-qua-tet-den-cac-gia-dinh-co-hoan-canh-kho-khan-va-nguoi-gia-neo-don-tai-thoi",
+      "facebookUrl": "https://www.facebook.com/share/p/1BrBd74ErN/"
+    },
+    {
+      "id": "XTN26-E02",
+      "teamId": "XTN26-T04",
+      "title": "Trao 5 máy tính xách tay tại Thới An",
+      "summary": "Đội hình Máy tính cũ – Tri thức mới phối hợp với Vị Xuân trao 5 máy tính xách tay tại phường Thới An, TP.HCM.",
+      "status": "confirmed_activity",
+      "eventDate": "2026-01-24",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/xuan-tinh-nguyen-2026-chien-si-uit-trao-tang-may-tinh-gieo-tri-thuc-lan-toa-yeu-thuong-tai-thoi"
+    },
+    {
+      "id": "XTN26-E03",
+      "relatedPostId": "PUB-042",
+      "teamId": "XTN26-T05",
+      "title": "Giao lưu dạy học tại Mái ấm Miếu Bà Ấp Thượng",
+      "summary": "Vì Đàn Em và Truyền thông phối hợp tổ chức buổi giao lưu dạy học tại Mái ấm Miếu Bà Ấp Thượng.",
+      "status": "confirmed_activity",
+      "eventDate": "2026-01-26",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/doi-hinh-vi-dan-em-tong-ket-buoi-giao-luu-day-hoc-cung-doi-hinh-truyen-thong",
+      "facebookUrl": "https://www.facebook.com/share/p/17pYW7gB2V/"
+    },
+    {
+      "id": "XTN26-E04",
+      "teamId": "XTN26-T01",
+      "title": "Giọt Hồng UIT lần IV – Hiến máu nhân đạo",
+      "summary": "Ngày hội hiến máu tình nguyện cấp trường diễn ra tại sảnh C, Trường ĐH Công nghệ Thông tin, ĐHQG-HCM.",
+      "status": "confirmed_activity",
+      "eventDate": "2026-01-29",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/uit-lan-toa-yeu-thuong-qua-chuong-trinh-hien-mau-nhan-dao"
+    },
+    {
+      "id": "XTN26-E05",
+      "relatedPostId": "PUB-060",
+      "teamId": "XTN26-T04",
+      "title": "Trao 5 bộ máy tính tại Trường THCS Tân Kiên",
+      "summary": "Đội hình Máy tính cũ – Tri thức mới và Vị Xuân trao 5 bộ máy tính tại Trường THCS Tân Kiên, xã Tân Nhựt, TP.HCM.",
+      "status": "confirmed_activity",
+      "eventDate": "2026-01-31",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/doi-hinh-may-tinh-cu-tri-thuc-moi-va-doi-hinh-vi-xuan-trao-5-bo-may-tinh-tai-truong-thcs-tan-kien",
+      "facebookUrl": "https://www.facebook.com/share/p/1HPGncXaU8/"
+    },
+    {
+      "id": "XTN26-E06",
+      "teamId": "XTN26-T01",
+      "title": "Lễ Hội quân Xuân Tình Nguyện 2026",
+      "summary": "Ban Chỉ huy và các đội hình tổng kết hành trình Xuân Tình Nguyện 2026 tại UIT. Chương trình ghi nhận đóng góp của các đội hình và công bố kết quả Team Building và Gala “Làn sóng Xuân”.",
+      "status": "confirmed_activity",
+      "eventDate": "2026-02-07",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/tong-ket-le-hoi-quan-xuan-tinh-nguyen-2026",
+      "photos": [
+        {
+          "file": "le-hoi-quan-1.jpg",
+          "alt": "Các đội hình được ghi nhận tại Lễ Hội quân"
+        },
+        {
+          "file": "le-hoi-quan-2.jpg",
+          "alt": "Trao giải tại Lễ Hội quân Xuân Tình Nguyện 2026"
+        }
+      ]
+    },
+    {
+      "id": "XTN26-E07",
+      "relatedPostId": "PUB-049",
+      "teamId": "XTN26-T07",
+      "title": "Ngày hội Công nghệ Thông tin tại Lớp Tình Thương Bình Thung 1",
+      "summary": "Xuân Công nghệ, Vì Đàn Em và CSAC phối hợp tổ chức các hoạt động làm quen với công nghệ thông tin tại Lớp Tình Thương Bình Thung 1.",
+      "status": "confirmed_activity",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg4?page=76",
+      "facebookUrl": "https://www.facebook.com/share/p/1KWveXqSSt/"
+    },
+    {
+      "id": "XTN26-E08",
+      "relatedPostId": "PUB-078",
+      "teamId": "XTN26-T07",
+      "title": "Ngày hội CNTT tại Trung tâm Nhân đạo Quê Hương",
+      "summary": "Xuân Công nghệ và Nhịp Xuân phối hợp tổ chức ngày hội công nghệ thông tin tại Trung tâm Nhân đạo Quê Hương.",
+      "status": "confirmed_activity",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg4?page=72",
+      "facebookUrl": "https://www.facebook.com/share/p/17Bmtizq9y/"
+    },
+    {
+      "id": "XTN26-E09",
+      "teamId": "XTN26-T08",
+      "title": "Đêm nhạc gây quỹ Ngỏ Xuân",
+      "summary": "Nhịp Xuân và Văn nghệ Xung kích tổ chức đêm nhạc gây quỹ Ngỏ Xuân tại Nhà Văn hóa Sinh viên, ĐHQG-HCM.",
+      "status": "confirmed_activity",
+      "eventDate": "2026-01-25",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg1?page=2"
+    },
+    {
+      "id": "XTN26-E10",
+      "relatedPostId": "PUB-046",
+      "teamId": "XTN26-T02",
+      "title": "Thăm hỏi tại Mái ấm tình thương chùa Diệu Pháp",
+      "summary": "Đội hình Sự kiện đến thăm và giao lưu tại Mái ấm tình thương chùa Diệu Pháp.",
+      "status": "confirmed_activity",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg10?page=4",
+      "facebookUrl": "https://www.facebook.com/share/p/1ACB9EQzVu/"
+    },
+    {
+      "id": "XTN26-E11",
+      "relatedPostId": "PUB-038",
+      "teamId": "XTN26-T03",
+      "title": "Trao 6 suất học bổng Tiếp sức tới trường",
+      "summary": "Vị Xuân trao 6 suất học bổng Tiếp sức tới trường tại phường Thới An, TP.HCM.",
+      "status": "confirmed_activity",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg10?page=4",
+      "facebookUrl": "https://www.facebook.com/share/p/1CG7VXFmaV/"
+    },
+    {
+      "id": "XTN26-E12",
+      "relatedPostId": "PUB-069",
+      "teamId": "XTN26-T03",
+      "title": "Ngày hội Khai xuân Công nghệ tại xã Tân Nhựt",
+      "summary": "Đội hình Vị Xuân tổ chức Ngày hội Khai xuân Công nghệ tại xã Tân Nhựt, TP.HCM.",
+      "status": "confirmed_activity",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg4?page=73",
+      "facebookUrl": "https://www.facebook.com/share/p/16yrZjt2Nc/"
+    },
+    {
+      "id": "XTN26-E13",
+      "teamId": "XTN26-T03",
+      "title": "Tọa đàm AI trong học tập tại Trường THPT Tân Túc",
+      "summary": "Đội hình Vị Xuân tổ chức tọa đàm về ứng dụng AI trong học tập tại Trường THPT Tân Túc.",
+      "status": "confirmed_activity",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg4?page=72"
+    },
+    {
+      "id": "XTN26-E14",
+      "relatedPostId": "PUB-080",
+      "teamId": "XTN26-T08",
+      "title": "Ngày hội địa phương tại Trung tâm Nhân đạo Quê Hương",
+      "summary": "Các đội hình tổ chức văn nghệ và trò chơi trong Ngày hội địa phương tại Trung tâm Nhân đạo Quê Hương.",
+      "status": "confirmed_activity",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/xuan-tinh-nguyen-2026-nhin-lai-dem-ngay-hoi-dia-phuong",
+      "facebookUrl": "https://www.facebook.com/share/p/16yoTsKk21/",
+      "photos": [
+        {
+          "file": "ngay-hoi-dia-phuong-1.jpg",
+          "alt": "Hoạt động tại Ngày hội địa phương"
+        },
+        {
+          "file": "ngay-hoi-dia-phuong-2.jpg",
+          "alt": "Các chiến sĩ trong chương trình văn nghệ Ngày hội địa phương"
+        }
+      ]
+    },
+    {
+      "id": "XTN26-E15",
+      "relatedPostId": "PUB-076",
+      "teamId": "XTN26-T03",
+      "title": "Gói bánh tét trao gửi bà con",
+      "summary": "Các chiến sĩ đội hình Vị Xuân cùng gói bánh tét để gửi đến bà con dịp Tết.",
+      "status": "confirmed_activity",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg4?page=73",
+      "facebookUrl": "https://www.facebook.com/share/p/1DS7i4vGmv/"
+    },
+    {
+      "id": "PUB-001",
+      "teamId": "XTN26-T03",
+      "title": "Vé số Xuân Yêu Thương",
+      "summary": "Vị Xuân 7 giới thiệu chương trình vé số gây quỹ cho hoạt động tình nguyện tại địa phương.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/xuan-tinh-nguyen-2026-ve-so-xuan-yeu-thuong-khoi-loc-tan-nien-gieo-mam-hy-vong",
+      "facebookUrl": "https://www.facebook.com/share/p/1D1LCw4isR/"
+    },
+    {
+      "id": "PUB-003",
+      "teamId": "XTN26-T03",
+      "title": "Gian hàng gây quỹ Vị Xuân 7",
+      "summary": "Vị Xuân 7 giới thiệu gian hàng gây quỹ trong khuôn khổ chiến dịch.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/vi-xuan-7-gian-hang-gay-quy-xuan-tinh-nguyen-2026?page=4",
+      "facebookUrl": "https://www.facebook.com/share/p/17pko4pf11/"
+    },
+    {
+      "id": "PUB-005",
+      "teamId": "XTN26-T05",
+      "title": "Buổi gặp mặt đầu tiên của Vì Đàn Em",
+      "summary": "Đội hình Vì Đàn Em gặp gỡ các chiến sĩ và khởi động hành trình tình nguyện.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg11?page=11",
+      "facebookUrl": "https://www.facebook.com/share/p/1BsQ4K2CWE/"
+    },
+    {
+      "id": "PUB-009",
+      "teamId": "XTN26-T05",
+      "title": "Ngày đầu gieo chữ",
+      "summary": "Vì Đàn Em kể lại ngày dạy học đầu tiên của đội hình trong chiến dịch.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg1?page=2",
+      "facebookUrl": "https://www.facebook.com/share/p/1AtZviALWU/"
+    },
+    {
+      "id": "PUB-011",
+      "teamId": "XTN26-T07",
+      "title": "Buổi gặp mặt đầu tiên của Xuân Công nghệ",
+      "summary": "Các chiến sĩ Xuân Công nghệ làm quen, trao đổi ý tưởng và chuẩn bị cho các ngày hội công nghệ thông tin.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/buoi-gap-mat-dau-tien-doi-hinh-xuan-cong-nghe",
+      "facebookUrl": "https://www.facebook.com/share/p/19jK6Eqno2/"
+    },
+    {
+      "id": "PUB-013",
+      "teamId": "XTN26-T04",
+      "title": "Móc khóa gây quỹ",
+      "summary": "Đội hình Máy tính cũ – Tri thức mới giới thiệu móc khóa gây quỹ cho chiến dịch.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/doi-hinh-may-tinh-cu-tri-thuc-moi-moc-khoa-gay-quy",
+      "facebookUrl": "https://www.facebook.com/share/p/1C7bEK35k7/"
+    },
+    {
+      "id": "PUB-025",
+      "teamId": "XTN26-X01",
+      "title": "Buổi gặp mặt đầu tiên của Gu Xuân",
+      "summary": "Gu Xuân ghi lại buổi gặp đầu tiên của các thành viên tham gia dự án.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg4?page=80",
+      "facebookUrl": "https://www.facebook.com/share/p/1DFaUvdQXm/"
+    },
+    {
+      "id": "PUB-028",
+      "teamId": "XTN26-T07",
+      "title": "Nhìn lại sân chơi khoa học – công nghệ",
+      "summary": "Xuân Công nghệ tổng kết hoạt động sân chơi khoa học và công nghệ.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg4?page=79",
+      "facebookUrl": "https://www.facebook.com/share/p/1BhZVV7Hx5/"
+    },
+    {
+      "id": "PUB-034",
+      "teamId": "XTN26-T02",
+      "title": "Phát cơm thiện nguyện",
+      "summary": "Đội hình Sự kiện chia sẻ hoạt động phát cơm thiện nguyện trong chiến dịch.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg10?page=4",
+      "facebookUrl": "https://www.facebook.com/share/p/1DTV1jNJus/"
+    },
+    {
+      "id": "PUB-041",
+      "teamId": "XTN26-T03",
+      "title": "Kết quả vé số Xuân Yêu Thương",
+      "summary": "Vị Xuân 7 công bố kết quả chương trình vé số gây quỹ Xuân Yêu Thương.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg10?page=4",
+      "facebookUrl": "https://www.facebook.com/share/p/1AXcSktYb8/"
+    },
+    {
+      "id": "PUB-050",
+      "teamId": "XTN26-X01",
+      "title": "Gu Xuân nhìn lại một buổi Sprint Review",
+      "summary": "Gu Xuân chia sẻ buổi tổng kết công việc theo tuần và kế hoạch cho giai đoạn tiếp theo của dự án.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg4?page=75",
+      "facebookUrl": "https://www.facebook.com/share/p/17LURWv8f5/"
+    },
+    {
+      "id": "PUB-052",
+      "teamId": "XTN26-T03",
+      "title": "Công trình thanh niên Áo mới đón Xuân",
+      "summary": "Đội hình Vị Xuân giới thiệu công trình thanh niên Áo mới đón Xuân trong chương trình Tết Cống Hiến.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg4?page=68",
+      "facebookUrl": "https://www.facebook.com/share/p/1Zp4shEJHU/"
+    },
+    {
+      "id": "PUB-053",
+      "teamId": "XTN26-T02",
+      "title": "Phát quà cho bệnh nhi",
+      "summary": "Đội hình Sự kiện ghi lại hoạt động tặng quà cho bệnh nhi.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg10?page=4",
+      "facebookUrl": "https://www.facebook.com/share/p/17zLSy57Cz/"
+    },
+    {
+      "id": "PUB-055",
+      "teamId": "XTN26-T08",
+      "title": "Bữa cơm nghĩa tình",
+      "summary": "Đội hình Nhịp Xuân ghi lại hoạt động Bữa cơm nghĩa tình trong chiến dịch.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg4?page=68",
+      "facebookUrl": "https://www.facebook.com/share/p/1Mg8NHb5A3/",
+      "photos": [
+        {
+          "file": "bua-com-nghia-tinh-1.jpg",
+          "alt": "Chiến sĩ Nhịp Xuân thăm hỏi người cao tuổi"
+        },
+        {
+          "file": "bua-com-nghia-tinh-2.jpg",
+          "alt": "Các chiến sĩ tham gia Bữa cơm nghĩa tình"
+        }
+      ]
+    },
+    {
+      "id": "PUB-056",
+      "teamId": "XTN26-T03",
+      "title": "Tết Công nghệ – Lớp học i tờ",
+      "summary": "Đội hình Vị Xuân chia sẻ về Lớp học i tờ trong chương trình Tết Công nghệ.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg4?page=68",
+      "facebookUrl": "https://www.facebook.com/share/p/1AfbEwALhJ/"
+    },
+    {
+      "id": "PUB-057",
+      "teamId": "XTN26-T06",
+      "title": "Bước nhảy tự hào – Vững vàng niềm tin",
+      "summary": "Đội hình Văn nghệ Xung kích chia sẻ video Bước nhảy tự hào – Vững vàng niềm tin.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg4?page=68",
+      "facebookUrl": "https://www.facebook.com/share/v/1aWKNKtFgt/"
+    },
+    {
+      "id": "PUB-059",
+      "teamId": "XTN26-T03",
+      "title": "Tết Tri ân – Trao quà Mẹ Việt Nam Anh hùng",
+      "summary": "Đội hình Vị Xuân ghi lại hoạt động trao quà tri ân Mẹ Việt Nam Anh hùng.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg4?page=68",
+      "facebookUrl": "https://www.facebook.com/share/p/17ve7ZxvwR/"
+    },
+    {
+      "id": "PUB-066",
+      "teamId": "XTN26-T05",
+      "title": "Ngoại khóa về tình yêu biển đảo",
+      "summary": "Đội hình Vì Đàn Em chia sẻ buổi ngoại khóa về tình yêu biển đảo.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg16?page=2",
+      "facebookUrl": "https://www.facebook.com/share/p/1GX5ZEYGBE/"
+    },
+    {
+      "id": "PUB-067",
+      "teamId": "XTN26-T05",
+      "title": "Chuyện lớp học – Ngày dạy cuối cùng",
+      "summary": "Vì Đàn Em nhìn lại buổi dạy cuối trong chiến dịch.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg4?page=73",
+      "facebookUrl": "https://www.facebook.com/share/p/17gDs4Tsfi/"
+    },
+    {
+      "id": "PUB-068",
+      "teamId": "XTN26-T03",
+      "title": "Trang trí Góc Xuân ở Tân Nhựt",
+      "summary": "Các chiến sĩ Vị Xuân trang trí Góc Xuân tại xã Tân Nhựt, TP.HCM.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/doi-hinh-vi-xuan-7-trang-tri-goc-xuan-xa-tan-nhut",
+      "facebookUrl": "https://www.facebook.com/share/p/1AYobWh4RR/"
+    },
+    {
+      "id": "PUB-074",
+      "teamId": "XTN26-T05",
+      "title": "Làm quen công nghệ thông tin",
+      "summary": "Vì Đàn Em chia sẻ hoạt động giúp các em làm quen với công nghệ thông tin.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg4?page=73",
+      "facebookUrl": "https://www.facebook.com/share/p/1H3ceVHdca/"
+    },
+    {
+      "id": "PUB-075",
+      "teamId": "XTN26-T05",
+      "title": "Vì Đàn Em nấu ăn cho em",
+      "summary": "Các chiến sĩ Vì Đàn Em chuẩn bị bữa ăn cho các em trong chiến dịch.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/bai-viet/doi-hinh-vi-dan-em-nau-cho-em",
+      "facebookUrl": "https://www.facebook.com/share/p/1KnvLzRb9F/"
+    },
+    {
+      "id": "PUB-081",
+      "teamId": "XTN26-T03",
+      "title": "Tết Cống Hiến – Sân chơi Hoa Xuân",
+      "summary": "Đội hình Vị Xuân chia sẻ hoạt động Sân chơi Hoa Xuân.",
+      "status": "verified_post",
+      "uitUrl": "https://www.uit.edu.vn/sdgs/sdg4?page=72",
+      "facebookUrl": "https://www.facebook.com/share/p/1CYtCLeuVB/"
+    }
+  ]
+}

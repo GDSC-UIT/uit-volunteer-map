@@ -12,6 +12,7 @@ import { Campaign } from '../entities/Campaign.js';
 import { Post } from '../entities/Post.js';
 import { Photo } from '../entities/Photo.js';
 import { Attachment } from '../entities/Attachment.js';
+import { InitialPostgres1795104000001 } from './postgres/1795104000001-InitialPostgres.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -42,16 +43,49 @@ export function ensureDatabaseDirectory(databasePath: string): void {
 
 const migrationExtension = extname(__filename) === '.ts' ? '.ts' : '.js';
 export const DATABASE_PATH = resolveDatabasePath();
-ensureDatabaseDirectory(DATABASE_PATH);
-
-export const AppDataSource = new DataSource({
-  type: 'sqlite',
-  database: DATABASE_PATH,
+const common = {
   synchronize: false,
   logging: process.env.NODE_ENV === 'development',
   entities: [User, Account, Role, Team, Campaign, Post, Photo, Attachment],
-  migrations: [
-    join(__dirname, `./migrations/*${migrationExtension}`),
-  ],
-  subscribers: [],
-});
+};
+
+function createDataSource() {
+  const connection = process.env.DATABASE_URL?.trim();
+  if (!connection) {
+    ensureDatabaseDirectory(DATABASE_PATH);
+    return new DataSource({
+      ...common,
+      type: 'sqlite',
+      database: DATABASE_PATH,
+      migrations: [join(__dirname, `./migrations/*${migrationExtension}`)],
+    });
+  }
+
+  try {
+    const url = new URL(connection);
+    if (!['postgres:', 'postgresql:'].includes(url.protocol) || !url.hostname || !url.username || url.pathname.length < 2) {
+      throw new Error('Invalid connection URL');
+    }
+    const local = url.hostname === '127.0.0.1' || url.hostname === 'localhost';
+    return new DataSource({
+      ...common,
+      type: 'postgres',
+      host: url.hostname,
+      port: url.port ? Number(url.port) : 5432,
+      username: decodeURIComponent(url.username),
+      password: decodeURIComponent(url.password),
+      database: decodeURIComponent(url.pathname.slice(1)),
+      schema: 'public',
+      ssl: local ? false : { rejectUnauthorized: true },
+      extra: { enableChannelBinding: !local, idleTimeoutMillis: 10_000 },
+      connectTimeoutMS: 15_000,
+      poolSize: 5,
+      installExtensions: false,
+      migrations: [InitialPostgres1795104000001],
+    });
+  } catch {
+    throw new Error('DATABASE_URL must be a valid PostgreSQL connection URL.');
+  }
+}
+
+export const AppDataSource = createDataSource();

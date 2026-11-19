@@ -2,9 +2,13 @@ import { Router } from 'express';
 import { HTTP_STATUS, HEALTH_MESSAGES } from '@uit-volunteer-map/shared';
 import type { ApiResponse } from '@uit-volunteer-map/shared';
 import { databaseReady } from '../config/readiness.js';
+import { AppDataSource } from '../db/data-source.js';
 import { asyncRoute } from '../middleware/asyncRoute.js';
 
 const router = Router();
+
+// Render probes liveness frequently. Keep those requests from waking Neon.
+router.get('/live', (_req, res) => { res.sendStatus(200); });
 
 interface HealthData {
   status: string;
@@ -13,7 +17,7 @@ interface HealthData {
 }
 
 router.get('/', asyncRoute(async (_req, res) => {
-  const ready = await databaseReady();
+  const ready = await databaseReady(AppDataSource);
   const response: ApiResponse<HealthData> = {
     success: ready,
     data: {

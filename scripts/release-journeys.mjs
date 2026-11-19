@@ -11,6 +11,7 @@ import { releaseApiChecks } from './release-api-checks.mjs';
 import { releaseBrowserChecks } from './release-browser-checks.mjs';
 import { coreBrowserChecks } from './core-browser-checks.mjs';
 import { chunkRecoveryCheck } from './chunk-recovery-check.mjs';
+import { createTestDatabase } from './test-postgres.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const output = resolve(root, process.env.RELEASE_EVIDENCE_DIR || 'output/playwright/r14');
@@ -28,7 +29,8 @@ const interrupted = () => {
   void browser?.close().catch(() => undefined);
 };
 process.once('SIGINT', interrupted); process.once('SIGTERM', interrupted);
-let db, apiServer, webServer, browser;
+let db, apiServer, webServer, browser, postgres;
+const usePostgres = process.argv.includes('--postgres');
 const timeout = setTimeout(interrupted, 300000);
 const report = { node: process.version, passed: false, checks: [], browser: [], coreAcceptance: [], cleanup: false };
 async function runNode(args, env = process.env) {
@@ -52,7 +54,9 @@ try {
     await runNode(['scripts/check-homepage-assets.mjs', target]);
   }
   const webPort = await availablePort(), webOrigin = `http://127.0.0.1:${webPort}`;
+  if (usePostgres) postgres = await createTestDatabase();
   Object.assign(process.env, { DB_PATH: join(work, 'release.sqlite'), DATABASE_PATH: join(work, 'release.sqlite'), NODE_ENV: 'test',
+    DATABASE_URL: postgres?.url ?? '',
     JWT_SECRET: 'r14-disposable-release-only', JWT_EXPIRES_IN: '1h', CORS_ORIGINS: webOrigin, LOGIN_RATE_LIMIT_MAX: '10', LOGIN_RATE_LIMIT_WINDOW_SECONDS: '900' });
   ({ AppDataSource: db } = await import('../packages/backend/dist/db/data-source.js'));
   assert.equal(db.options.synchronize, false);
@@ -61,10 +65,13 @@ try {
   const health = () => fetch(api + '/api/health', { signal: AbortSignal.timeout(5000) });
   assert.equal((await health()).status, 503);
   await db.initialize();
-  const schemaBeforeProbe = await db.query('SELECT name, sql FROM sqlite_master ORDER BY name');
+  const schemaQuery = usePostgres
+    ? "SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public' ORDER BY tablename"
+    : 'SELECT name, sql FROM sqlite_master ORDER BY name';
+  const schemaBeforeProbe = await db.query(schemaQuery);
   assert.equal((await health()).status, 503);
-  assert.deepEqual(await db.query('SELECT name, sql FROM sqlite_master ORDER BY name'), schemaBeforeProbe);
-  const applied = await db.runMigrations(); assert.equal(applied.length, 15);
+  assert.deepEqual(await db.query(schemaQuery), schemaBeforeProbe);
+  const applied = await db.runMigrations(); assert.equal(applied.length, usePostgres ? 1 : 15);
   assert.equal((await db.runMigrations()).length, 0);
   const ready = await health(); assert.equal(ready.status, 200); assert.equal((await ready.json()).data.status, 'healthy');
   report.readiness = { beforeInitialization: 503, beforeMigrations: 503, afterMigrations: 200, probeSchemaUnchanged: true };
@@ -91,7 +98,7 @@ try {
     } catch { res.writeHead(404).end(); }
   });
   await listen(webServer, webPort);
-  report.checks.push('15 fresh migrations; restart no-op; demo seed twice; source and built map hashes/provenance');
+  report.checks.push(`${applied.length} fresh migrations on ${db.options.type}; restart no-op; demo seed twice; source and built map hashes/provenance`);
   report.checks.push(...await releaseApiChecks({ base: api + '/api', webOrigin, db, demo }));
   console.log('Migrated API invariants PASS; starting real browser journeys.');
   browser = await chromium.launch({ headless: !process.argv.includes('--headed') });
@@ -106,7 +113,7 @@ try {
     finally { await context.close(); }
   }
   report.chunkRecovery = await chunkRecoveryCheck({ browser, origin: webOrigin, demo, output, dist });
-  assert.deepEqual(await db.query('PRAGMA foreign_key_check'), []);
+  if (!usePostgres) assert.deepEqual(await db.query('PRAGMA foreign_key_check'), []);
   report.passed = true;
 } catch (error) {
   report.error = error.message;
@@ -118,6 +125,7 @@ try {
     server.closeAllConnections(); await new Promise(done => server.close(done));
   }
   if (db?.isInitialized) await db.destroy();
+  if (postgres) await postgres.close();
   for (const child of children) { try { await stopProcess(child); } catch (error) { errors.push(error); } }
   const child = relative(tempRoot, resolve(work));
   if (isAbsolute(child) || child.startsWith('..') || !basename(work).startsWith('uit-r14-journeys-')) throw Error('Unsafe cleanup target');

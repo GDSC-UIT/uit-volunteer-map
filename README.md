@@ -1,19 +1,21 @@
 # UIT Volunteer Map
 
+See the [production and XTN 2026 runbook](docs/production-xtn-2026.md) for the Render Blueprint, archival import and production checks.
+
 A UIT volunteer-campaign map and publishing application. Guests browse campaigns,
 teams and activity posts; Admins provision Leader accounts and assignments;
 Leaders manage their own team and posts. This checkout contains the completed local R01–R15 MVP and bounded R16 route-loading work. See the [release-candidate handoff](docs/release-readiness.md) for executed acceptance and production promotion requirements. It is not a claim of a deployed or approved v1 release.
 
 ## Implemented scope
 
-- Public campaign/team/post reads, ordered galleries and reloadable links backed by SQLite APIs. Homepage photographs are packaged from the existing source URLs, with [separate provenance](packages/frontend/public/homepage/README.md), and the carousel starts paused.
+- Public campaign/team/post reads, ordered galleries and reloadable links. Homepage photographs are packaged from the existing source URLs, with [separate provenance](packages/frontend/public/homepage/README.md), and the carousel starts paused.
 - A packaged Vietnam outline with markers bound to each post's persisted coordinates; keyboard marker selection opens that post.
 - Admin campaign/team management, Leader-account provisioning/deactivation and coherent team assignment.
 - Leader own-team resolution, team editing and persistent post create/edit/delete with server-derived authorship and cross-team write protection.
 - Transactional database media writes, session verification/expiry/logout cleanup, explicit origin policy and bounded login attempts.
 
 The stack is React 19, TypeScript, Vite 6, Tailwind CSS, TanStack Query, React Router
-and Leaflet on the frontend; Express 4, TypeORM, SQLite, Zod, JWT and bcrypt on the
+and Leaflet on the frontend; Express 4, TypeORM, PostgreSQL in production, SQLite for local development, Zod, JWT and bcrypt on the
 backend. `packages/shared` exports runtime JS and shared transport DTOs. Cloudinary
 unsigned upload is the optional existing media path; API secrets never belong in
 frontend variables.
