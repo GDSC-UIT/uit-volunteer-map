@@ -34,15 +34,15 @@ const StatItem = ({ num, label }: { num: string; label: string }) => {
   const animatedNum = useCountUp(parseInt(num), 2000);
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center min-w-0">
       {/* CỘT SỐ: Cố định độ rộng và ép nội dung sang phải */}
-      <div className="flex justify-end w-30 mr-6">
-        <span className="stats-number text-[80px] b">{animatedNum}</span>
+      <div className="flex justify-end w-20 sm:w-30 shrink-0 mr-3 sm:mr-6">
+        <span className="stats-number text-[52px] sm:text-[80px]">{animatedNum}</span>
       </div>
 
       {/* CỘT CHỮ: Căn lề trái tự nhiên */}
       <div className="flex-1">
-        <span className="stats-label text-[35px] uppercase">{label}</span>
+        <span className="stats-label text-[26px] sm:text-[35px] uppercase">{label}</span>
       </div>
     </div>
   );
@@ -56,7 +56,7 @@ const Statistic = () => {
   ];
 
   return (
-    <div className="flex flex-col gap-2 pl-12 justify-center">
+    <div className="campaign-statistics flex flex-col gap-2 justify-center">
       {stats.map((item, index) => (
         <StatItem key={index} num={item.num} label={item.label} />
       ))}

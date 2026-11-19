@@ -333,7 +333,15 @@ const MapView: React.FC<MapViewProps> = ({ onMarkerClick, onMarkerHover }) => {
     };
   }, [onMarkerClick, onMarkerHover]);
 
-  return <div id="map" style={{ width: "80vw", height: "80vh" , zIndex: 22, isolation: "isolate"}} />;
+  useEffect(() => {
+    const container = document.getElementById("map");
+    if (!container) return;
+    const observer = new ResizeObserver(() => mapRef.current?.invalidateSize({ pan: false }));
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
+  return <div id="map" aria-label="Bản đồ chiến dịch" style={{ width: "100%", height: "100%", zIndex: 1, isolation: "isolate" }} />;
 };
 
 export default MapView;

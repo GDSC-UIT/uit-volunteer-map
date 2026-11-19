@@ -89,7 +89,7 @@ export default function MyTeamPage() {
         {/* ===== HEADER ===== */}
         <section className="max-w-4xl mx-auto px-4 mb-8">
           <div className="flex items-center justify-center gap-2">
-            <h1 className="text-3xl font-black">
+            <h1 className="text-2xl sm:text-3xl wrap-anywhere font-black">
               Tên đội hình {teamId}
             </h1>
           </div>
@@ -99,17 +99,16 @@ export default function MyTeamPage() {
         {/* ===== IMAGES GALLERY ===== */}
         <section className="max-w-5xl mx-auto px-4 mb-12 flex flex-col items-center">
 
-          <div className="relative flex items-end justify-center">
+          <div className="leader-gallery">
 
             {/* MAIN IMAGE */}
-            <div className="relative z-20 w-110 h-70 rounded-2xl overflow-hidden shadow-lg bg-white flex items-center justify-center">
+            <div className="leader-gallery-main relative z-20 rounded-2xl overflow-hidden shadow-lg bg-white flex items-center justify-center">
               <span className="text-gray-600 text-sm">Ảnh chính</span>
             </div>
 
             {/* LEFT IMAGE */}
             <div className="
-              absolute -left-40 bottom-12.5
-              z-10 w-65 h-45
+              leader-gallery-side leader-gallery-left z-10
               rounded-xl overflow-hidden shadow-md bg-white
               flex items-center justify-center
             ">
@@ -118,8 +117,7 @@ export default function MyTeamPage() {
 
             {/* RIGHT IMAGE */}
             <div className="
-              absolute -right-40 bottom-12.5
-              z-10 w-65 h-45
+              leader-gallery-side leader-gallery-right z-10
               rounded-xl overflow-hidden shadow-md bg-white
               flex items-center justify-center
             ">
@@ -129,12 +127,12 @@ export default function MyTeamPage() {
           </div>
 
           {/* EDIT BUTTON */}
-          <div className="w-full max-w-240 flex justify-end mr-1">
+          <div className="w-full max-w-240 flex justify-end mt-3">
             <button
               aria-label="Chỉnh sửa thông tin đội hình" onClick={() => setShowOverall(true)}
-              className="flex items-center gap-1 text-xs font-bold text-gray-600 hover:scale-110 transition mr-20"
+              className="flex items-center gap-1 text-xs font-bold text-gray-600 min-h-11 px-3 hover:scale-110 transition"
             >
-              <img alt="" src={editIcon} className="w-7 h-7 opacity-70" />
+              <img alt="" src={editIcon} className="w-7 h-7 opacity-70" /> Chỉnh sửa
             </button>
           </div>
 
@@ -142,7 +140,7 @@ export default function MyTeamPage() {
 
         {/* ===== DESCRIPTION ===== */}
         <section className="max-w-3xl mx-auto px-4 text-center mb-12">
-          <p className="text-sm font-bold leading-relaxed text-black">
+          <p className="text-sm font-bold wrap-anywhere leading-relaxed text-black">
             Mô tả đội hình
           </p>
         </section>
@@ -152,9 +150,9 @@ export default function MyTeamPage() {
           <h2 className="text-center font-black mb-6">Ban chỉ huy</h2>
 
 
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 min-[480px]:grid-cols-3 gap-6 sm:gap-8">
             {commanders.map((_, i) => (
-              <div key={i} className="text-center">
+              <div key={i} className="min-w-0 text-center wrap-anywhere">
                 <button aria-label={`Chỉnh sửa ban chỉ huy ${i + 1}`}
                   onClick={() => setShowRole(true)}
                   className="cursor-pointer w-24 h-24 mx-auto rounded-full bg-white/70 backdrop-blur-sm flex items-center justify-center mb-4"
@@ -170,18 +168,18 @@ export default function MyTeamPage() {
 
         {/* ===== POSTS ===== */}
         <section className="max-w-4xl mx-auto px-4 mb-4">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex flex-wrap gap-3 justify-between items-center mb-4">
             <h2 className="font-black">Hoạt động</h2>
 
             <button
               onClick={() => setPostStep("upload")}
-              className="text-xs font-bold underline"
+              className="min-h-11 text-sm font-bold underline"
             >
               + Tạo bài đăng
             </button>
           </div>
 
-          <div className="grid grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-6">
             {activities.map((_, i) => (
               <div key={i} className="relative group">
 
@@ -194,75 +192,17 @@ export default function MyTeamPage() {
                   <div className="w-12 h-12 border-2 border-white rotate-45" />
                 </Link>
 
-                {/* ACTION BUTTONS (DELETE + EDIT) */}
-                <div
-                  className="
-                    absolute inset-0 
-                    opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 
-                    transition
-                    flex items-center justify-center
-                  "
-                >
-
-                  {/* CONTAINER chứa 2 nút + dấu gạch */}
-                  <div className="relative w-full h-full">
-
-                    {/* DELETE BUTTON */}
-                    <button aria-label={`Xóa bài đăng ${i + 1}`}
-                      onClick={() => {
-                        setSelectedPost(i);
-                        setShowDeletePopup(true);
-                      }}
-                      className="
-                        absolute
-                        top-[18%] left-[18%]
-                        w-14 h-14 rounded-full bg-red-400
-                        flex items-center justify-center
-                        hover:scale-110 transition
-                        shadow-lg z-20
-                      "
-                    >
-                      <img alt="" src={deleteIcon} className="w-6 h-6" />
-                    </button>
-
-                    {/* DẤU GẠCH CHÉO Ở GIỮA */}
-                <div
-                  className="
-                    absolute inset-0
-                    flex items-center justify-center
-                    pointer-events-none
-                  "
-                >
-                  <div
-                    className="
-                      w-[120px] h-[6px]
-                      bg-white
-                      -rotate-45
-                      rounded-full
-                      opacity-100
-                      shadow
-                    "
-                  />
-                </div>
-
-
-                    {/* EDIT BUTTON */}
-                    <Link
-                      aria-label={`Xem bài đăng ${i + 1}`} to={`post/${i + 1}`}
-                      state={{ backgroundLocation: location }}
-                      className="
-                        absolute
-                        bottom-[18%] right-[18%]
-                        w-14 h-14 rounded-full bg-gray-400
-                        flex items-center justify-center
-                        hover:scale-110 transition
-                        shadow-lg z-20
-                      "
-                    >
-                      <img alt="" src={editIcon} className="w-6 h-6" />
-                    </Link>
-
-                  </div>
+                <div className="flex flex-wrap justify-center gap-3 mt-3">
+                  <button aria-label={`Xóa bài đăng ${i + 1}`}
+                    onClick={() => { setSelectedPost(i); setShowDeletePopup(true); }}
+                    className="w-11 h-11 rounded-full bg-red-400 flex items-center justify-center shadow-lg">
+                    <img alt="" src={deleteIcon} className="w-6 h-6" />
+                  </button>
+                  <Link aria-label={`Chỉnh sửa bài đăng ${i + 1}`} to={`post/${i + 1}`}
+                    state={{ backgroundLocation: location }}
+                    className="w-11 h-11 rounded-full bg-gray-400 flex items-center justify-center shadow-lg">
+                    <img alt="" src={editIcon} className="w-6 h-6" />
+                  </Link>
                 </div>
 
               </div>

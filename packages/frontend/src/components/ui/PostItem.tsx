@@ -8,13 +8,13 @@ export function PostItem({ post }: PostItemProps) {
   return (
     <div
       key={post.postId}
-      className="rounded-3xl p-6 shadow-xl
+      className="min-w-0 rounded-3xl p-4 lg:p-6 shadow-xl
                             bg-linear-to-b
                             from-[#F7CC1D]
                             via-[#FCF2DA]
                             to-[#F7CC1D]"
     >
-      <h3 className="font-black text-xl text-black mb-4">{post.title}</h3>
+      <h3 className="font-black wrap-anywhere text-lg lg:text-xl text-black mb-4">{post.title}</h3>
       <div className="bg-[#DDE1E6] rounded-2xl aspect-4/3 mb-4 flex items-center justify-center">
         <img src={post.photos?.[0]} alt={post.title} className="w-full h-full object-cover rounded-2xl" />
       </div>

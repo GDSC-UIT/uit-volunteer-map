@@ -1,0 +1,107 @@
+[
+  {
+    "prefix": "before",
+    "name": "campaign",
+    "width": 375,
+    "height": 900,
+    "documentWidth": 375
+  },
+  {
+    "prefix": "before",
+    "name": "team",
+    "width": 375,
+    "height": 900,
+    "documentWidth": 375
+  },
+  {
+    "prefix": "before",
+    "name": "leader",
+    "width": 375,
+    "height": 900,
+    "documentWidth": 375
+  },
+  {
+    "prefix": "before",
+    "name": "campaign",
+    "width": 768,
+    "height": 900,
+    "documentWidth": 768
+  },
+  {
+    "prefix": "before",
+    "name": "team",
+    "width": 768,
+    "height": 900,
+    "documentWidth": 768
+  },
+  {
+    "prefix": "before",
+    "name": "leader",
+    "width": 768,
+    "height": 900,
+    "documentWidth": 768
+  },
+  {
+    "prefix": "before",
+    "name": "campaign",
+    "width": 1024,
+    "height": 900,
+    "documentWidth": 1024
+  },
+  {
+    "prefix": "before",
+    "name": "team",
+    "width": 1024,
+    "height": 900,
+    "documentWidth": 1024
+  },
+  {
+    "prefix": "before",
+    "name": "leader",
+    "width": 1024,
+    "height": 900,
+    "documentWidth": 1024
+  },
+  {
+    "prefix": "before",
+    "name": "campaign",
+    "width": 1440,
+    "height": 900,
+    "documentWidth": 1440
+  },
+  {
+    "prefix": "before",
+    "name": "team",
+    "width": 1440,
+    "height": 900,
+    "documentWidth": 1440
+  },
+  {
+    "prefix": "before",
+    "name": "leader",
+    "width": 1440,
+    "height": 900,
+    "documentWidth": 1440
+  },
+  {
+    "prefix": "before",
+    "name": "campaign",
+    "width": 375,
+    "height": 667,
+    "documentWidth": 375
+  },
+  {
+    "prefix": "before",
+    "name": "team",
+    "width": 375,
+    "height": 667,
+    "documentWidth": 375
+  },
+  {
+    "prefix": "before",
+    "name": "leader",
+    "width": 375,
+    "height": 667,
+    "documentWidth": 375
+  }
+]
