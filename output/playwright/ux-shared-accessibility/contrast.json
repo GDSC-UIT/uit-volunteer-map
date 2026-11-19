@@ -1,0 +1,58 @@
+[
+  {
+    "role": "Resting label",
+    "foreground": "#595959",
+    "background": "#FFFFFF",
+    "ratio": 7.0,
+    "passesNormalText": true
+  },
+  {
+    "role": "Floating label and focus",
+    "foreground": "#023A54",
+    "background": "#FFFFFF",
+    "ratio": 12.1,
+    "passesNormalText": true
+  },
+  {
+    "role": "Amber action",
+    "foreground": "#000000",
+    "background": "#F4B400",
+    "ratio": 11.38,
+    "passesNormalText": true
+  },
+  {
+    "role": "Error text",
+    "foreground": "#8B0000",
+    "background": "#FFFFFF",
+    "ratio": 10.01,
+    "passesNormalText": true
+  },
+  {
+    "role": "Red header",
+    "foreground": "#FFFFFF",
+    "background": "#C4161C",
+    "ratio": 6.04,
+    "passesNormalText": true
+  },
+  {
+    "role": "Picker text",
+    "foreground": "#FFFFFF",
+    "background": "#1F2329",
+    "ratio": 15.78,
+    "passesNormalText": true
+  },
+  {
+    "role": "Active navigation",
+    "foreground": "#8B0000",
+    "background": "#F5B311",
+    "ratio": 5.41,
+    "passesNormalText": true
+  },
+  {
+    "role": "Statistics",
+    "foreground": "#8B0000",
+    "background": "#F4B212",
+    "ratio": 5.35,
+    "passesNormalText": true
+  }
+]

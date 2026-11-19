@@ -1,0 +1,26 @@
+[
+  {
+    "width": 375,
+    "height": 667,
+    "check": "simulated partial upload/retry, cached success, retained draft and editor keyboard/bounds",
+    "passed": true
+  },
+  {
+    "width": 768,
+    "height": 900,
+    "check": "simulated partial upload/retry, cached success, retained draft and editor keyboard/bounds",
+    "passed": true
+  },
+  {
+    "width": 1024,
+    "height": 900,
+    "check": "simulated partial upload/retry, cached success, retained draft and editor keyboard/bounds",
+    "passed": true
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "check": "simulated partial upload/retry, cached success, retained draft and editor keyboard/bounds",
+    "passed": true
+  }
+]

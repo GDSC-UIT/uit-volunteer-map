@@ -7,6 +7,7 @@ export default function LeaderDropdown() {
   const [open, setOpen] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
@@ -34,7 +35,7 @@ export default function LeaderDropdown() {
   return (
     <div className="relative" ref={dropdownRef}>
       {/* BUTTON */}
-      <button
+      <button ref={triggerRef} aria-expanded={open}
         onClick={() => setOpen(!open)}
         className="flex items-center gap-2 font-semibold"
       >
@@ -81,6 +82,7 @@ export default function LeaderDropdown() {
         >
           <button
             onClick={() => {
+              triggerRef.current?.focus();
               setOpen(false);
               setShowPopup(true);
             }}

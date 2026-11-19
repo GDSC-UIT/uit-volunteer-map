@@ -73,7 +73,7 @@ const EventCard: React.FC<EventCardProps> = ({ visible, data }) => {
           {displayData.title}
         </h2>
         
-        <p className="text-[#ED7A2D] text-[12px] font-bold uppercase tracking-widest mb-2">
+        <p className="text-[#8B0000] text-[12px] font-bold uppercase tracking-widest mb-2">
           {displayData.location}
         </p>
 

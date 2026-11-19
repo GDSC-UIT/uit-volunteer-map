@@ -61,7 +61,7 @@ const TeamItem = ({ team }: TeamItemProps) => {
       <div className="w-35 mr-10 shrink-0 flex justify-center relative z-10">
         <img
           src={banhChungPin}
-          alt="pin"
+          alt=""
           className="w-27.5 h-auto drop-shadow-lg transition-transform duration-500 hover:scale-110 hover:rotate-[5deg]"
         />
       </div>

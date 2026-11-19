@@ -38,8 +38,9 @@ export default function MyTeamPage() {
       {showRole && <FormationEditRole onClose={() => setShowRole(false)} />}
 
       {/* ===== POST CREATE POPUPS ===== */}
-      {postStep === "upload" && (
+      {postStep !== null && (
         <PostCreatePopup
+          open={postStep === "upload"}
           maxFiles={4}
           onComplete={(imageUrls) => {
             setUploadedImageUrls(imageUrls);
@@ -49,8 +50,10 @@ export default function MyTeamPage() {
         />
       )}
 
-      {postStep === "publish" && (
+      {postStep !== null && (
         <PostDetailPopup
+          open={postStep === "publish"}
+          onClose={() => { setPostStep(null); setUploadedImageUrls([]); }}
           imageUrls={uploadedImageUrls}
           onBack={() => setPostStep("upload")}
           onSubmit={() => {
@@ -62,6 +65,7 @@ export default function MyTeamPage() {
 
         {showDeletePopup && (
         <ConfirmDeletePopup
+          itemName={`bài đăng ${(selectedPost ?? 0) + 1}`}
           onConfirm={() => {
             console.log("Delete post:", selectedPost);
 
@@ -99,7 +103,7 @@ export default function MyTeamPage() {
 
             {/* MAIN IMAGE */}
             <div className="relative z-20 w-110 h-70 rounded-2xl overflow-hidden shadow-lg bg-white flex items-center justify-center">
-              <span className="text-gray-400 text-sm">Ảnh chính</span>
+              <span className="text-gray-600 text-sm">Ảnh chính</span>
             </div>
 
             {/* LEFT IMAGE */}
@@ -109,7 +113,7 @@ export default function MyTeamPage() {
               rounded-xl overflow-hidden shadow-md bg-white
               flex items-center justify-center
             ">
-              <span className="text-gray-400 text-sm">Ảnh phụ</span>
+              <span className="text-gray-600 text-sm">Ảnh phụ</span>
             </div>
 
             {/* RIGHT IMAGE */}
@@ -119,7 +123,7 @@ export default function MyTeamPage() {
               rounded-xl overflow-hidden shadow-md bg-white
               flex items-center justify-center
             ">
-              <span className="text-gray-400 text-sm">Ảnh phụ</span>
+              <span className="text-gray-600 text-sm">Ảnh phụ</span>
             </div>
 
           </div>
@@ -127,10 +131,10 @@ export default function MyTeamPage() {
           {/* EDIT BUTTON */}
           <div className="w-full max-w-240 flex justify-end mr-1">
             <button
-              onClick={() => setShowOverall(true)}
+              aria-label="Chỉnh sửa thông tin đội hình" onClick={() => setShowOverall(true)}
               className="flex items-center gap-1 text-xs font-bold text-gray-600 hover:scale-110 transition mr-20"
             >
-              <img src={editIcon} className="w-7 h-7 opacity-70" />
+              <img alt="" src={editIcon} className="w-7 h-7 opacity-70" />
             </button>
           </div>
 
@@ -151,12 +155,12 @@ export default function MyTeamPage() {
           <div className="grid grid-cols-3 gap-8">
             {commanders.map((_, i) => (
               <div key={i} className="text-center">
-                <div
+                <button aria-label={`Chỉnh sửa ban chỉ huy ${i + 1}`}
                   onClick={() => setShowRole(true)}
                   className="cursor-pointer w-24 h-24 mx-auto rounded-full bg-white/70 backdrop-blur-sm flex items-center justify-center mb-4"
                 >
                   <div className="w-8 h-8 rounded-full bg-white/60" />
-                </div>
+                </button>
                 <div className="text-xs font-black">Chức vụ</div>
                 <div className="text-xs font-bold text-gray-700">Họ và tên</div>
               </div>
@@ -183,7 +187,7 @@ export default function MyTeamPage() {
 
                 {/* POST THUMBNAIL */}
                 <Link
-                  to={`post/${i + 1}`}
+                  aria-label={`Xem bài đăng ${i + 1}`} to={`post/${i + 1}`}
                   state={{ backgroundLocation: location }}
                   className="bg-white/80 backdrop-blur-sm aspect-square flex items-center justify-center rounded-md hover:scale-105 transition"
                 >
@@ -194,7 +198,7 @@ export default function MyTeamPage() {
                 <div
                   className="
                     absolute inset-0 
-                    opacity-0 group-hover:opacity-100 
+                    opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 
                     transition
                     flex items-center justify-center
                   "
@@ -204,7 +208,7 @@ export default function MyTeamPage() {
                   <div className="relative w-full h-full">
 
                     {/* DELETE BUTTON */}
-                    <button
+                    <button aria-label={`Xóa bài đăng ${i + 1}`}
                       onClick={() => {
                         setSelectedPost(i);
                         setShowDeletePopup(true);
@@ -218,7 +222,7 @@ export default function MyTeamPage() {
                         shadow-lg z-20
                       "
                     >
-                      <img src={deleteIcon} className="w-6 h-6" />
+                      <img alt="" src={deleteIcon} className="w-6 h-6" />
                     </button>
 
                     {/* DẤU GẠCH CHÉO Ở GIỮA */}
@@ -244,7 +248,7 @@ export default function MyTeamPage() {
 
                     {/* EDIT BUTTON */}
                     <Link
-                      to={`post/${i + 1}`}
+                      aria-label={`Xem bài đăng ${i + 1}`} to={`post/${i + 1}`}
                       state={{ backgroundLocation: location }}
                       className="
                         absolute
@@ -255,7 +259,7 @@ export default function MyTeamPage() {
                         shadow-lg z-20
                       "
                     >
-                      <img src={editIcon} className="w-6 h-6" />
+                      <img alt="" src={editIcon} className="w-6 h-6" />
                     </Link>
 
                   </div>

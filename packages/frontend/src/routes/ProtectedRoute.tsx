@@ -12,9 +12,9 @@ export default function ProtectedRoute({ requiredRoles }: ProtectedRouteProps) {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-gray-500">Đang tải...</div>
-      </div>
+      <main className="min-h-screen flex items-center justify-center">
+        <h1 className="text-gray-600" role="status">Đang tải...</h1>
+      </main>
     );
   }
 
@@ -22,9 +22,9 @@ export default function ProtectedRoute({ requiredRoles }: ProtectedRouteProps) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   } else if (requiredRoles && user && !requiredRoles.includes(user.role)) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-gray-500">Bạn không có quyền truy cập trang này.</div>
-      </div>
+      <main className="min-h-screen flex items-center justify-center">
+        <h1 className="text-gray-600">Bạn không có quyền truy cập trang này.</h1>
+      </main>
     );
   }
 
